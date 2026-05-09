@@ -1,0 +1,29 @@
+{
+  "meta": {
+    "title": "Agapé",
+    "description": "Espaces Adultes et Enfants — Agapé."
+  },
+  "nav": {
+    "adults": "Adultes",
+    "kids": "Enfants",
+    "admin": "Admin",
+    "brand": "Agapé",
+    "locale": "Langue"
+  },
+  "home": {
+    "adults": {
+      "title": "Espace adultes",
+      "subtitle": "Contenu et parcours pensés pour les accompagnants.",
+      "cta": "Découvrir"
+    },
+    "kids": {
+      "title": "Espace enfants",
+      "subtitle": "Un univers coloré, doux et ludique pour les plus jeunes.",
+      "cta": "Explorer"
+    }
+  },
+  "admin": {
+    "title": "Administration",
+    "subtitle": "Tableau de bord et réglages (à sécuriser plus tard)."
+  }
+}

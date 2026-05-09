@@ -1,0 +1,29 @@
+{
+  "meta": {
+    "title": "Agapé",
+    "description": "Adults and Kids spaces — Agapé."
+  },
+  "nav": {
+    "adults": "Adults",
+    "kids": "Kids",
+    "admin": "Admin",
+    "brand": "Agapé",
+    "locale": "Language"
+  },
+  "home": {
+    "adults": {
+      "title": "Adults space",
+      "subtitle": "Content and journeys designed for caregivers.",
+      "cta": "Discover"
+    },
+    "kids": {
+      "title": "Kids space",
+      "subtitle": "A colorful, gentle, playful world for younger visitors.",
+      "cta": "Explore"
+    }
+  },
+  "admin": {
+    "title": "Administration",
+    "subtitle": "Dashboard and settings (secure this area later)."
+  }
+}

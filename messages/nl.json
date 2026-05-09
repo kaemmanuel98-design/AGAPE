@@ -1,0 +1,29 @@
+{
+  "meta": {
+    "title": "Agapé",
+    "description": "Ruimtes voor volwassenen en kinderen — Agapé."
+  },
+  "nav": {
+    "adults": "Volwassenen",
+    "kids": "Kinderen",
+    "admin": "Beheer",
+    "brand": "Agapé",
+    "locale": "Taal"
+  },
+  "home": {
+    "adults": {
+      "title": "Ruimte voor volwassenen",
+      "subtitle": "Inhoud en trajecten voor begeleiders.",
+      "cta": "Ontdekken"
+    },
+    "kids": {
+      "title": "Kinderruimte",
+      "subtitle": "Een zachte, speelse wereld voor jonge bezoekers.",
+      "cta": "Verkennen"
+    }
+  },
+  "admin": {
+    "title": "Beheer",
+    "subtitle": "Dashboard en instellingen (later beveiligen)."
+  }
+}
