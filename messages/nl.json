@@ -15,7 +15,9 @@
     "adults": {
       "title": "Ruimte voor volwassenen",
       "subtitle": "Inhoud en trajecten voor begeleiders.",
-      "cta": "Ontdekken",
+      "cta": "Bekijk het nieuws",
+      "calendarLink": "Kalender",
+      "strongCtaShort": "Strong-bijbel",
       "newsTitle": "Nieuws van de gemeente",
       "strongCta": "Strong bijbel (lexicon)",
       "newsItems": [
@@ -39,7 +41,25 @@
     "kids": {
       "title": "Kinderruimte",
       "subtitle": "Een zachte, speelse wereld voor jonge bezoekers.",
-      "cta": "Verkennen"
+      "cta": "Verkennen",
+      "gamesCta": "Spelletjes",
+      "storiesCta": "Verhalen",
+      "backAdults": "Volwassenen"
+    }
+  },
+  "kidsPages": {
+    "common": {
+      "back": "Terug"
+    },
+    "jeux": {
+      "title": "Spelletjes",
+      "subtitle": "Een plek voor eenvoudige, vrolijke activiteiten.",
+      "body": "Binnenkort: spelletjes, kleurplaten en leuke uitdagingen. Tot die tijd: ga samen met een ouder naar Verhalen!"
+    },
+    "histoires": {
+      "title": "Verhalen",
+      "subtitle": "Zachte verhalen om als gezin te delen.",
+      "body": "Binnenkort: bijbelverhalen om naar te luisteren. Kom snel terug!"
     }
   },
   "calendar": {
@@ -64,6 +84,8 @@
   },
   "admin": {
     "title": "Beheer",
-    "subtitle": "Dashboard en instellingen (later beveiligen)."
+    "subtitle": "Dashboard en instellingen (later beveiligen).",
+    "backHome": "Start",
+    "openCalendar": "Kalender openen"
   }
 }

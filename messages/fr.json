@@ -15,7 +15,9 @@
     "adults": {
       "title": "Espace adultes",
       "subtitle": "Contenu et parcours pensés pour les accompagnants.",
-      "cta": "Découvrir",
+      "cta": "Voir les actualités",
+      "calendarLink": "Calendrier",
+      "strongCtaShort": "Bible Strong",
       "newsTitle": "Actualités de l'Église",
       "strongCta": "Accéder à la Bible Strong",
       "newsItems": [
@@ -39,7 +41,25 @@
     "kids": {
       "title": "Espace enfants",
       "subtitle": "Un univers coloré, doux et ludique pour les plus jeunes.",
-      "cta": "Explorer"
+      "cta": "Explorer",
+      "gamesCta": "Jeux",
+      "storiesCta": "Histoires",
+      "backAdults": "Espace adultes"
+    }
+  },
+  "kidsPages": {
+    "common": {
+      "back": "Retour"
+    },
+    "jeux": {
+      "title": "Jeux",
+      "subtitle": "Espace pour des activités simples et joyeuses.",
+      "body": "Bientôt : jeux, coloriages et défis amusants. En attendant, demande à un parent de t’accompagner sur les histoires !"
+    },
+    "histoires": {
+      "title": "Histoires",
+      "subtitle": "Des récits doux à partager en famille.",
+      "body": "Bientôt : histoires bibliques et contes à écouter. Reviens vite !"
     }
   },
   "calendar": {
@@ -64,6 +84,8 @@
   },
   "admin": {
     "title": "Administration",
-    "subtitle": "Tableau de bord et réglages (à sécuriser plus tard)."
+    "subtitle": "Tableau de bord et réglages (à sécuriser plus tard).",
+    "backHome": "Accueil",
+    "openCalendar": "Ouvrir le calendrier"
   }
 }

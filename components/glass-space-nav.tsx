@@ -62,7 +62,7 @@ export function GlassSpaceNav() {
         <Link
           href="/"
           className={cn(
-            "flex shrink-0 items-center gap-2 text-lg font-semibold tracking-tight",
+            "relative z-10 flex shrink-0 items-center gap-2 text-lg font-semibold tracking-tight",
             isKids ? "text-slate-900" : "text-foreground",
           )}
         >
@@ -73,7 +73,7 @@ export function GlassSpaceNav() {
           <motion.div
             layout
             transition={{ type: "spring", stiffness: 380, damping: 34 }}
-            className="relative flex flex-1 justify-center sm:flex-none"
+            className="relative z-10 flex flex-1 justify-center sm:flex-none"
             role="tablist"
             aria-label={`${t("adults")} / ${t("kids")}`}
           >
@@ -86,74 +86,71 @@ export function GlassSpaceNav() {
                   : "border border-white/15 bg-black/25",
               )}
             >
-              <motion.div whileTap={{ scale: 0.98 }}>
-                <Link
-                  href="/"
-                  role="tab"
-                  aria-selected={!isKids}
-                  className={cn(
-                    "relative flex min-w-[8.5rem] items-center justify-center gap-2 rounded-[20px] px-5 py-2.5 text-sm font-medium transition-colors",
-                    !isKids
-                      ? "text-primary-foreground"
-                      : "text-slate-600 hover:text-slate-900",
-                  )}
-                >
-                  {!isKids ? (
-                    <motion.span
-                      layoutId="space-pill"
-                      className="absolute inset-0 rounded-[20px] bg-primary shadow-md"
-                      transition={pillTransition}
-                      aria-hidden
-                    />
-                  ) : null}
+              <Link
+                href="/"
+                role="tab"
+                aria-selected={!isKids}
+                className={cn(
+                  "relative flex min-h-[44px] min-w-[8.5rem] items-center justify-center gap-2 rounded-[20px] px-5 py-2.5 text-sm font-medium transition-colors",
+                  !isKids
+                    ? "text-primary-foreground"
+                    : "text-slate-600 hover:text-slate-900",
+                )}
+              >
+                {!isKids ? (
                   <motion.span
-                    animate={{ rotate: !isKids ? [0, -6, 0] : 0 }}
-                    transition={{ duration: 0.45, ease: [0.22, 1, 0.36, 1] }}
-                    className="relative z-10"
-                  >
-                    <Users className="size-4 shrink-0" aria-hidden />
-                  </motion.span>
-                  <span className="relative z-10">{t("adults")}</span>
-                </Link>
-              </motion.div>
+                    layoutId="space-pill"
+                    className="absolute inset-0 rounded-[20px] bg-primary shadow-md"
+                    transition={pillTransition}
+                    aria-hidden
+                  />
+                ) : null}
+                <motion.span
+                  animate={{ rotate: !isKids ? [0, -6, 0] : 0 }}
+                  transition={{ duration: 0.45, ease: [0.22, 1, 0.36, 1] }}
+                  className="relative z-10 inline-flex items-center gap-2"
+                >
+                  <Users className="size-4 shrink-0" aria-hidden />
+                  <span>{t("adults")}</span>
+                </motion.span>
+              </Link>
 
-              <motion.div whileTap={{ scale: 0.98 }}>
-                <Link
-                  href="/kids"
-                  role="tab"
-                  aria-selected={isKids}
-                  className={cn(
-                    "relative flex min-w-[8.5rem] items-center justify-center gap-2 rounded-[20px] px-5 py-2.5 text-sm font-medium transition-colors",
-                    isKids
-                      ? "text-primary-foreground"
-                      : "text-muted-foreground hover:text-foreground",
-                  )}
-                >
-                  {isKids ? (
-                    <motion.span
-                      layoutId="space-pill"
-                      className="absolute inset-0 rounded-[20px] bg-primary shadow-md"
-                      transition={pillTransition}
-                      aria-hidden
-                    />
-                  ) : null}
+              <Link
+                href="/kids"
+                role="tab"
+                aria-selected={isKids}
+                className={cn(
+                  "relative flex min-h-[44px] min-w-[8.5rem] items-center justify-center gap-2 rounded-[20px] px-5 py-2.5 text-sm font-medium transition-colors",
+                  isKids
+                    ? "text-primary-foreground"
+                    : "text-muted-foreground hover:text-foreground",
+                )}
+              >
+                {isKids ? (
                   <motion.span
-                    animate={{ rotate: isKids ? [0, 10, 0] : 0 }}
-                    transition={{ duration: 0.45, ease: [0.22, 1, 0.36, 1] }}
-                    className="relative z-10"
-                  >
-                    <Sparkles className="size-4 shrink-0" aria-hidden />
-                  </motion.span>
-                  <span className="relative z-10">{t("kids")}</span>
-                </Link>
-              </motion.div>
+                    layoutId="space-pill"
+                    className="absolute inset-0 rounded-[20px] bg-primary shadow-md"
+                    transition={pillTransition}
+                    aria-hidden
+                  />
+                ) : null}
+                <motion.span
+                  animate={{ rotate: isKids ? [0, 10, 0] : 0 }}
+                  transition={{ duration: 0.45, ease: [0.22, 1, 0.36, 1] }}
+                  className="relative z-10 inline-flex items-center gap-2"
+                >
+                  <Sparkles className="size-4 shrink-0" aria-hidden />
+                  <span>{t("kids")}</span>
+                </motion.span>
+              </Link>
             </motion.div>
           </motion.div>
         </LayoutGroup>
 
-        <div className="flex shrink-0 items-center gap-2">
+        <div className="relative z-10 flex shrink-0 items-center gap-2">
           <Link
             href="/calendar"
+            prefetch
             className={cn(
               "flex size-11 items-center justify-center rounded-[var(--radius)] transition-colors",
               isKids
@@ -168,6 +165,7 @@ export function GlassSpaceNav() {
           </Link>
           <Link
             href="/admin"
+            prefetch
             className={cn(
               "flex size-11 items-center justify-center rounded-[var(--radius)] transition-colors",
               isKids

@@ -15,7 +15,9 @@
     "adults": {
       "title": "Adults space",
       "subtitle": "Content and journeys designed for caregivers.",
-      "cta": "Discover",
+      "cta": "View church news",
+      "calendarLink": "Calendar",
+      "strongCtaShort": "Strong's Bible",
       "newsTitle": "Church news",
       "strongCta": "Open Strong's Bible (lexicon)",
       "newsItems": [
@@ -39,7 +41,25 @@
     "kids": {
       "title": "Kids space",
       "subtitle": "A colorful, gentle, playful world for younger visitors.",
-      "cta": "Explore"
+      "cta": "Explore",
+      "gamesCta": "Games",
+      "storiesCta": "Stories",
+      "backAdults": "Adults home"
+    }
+  },
+  "kidsPages": {
+    "common": {
+      "back": "Back"
+    },
+    "jeux": {
+      "title": "Games",
+      "subtitle": "A place for simple, joyful activities.",
+      "body": "Coming soon: games, coloring pages, and fun challenges. For now, visit Stories with a parent!"
+    },
+    "histoires": {
+      "title": "Stories",
+      "subtitle": "Gentle stories to share as a family.",
+      "body": "Coming soon: Bible stories and tales to listen to. Check back soon!"
     }
   },
   "calendar": {
@@ -64,6 +84,8 @@
   },
   "admin": {
     "title": "Administration",
-    "subtitle": "Dashboard and settings (secure this area later)."
+    "subtitle": "Dashboard and settings (secure this area later).",
+    "backHome": "Home",
+    "openCalendar": "Open calendar"
   }
 }
