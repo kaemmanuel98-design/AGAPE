@@ -8,19 +8,59 @@
     "kids": "Enfants",
     "admin": "Admin",
     "brand": "Agapé",
-    "locale": "Langue"
+    "locale": "Langue",
+    "calendar": "Calendrier"
   },
   "home": {
     "adults": {
       "title": "Espace adultes",
       "subtitle": "Contenu et parcours pensés pour les accompagnants.",
-      "cta": "Découvrir"
+      "cta": "Découvrir",
+      "newsTitle": "Actualités de l'Église",
+      "strongCta": "Accéder à la Bible Strong",
+      "newsItems": [
+        {
+          "title": "Culte dominical",
+          "date": "Dimanche",
+          "body": "Nous nous retrouvons chaque semaine pour célébrer ensemble. Horaires habituels affichés dans vos communications locales."
+        },
+        {
+          "title": "Groupe de partage",
+          "date": "Cette semaine",
+          "body": "Un temps fraternel pour méditer la Parole et prier les uns pour les autres."
+        },
+        {
+          "title": "Actions solidaires",
+          "date": "En cours",
+          "body": "Collecte et soutien aux familles : merci pour votre générosité et vos dons matériels."
+        }
+      ]
     },
     "kids": {
       "title": "Espace enfants",
       "subtitle": "Un univers coloré, doux et ludique pour les plus jeunes.",
       "cta": "Explorer"
     }
+  },
+  "calendar": {
+    "title": "Calendrier",
+    "subtitle": "Anniversaires et évènements enregistrés par la communauté.",
+    "prevMonth": "Mois précédent",
+    "nextMonth": "Mois suivant",
+    "addBirthday": "Ajouter un anniversaire",
+    "addBirthdayHint": "L'évènement est enregistré dans Supabase (table events). Vérifiez vos politiques RLS.",
+    "birthdayLabel": "Libellé (optionnel)",
+    "birthdayPlaceholder": "Ex. Anniversaire de Marie",
+    "birthdayDate": "Date",
+    "save": "Enregistrer",
+    "cancel": "Annuler",
+    "saving": "Enregistrement…",
+    "saveSuccess": "Anniversaire enregistré.",
+    "saveError": "Impossible d'enregistrer. Vérifiez Supabase et les droits d'insertion.",
+    "loadError": "Impossible de charger les évènements.",
+    "configWarning": "Configurez NEXT_PUBLIC_SUPABASE_URL et NEXT_PUBLIC_SUPABASE_ANON_KEY dans .env.local pour activer le calendrier.",
+    "defaultBirthdayTitle": "Anniversaire",
+    "eventFallback": "Évènement"
   },
   "admin": {
     "title": "Administration",

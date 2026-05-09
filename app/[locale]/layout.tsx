@@ -5,6 +5,7 @@ import { notFound } from "next/navigation";
 import { NextIntlClientProvider } from "next-intl";
 import { getMessages, getTranslations, setRequestLocale } from "next-intl/server";
 
+import { BackgroundByRoute } from "@/components/background-by-route";
 import { GlassSpaceNav } from "@/components/glass-space-nav";
 import { SpaceTransition } from "@/components/space-transition";
 import { routing } from "@/i18n/routing";
@@ -69,8 +70,9 @@ export default async function LocaleLayout({
 
   return (
     <html lang={locale} className={inter.variable} suppressHydrationWarning>
-      <body className="min-h-screen bg-background font-sans antialiased">
+      <body className="min-h-screen bg-transparent font-sans antialiased">
         <NextIntlClientProvider messages={messages}>
+          <BackgroundByRoute />
           <GlassSpaceNav />
           <main className="mx-auto max-w-4xl px-4 pb-16 pt-28 md:pt-32">
             <SpaceTransition>{children}</SpaceTransition>

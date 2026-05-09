@@ -8,19 +8,59 @@
     "kids": "Kinderen",
     "admin": "Beheer",
     "brand": "Agapé",
-    "locale": "Taal"
+    "locale": "Taal",
+    "calendar": "Kalender"
   },
   "home": {
     "adults": {
       "title": "Ruimte voor volwassenen",
       "subtitle": "Inhoud en trajecten voor begeleiders.",
-      "cta": "Ontdekken"
+      "cta": "Ontdekken",
+      "newsTitle": "Nieuws van de gemeente",
+      "strongCta": "Strong bijbel (lexicon)",
+      "newsItems": [
+        {
+          "title": "Zondagsdienst",
+          "date": "Zondag",
+          "body": "Elke week samen eren. Bekijk lokale mededelingen voor de uren."
+        },
+        {
+          "title": "Huisgroep",
+          "date": "Deze week",
+          "body": "Tijd om het Woord te delen en voor elkaar te bidden."
+        },
+        {
+          "title": "Diaconale acties",
+          "date": "Lopend",
+          "body": "Inzameling en steun aan gezinnen—dank voor uw vrijgevigheid."
+        }
+      ]
     },
     "kids": {
       "title": "Kinderruimte",
       "subtitle": "Een zachte, speelse wereld voor jonge bezoekers.",
       "cta": "Verkennen"
     }
+  },
+  "calendar": {
+    "title": "Kalender",
+    "subtitle": "Verjaardagen en gebeurtenissen door de gemeenschap.",
+    "prevMonth": "Vorige maand",
+    "nextMonth": "Volgende maand",
+    "addBirthday": "Verjaardag toevoegen",
+    "addBirthdayHint": "Gebeurtenissen worden opgeslagen in Supabase (tabel events). Controleer uw RLS-beleid.",
+    "birthdayLabel": "Label (optioneel)",
+    "birthdayPlaceholder": "Bv. verjaardag van Marie",
+    "birthdayDate": "Datum",
+    "save": "Opslaan",
+    "cancel": "Annuleren",
+    "saving": "Bezig met opslaan…",
+    "saveSuccess": "Verjaardag opgeslagen.",
+    "saveError": "Opslaan mislukt. Controleer Supabase en invoerrechten.",
+    "loadError": "Gebeurtenissen konden niet worden geladen.",
+    "configWarning": "Stel NEXT_PUBLIC_SUPABASE_URL en NEXT_PUBLIC_SUPABASE_ANON_KEY in .env.local in om de kalender te activeren.",
+    "defaultBirthdayTitle": "Verjaardag",
+    "eventFallback": "Gebeurtenis"
   },
   "admin": {
     "title": "Beheer",

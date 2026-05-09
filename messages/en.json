@@ -8,19 +8,59 @@
     "kids": "Kids",
     "admin": "Admin",
     "brand": "Agapé",
-    "locale": "Language"
+    "locale": "Language",
+    "calendar": "Calendar"
   },
   "home": {
     "adults": {
       "title": "Adults space",
       "subtitle": "Content and journeys designed for caregivers.",
-      "cta": "Discover"
+      "cta": "Discover",
+      "newsTitle": "Church news",
+      "strongCta": "Open Strong's Bible (lexicon)",
+      "newsItems": [
+        {
+          "title": "Sunday gathering",
+          "date": "Sunday",
+          "body": "We meet weekly to worship together. Check local announcements for service times."
+        },
+        {
+          "title": "Small group",
+          "date": "This week",
+          "body": "A friendly time to reflect on Scripture and pray for one another."
+        },
+        {
+          "title": "Community care",
+          "date": "Ongoing",
+          "body": "Collection and support for families—thank you for your generosity."
+        }
+      ]
     },
     "kids": {
       "title": "Kids space",
       "subtitle": "A colorful, gentle, playful world for younger visitors.",
       "cta": "Explore"
     }
+  },
+  "calendar": {
+    "title": "Calendar",
+    "subtitle": "Birthdays and events saved by the community.",
+    "prevMonth": "Previous month",
+    "nextMonth": "Next month",
+    "addBirthday": "Add a birthday",
+    "addBirthdayHint": "Events are stored in Supabase (events table). Check your RLS policies.",
+    "birthdayLabel": "Label (optional)",
+    "birthdayPlaceholder": "e.g. Mary's birthday",
+    "birthdayDate": "Date",
+    "save": "Save",
+    "cancel": "Cancel",
+    "saving": "Saving…",
+    "saveSuccess": "Birthday saved.",
+    "saveError": "Could not save. Check Supabase and insert permissions.",
+    "loadError": "Could not load events.",
+    "configWarning": "Set NEXT_PUBLIC_SUPABASE_URL and NEXT_PUBLIC_SUPABASE_ANON_KEY in .env.local to enable the calendar.",
+    "defaultBirthdayTitle": "Birthday",
+    "eventFallback": "Event"
   },
   "admin": {
     "title": "Administration",
