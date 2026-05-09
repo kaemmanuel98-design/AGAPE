@@ -16,6 +16,7 @@
       "title": "Espace adultes",
       "subtitle": "Contenu et parcours pensés pour les accompagnants.",
       "cta": "Voir les actualités",
+      "ctaResources": "Découvrir les ressources",
       "calendarLink": "Calendrier",
       "strongCtaShort": "Bible Strong",
       "newsTitle": "Actualités de l'Église",
@@ -46,6 +47,21 @@
       "storiesCta": "Histoires",
       "backAdults": "Espace adultes"
     }
+  },
+  "resources": {
+    "heading": "Lives & enseignements",
+    "subheading": "Vidéos et documents ajoutés par l’équipe.",
+    "watch": "Regarder",
+    "openPdf": "Ouvrir le PDF",
+    "badgeYoutube": "Live / Replay",
+    "badgePdf": "Enseignement"
+  },
+  "login": {
+    "title": "Connexion",
+    "subtitle": "Accès réservé aux comptes autorisés.",
+    "email": "E-mail",
+    "password": "Mot de passe",
+    "submit": "Se connecter"
   },
   "kidsPages": {
     "common": {
@@ -84,8 +100,33 @@
   },
   "admin": {
     "title": "Administration",
-    "subtitle": "Tableau de bord et réglages (à sécuriser plus tard).",
+    "subtitle": "Gestion des ressources (rôle super-admin). Les visiteurs les voient sur la page d’accueil adultes.",
     "backHome": "Accueil",
-    "openCalendar": "Ouvrir le calendrier"
+    "openCalendar": "Ouvrir le calendrier",
+    "form": {
+      "intro": "Publiez un lien YouTube (live ou replay) ou déposez un PDF d’enseignement.",
+      "logout": "Déconnexion",
+      "youtubeHeading": "Vidéo YouTube",
+      "pdfHeading": "PDF d’enseignement",
+      "titleLabel": "Titre affiché",
+      "titlePlaceholderYoutube": "Ex. Culte du 12 mai",
+      "youtubeUrl": "Lien de la vidéo",
+      "saveYoutube": "Enregistrer la vidéo",
+      "pdfTitleOptional": "Titre (optionnel)",
+      "pdfTitlePlaceholder": "Par défaut : nom du fichier",
+      "pdfFile": "Fichier PDF",
+      "uploadPdf": "Envoyer le PDF",
+      "successYoutube": "Vidéo ajoutée. Elle apparaît sur la page Découvrir.",
+      "successPdf": "PDF ajouté. Il apparaît sur la page Découvrir.",
+      "error": "Une erreur est survenue.",
+      "errors": {
+        "missing_fields": "Titre et lien requis.",
+        "invalid_youtube": "Lien YouTube invalide.",
+        "unauthorized": "Session expirée. Reconnectez-vous.",
+        "forbidden": "Droits insuffisants.",
+        "missing_file": "Choisissez un fichier PDF.",
+        "invalid_pdf": "Seuls les fichiers PDF sont acceptés."
+      }
+    }
   }
 }

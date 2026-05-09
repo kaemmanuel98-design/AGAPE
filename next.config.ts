@@ -10,6 +10,12 @@ const withPWA = withPWAInit({
   register: true,
 });
 
-const nextConfig: NextConfig = {};
+const nextConfig: NextConfig = {
+  experimental: {
+    serverActions: {
+      bodySizeLimit: "15mb",
+    },
+  },
+};
 
 export default withPWA(withNextIntl(nextConfig));

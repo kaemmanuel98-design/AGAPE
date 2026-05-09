@@ -16,6 +16,7 @@
       "title": "Adults space",
       "subtitle": "Content and journeys designed for caregivers.",
       "cta": "View church news",
+      "ctaResources": "Discover resources",
       "calendarLink": "Calendar",
       "strongCtaShort": "Strong's Bible",
       "newsTitle": "Church news",
@@ -46,6 +47,21 @@
       "storiesCta": "Stories",
       "backAdults": "Adults home"
     }
+  },
+  "resources": {
+    "heading": "Lives & teaching",
+    "subheading": "Videos and documents shared by the team.",
+    "watch": "Watch",
+    "openPdf": "Open PDF",
+    "badgeYoutube": "Live / Replay",
+    "badgePdf": "Teaching"
+  },
+  "login": {
+    "title": "Sign in",
+    "subtitle": "Authorized accounts only.",
+    "email": "Email",
+    "password": "Password",
+    "submit": "Sign in"
   },
   "kidsPages": {
     "common": {
@@ -84,8 +100,33 @@
   },
   "admin": {
     "title": "Administration",
-    "subtitle": "Dashboard and settings (secure this area later).",
+    "subtitle": "Manage resources (super-admin role). Visitors see them on the adults home page.",
     "backHome": "Home",
-    "openCalendar": "Open calendar"
+    "openCalendar": "Open calendar",
+    "form": {
+      "intro": "Publish a YouTube link (live or replay) or upload a teaching PDF.",
+      "logout": "Sign out",
+      "youtubeHeading": "YouTube video",
+      "pdfHeading": "Teaching PDF",
+      "titleLabel": "Displayed title",
+      "titlePlaceholderYoutube": "e.g. Sunday service May 12",
+      "youtubeUrl": "Video URL",
+      "saveYoutube": "Save video",
+      "pdfTitleOptional": "Title (optional)",
+      "pdfTitlePlaceholder": "Defaults to file name",
+      "pdfFile": "PDF file",
+      "uploadPdf": "Upload PDF",
+      "successYoutube": "Video added. It appears on Discover.",
+      "successPdf": "PDF added. It appears on Discover.",
+      "error": "Something went wrong.",
+      "errors": {
+        "missing_fields": "Title and link are required.",
+        "invalid_youtube": "Invalid YouTube link.",
+        "unauthorized": "Session expired. Sign in again.",
+        "forbidden": "Insufficient permissions.",
+        "missing_file": "Choose a PDF file.",
+        "invalid_pdf": "Only PDF files are accepted."
+      }
+    }
   }
 }
