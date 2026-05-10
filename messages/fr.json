@@ -65,12 +65,25 @@
     "password": "Mot de passe",
     "tabMagicLink": "Lien magique",
     "tabPassword": "Mot de passe",
+    "passwordSubSignIn": "Connexion",
+    "passwordSubSignUp": "Créer un compte",
+    "magicLinkEmailHint": "L’envoi d’e-mails est souvent limité sur Supabase : préférez la connexion ou l’inscription par mot de passe si vous ne recevez pas le lien.",
     "sendMagicLink": "Recevoir un lien magique",
     "submitPassword": "Se connecter avec mot de passe",
+    "submitSignUp": "Créer mon compte",
+    "signUpConfirmation": "Si la confirmation par e-mail est désactivée dans Supabase, vous êtes connecté tout de suite.",
     "loading": "Patientez…",
     "magicLinkSent": "Consultez votre boîte mail pour le lien de connexion.",
     "emailPlaceholder": "vous@exemple.com",
-    "passwordPlaceholder": "••••••••"
+    "passwordPlaceholder": "••••••••",
+    "adminSignupTitle": "Premier accès administrateur",
+    "adminSignupDescription": "Crée ton compte avec e-mail et mot de passe. Le rôle super-admin est attribué dans Supabase (table profiles).",
+    "adminSignupToggle": "Créer mon compte admin",
+    "adminSignupSubmit": "Créer le compte et me connecter",
+    "signupMissingFields": "Saisis un e-mail et un mot de passe.",
+    "signupNoSession": "Aucune session après inscription : désactive « Confirm email » pour l’e-mail dans Supabase (Auth → Providers → Email), puis réessaie.",
+    "signupPasswordHint": "Au moins 6 caractères (règle habituelle Supabase).",
+    "signupSupabaseHint": "Sans confirmation e-mail, Supabase renvoie une session immédiatement après inscription."
   },
   "kidsPages": {
     "common": {

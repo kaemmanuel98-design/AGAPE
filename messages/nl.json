@@ -65,12 +65,25 @@
     "password": "Wachtwoord",
     "tabMagicLink": "Magische link",
     "tabPassword": "Wachtwoord",
+    "passwordSubSignIn": "Inloggen",
+    "passwordSubSignUp": "Account aanmaken",
+    "magicLinkEmailHint": "E-mail van Supabase raakt soms aan een limiet—gebruik liever wachtwoord inloggen of registreren als je geen link krijgt.",
     "sendMagicLink": "Stuur een magische link",
     "submitPassword": "Inloggen met wachtwoord",
+    "submitSignUp": "Account aanmaken",
+    "signUpConfirmation": "Als e-mailbevestiging uit staat in Supabase, ben je meteen ingelogd.",
     "loading": "Even geduld…",
     "magicLinkSent": "Controleer uw e-mail voor de inloglink.",
     "emailPlaceholder": "u@voorbeeld.nl",
-    "passwordPlaceholder": "••••••••"
+    "passwordPlaceholder": "••••••••",
+    "adminSignupTitle": "Eerste admin-toegang",
+    "adminSignupDescription": "Maak uw account met e-mail en wachtwoord. De rol super-admin zet u in Supabase (tabel profiles).",
+    "adminSignupToggle": "Mijn admin-account aanmaken",
+    "adminSignupSubmit": "Account aanmaken en inloggen",
+    "signupMissingFields": "Vul e-mail en wachtwoord in.",
+    "signupNoSession": "Geen sessie na registratie: schakel ‘Confirm email’ uit onder Authentication → Providers → Email in Supabase en probeer opnieuw.",
+    "signupPasswordHint": "Minstens 6 tekens (gangbare Supabase-minimum).",
+    "signupSupabaseHint": "Zonder e-mailbevestiging geeft Supabase direct een sessie na registratie."
   },
   "kidsPages": {
     "common": {

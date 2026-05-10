@@ -65,12 +65,25 @@
     "password": "Password",
     "tabMagicLink": "Magic link",
     "tabPassword": "Password",
+    "passwordSubSignIn": "Sign in",
+    "passwordSubSignUp": "Create account",
+    "magicLinkEmailHint": "Email sending is often capped on Supabase—use password sign-in or sign-up if you don’t receive the link.",
     "sendMagicLink": "Email me a magic link",
     "submitPassword": "Sign in with password",
+    "submitSignUp": "Create my account",
+    "signUpConfirmation": "If email confirmation is turned off in Supabase, you’ll be signed in immediately.",
     "loading": "Please wait…",
     "magicLinkSent": "Check your inbox for the sign-in link.",
     "emailPlaceholder": "you@example.com",
-    "passwordPlaceholder": "••••••••"
+    "passwordPlaceholder": "••••••••",
+    "adminSignupTitle": "First-time admin access",
+    "adminSignupDescription": "Create your account with email and password. The super-admin role is set in Supabase (profiles table).",
+    "adminSignupToggle": "Create my admin account",
+    "adminSignupSubmit": "Create account and sign me in",
+    "signupMissingFields": "Enter an email and password.",
+    "signupNoSession": "No session after sign-up: disable “Confirm email” under Authentication → Providers → Email in Supabase, then try again.",
+    "signupPasswordHint": "At least 6 characters (typical Supabase minimum).",
+    "signupSupabaseHint": "With email confirmation off, Supabase returns a session right after sign-up."
   },
   "kidsPages": {
     "common": {
