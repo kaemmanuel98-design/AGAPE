@@ -26,7 +26,7 @@ export function AdultsHomeHero() {
 
       <div className="flex flex-col gap-3 sm:flex-row sm:flex-wrap">
         <Button size="lg" type="button" asChild className="rounded-[var(--radius)]">
-          <a href="#decouvrir-ressources">
+          <a href="#decouvrir-contenus">
             <ChevronDown className="size-5 opacity-90" aria-hidden />
             {t("ctaResources")}
           </a>

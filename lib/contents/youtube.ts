@@ -1,4 +1,3 @@
-/** Extrait l’ID vidéo pour la miniature YouTube. */
 export function getYoutubeThumbnail(url: string): string | null {
   try {
     const u = new URL(url);
@@ -14,5 +13,24 @@ export function getYoutubeThumbnail(url: string): string | null {
     return embed ? `https://img.youtube.com/vi/${embed[1]}/hqdefault.jpg` : null;
   } catch {
     return null;
+  }
+}
+
+export function isYoutubeUrl(url: string): boolean {
+  try {
+    const u = new URL(url);
+    if (!/^https?:$/.test(u.protocol)) return false;
+    return u.hostname.includes("youtube.com") || u.hostname.includes("youtu.be");
+  } catch {
+    return false;
+  }
+}
+
+export function isHttpsUrl(url: string): boolean {
+  try {
+    const u = new URL(url);
+    return u.protocol === "https:";
+  } catch {
+    return false;
   }
 }

@@ -16,7 +16,7 @@
       "title": "Adults space",
       "subtitle": "Content and journeys designed for caregivers.",
       "cta": "View church news",
-      "ctaResources": "Discover resources",
+      "ctaResources": "Discover content",
       "calendarLink": "Calendar",
       "strongCtaShort": "Strong's Bible",
       "newsTitle": "Church news",
@@ -48,13 +48,13 @@
       "backAdults": "Adults home"
     }
   },
-  "resources": {
-    "heading": "Lives & teaching",
-    "subheading": "Videos and documents shared by the team.",
+  "discover": {
+    "heading": "Discover",
+    "subheading": "Videos and documents published for your space.",
     "watch": "Watch",
     "openPdf": "Open PDF",
-    "badgeYoutube": "Live / Replay",
-    "badgePdf": "Teaching"
+    "badgeVideo": "Video",
+    "badgePdf": "PDF"
   },
   "login": {
     "title": "Sign in",
@@ -99,33 +99,40 @@
     "eventFallback": "Event"
   },
   "admin": {
-    "title": "Administration",
-    "subtitle": "Manage resources (super-admin role). Visitors see them on the adults home page.",
-    "backHome": "Home",
-    "openCalendar": "Open calendar",
-    "form": {
-      "intro": "Publish a YouTube link (live or replay) or upload a teaching PDF.",
-      "logout": "Sign out",
-      "youtubeHeading": "YouTube video",
-      "pdfHeading": "Teaching PDF",
-      "titleLabel": "Displayed title",
-      "titlePlaceholderYoutube": "e.g. Sunday service May 12",
-      "youtubeUrl": "Video URL",
-      "saveYoutube": "Save video",
-      "pdfTitleOptional": "Title (optional)",
-      "pdfTitlePlaceholder": "Defaults to file name",
-      "pdfFile": "PDF file",
-      "uploadPdf": "Upload PDF",
-      "successYoutube": "Video added. It appears on Discover.",
-      "successPdf": "PDF added. It appears on Discover.",
-      "error": "Something went wrong.",
+    "dashboard": {
+      "title": "Dashboard",
+      "subtitle": "Publish YouTube videos and PDFs for Adults and Kids spaces.",
+      "home": "Home",
+      "calendar": "Calendar",
+      "formTitle": "New content",
+      "fieldTitle": "Title",
+      "placeholderTitle": "e.g. Sunday service",
+      "fieldType": "Type",
+      "typeVideo": "Video",
+      "typePdf": "PDF",
+      "fieldCategory": "Category",
+      "catAdult": "Adult",
+      "catChild": "Child",
+      "fieldUrl": "Content URL",
+      "placeholderUrl": "https://…",
+      "hintUrl": "Video: YouTube link only. PDF: HTTPS URL to the file (e.g. public Supabase Storage URL).",
+      "publish": "Publish",
+      "created": "Published.",
+      "listTitle": "Published content",
+      "listSubtitle": "Members see these cards on Discover. Deleting removes them immediately.",
+      "empty": "Nothing published yet.",
+      "open": "Open",
+      "deleteAria": "Delete this item",
       "errors": {
-        "missing_fields": "Title and link are required.",
-        "invalid_youtube": "Invalid YouTube link.",
+        "missing_fields": "Title and URL are required.",
+        "invalid_type": "Invalid content type.",
+        "invalid_category": "Invalid category.",
+        "invalid_youtube": "Invalid YouTube URL.",
+        "invalid_pdf_url": "PDF must be an HTTPS URL.",
         "unauthorized": "Session expired. Sign in again.",
         "forbidden": "Insufficient permissions.",
-        "missing_file": "Choose a PDF file.",
-        "invalid_pdf": "Only PDF files are accepted."
+        "missing_id": "Missing id.",
+        "generic": "Something went wrong."
       }
     }
   }

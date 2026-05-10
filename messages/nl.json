@@ -16,7 +16,7 @@
       "title": "Ruimte voor volwassenen",
       "subtitle": "Inhoud en trajecten voor begeleiders.",
       "cta": "Bekijk het nieuws",
-      "ctaResources": "Ontdek bronnen",
+      "ctaResources": "Ontdek inhoud",
       "calendarLink": "Kalender",
       "strongCtaShort": "Strong-bijbel",
       "newsTitle": "Nieuws van de gemeente",
@@ -48,13 +48,13 @@
       "backAdults": "Volwassenen"
     }
   },
-  "resources": {
-    "heading": "Livestreams & onderwijs",
-    "subheading": "Video’s en documenten van het team.",
+  "discover": {
+    "heading": "Ontdekken",
+    "subheading": "Video’s en documenten voor jouw ruimte.",
     "watch": "Bekijken",
     "openPdf": "PDF openen",
-    "badgeYoutube": "Live / Replay",
-    "badgePdf": "Onderwijs"
+    "badgeVideo": "Video",
+    "badgePdf": "PDF"
   },
   "login": {
     "title": "Inloggen",
@@ -99,33 +99,40 @@
     "eventFallback": "Gebeurtenis"
   },
   "admin": {
-    "title": "Beheer",
-    "subtitle": "Bronnen beheren (rol super-admin). Bezoekers zien ze op de startpagina volwassenen.",
-    "backHome": "Start",
-    "openCalendar": "Kalender openen",
-    "form": {
-      "intro": "Publiceer een YouTube-link (live of replay) of upload een PDF.",
-      "logout": "Afmelden",
-      "youtubeHeading": "YouTube-video",
-      "pdfHeading": "PDF-onderwijs",
-      "titleLabel": "Weergegeven titel",
-      "titlePlaceholderYoutube": "Bv. eredienst 12 mei",
-      "youtubeUrl": "Video-URL",
-      "saveYoutube": "Video opslaan",
-      "pdfTitleOptional": "Titel (optioneel)",
-      "pdfTitlePlaceholder": "Standaard: bestandsnaam",
-      "pdfFile": "PDF-bestand",
-      "uploadPdf": "PDF uploaden",
-      "successYoutube": "Video toegevoegd. Zichtbaar op Ontdekken.",
-      "successPdf": "PDF toegevoegd. Zichtbaar op Ontdekken.",
-      "error": "Er ging iets mis.",
+    "dashboard": {
+      "title": "Dashboard",
+      "subtitle": "Publiceer YouTube-video’s en PDF’s voor volwassenen en kinderen.",
+      "home": "Start",
+      "calendar": "Kalender",
+      "formTitle": "Nieuwe inhoud",
+      "fieldTitle": "Titel",
+      "placeholderTitle": "Bv. zondagsviering",
+      "fieldType": "Type",
+      "typeVideo": "Video",
+      "typePdf": "PDF",
+      "fieldCategory": "Categorie",
+      "catAdult": "Volwassenen",
+      "catChild": "Kind",
+      "fieldUrl": "URL van de inhoud",
+      "placeholderUrl": "https://…",
+      "hintUrl": "Video: alleen YouTube-link. PDF: HTTPS-URL naar het bestand (bv. publieke Supabase Storage-URL).",
+      "publish": "Publiceren",
+      "created": "Gepubliceerd.",
+      "listTitle": "Gepubliceerde inhoud",
+      "listSubtitle": "Leden zien deze kaarten bij Ontdekken. Verwijderen is direct.",
+      "empty": "Nog niets gepubliceerd.",
+      "open": "Openen",
+      "deleteAria": "Deze inhoud verwijderen",
       "errors": {
-        "missing_fields": "Titel en link zijn verplicht.",
-        "invalid_youtube": "Ongeldige YouTube-link.",
+        "missing_fields": "Titel en URL zijn verplicht.",
+        "invalid_type": "Ongeldig inhoudstype.",
+        "invalid_category": "Ongeldige categorie.",
+        "invalid_youtube": "Ongeldige YouTube-URL.",
+        "invalid_pdf_url": "PDF moet een HTTPS-URL zijn.",
         "unauthorized": "Sessie verlopen. Meld u opnieuw aan.",
         "forbidden": "Onvoldoende rechten.",
-        "missing_file": "Kies een PDF-bestand.",
-        "invalid_pdf": "Alleen PDF-bestanden zijn toegestaan."
+        "missing_id": "Ontbrekende id.",
+        "generic": "Er ging iets mis."
       }
     }
   }
