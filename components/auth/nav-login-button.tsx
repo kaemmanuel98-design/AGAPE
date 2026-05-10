@@ -42,7 +42,7 @@ export function NavLoginButton({ variantKids }: Props) {
   }
 
   const kidsContext = pathname === "/kids" || pathname.startsWith("/kids/");
-  const loginHref = kidsContext ? "/login?kids=1" : "/login";
+  const loginHref = kidsContext ? "/kids/login" : "/login";
 
   async function onSignOut() {
     const supabase = createSupabaseBrowserClient();
