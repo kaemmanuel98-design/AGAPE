@@ -1,5 +1,5 @@
 -- Crée une ligne profiles à chaque nouvel utilisateur Auth (rôle par défaut : member).
--- À combiner avec la désactivation de « Confirm email » dans Supabase si vous voulez une session immédiate après signUp.
+-- Préférez aussi 004_bootstrap_super_admin.sql : premier compte = super-admin + politique insert de secours.
 
 create or replace function public.handle_new_user()
 returns trigger

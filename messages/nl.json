@@ -47,6 +47,7 @@
       "cta": "Verkennen",
       "gamesCta": "Spelletjes",
       "storiesCta": "Verhalen",
+      "loginWithParent": "Inloggen met een ouder",
       "backAdults": "Volwassenen"
     }
   },
@@ -60,13 +61,20 @@
   },
   "login": {
     "title": "Inloggen",
-    "subtitle": "Alleen voor geautoriseerde accounts.",
+    "subtitle": "Maak een account of log in met e-mail en wachtwoord.",
     "email": "E-mail",
     "password": "Wachtwoord",
     "tabMagicLink": "Magische link",
     "tabPassword": "Wachtwoord",
     "passwordSubSignIn": "Inloggen",
     "passwordSubSignUp": "Account aanmaken",
+    "kidsTitle": "Kinderruimte",
+    "kidsSubtitle": "Vraag een ouder om in te loggen of samen een account te maken. Grote knopen zijn makkelijker voor kinderen.",
+    "kidsParentHint": "Een volwassene gebruikt hier zijn e-mail. Na het inloggen ga je terug naar de kinderruimte.",
+    "kidsBackToSpace": "Terug naar kinderen",
+    "kidsTabLogin": "Ik heb al een account",
+    "kidsTabSignUp": "Nieuw account",
+    "firstAccountAdminHint": "Het allereerste account op deze site wordt automatisch beheerder (na het uitvoeren van de Supabase-migratie « bootstrap »). Daarna zijn nieuwe accounts leden.",
     "magicLinkEmailHint": "E-mail van Supabase raakt soms aan een limiet—gebruik liever wachtwoord inloggen of registreren als je geen link krijgt.",
     "sendMagicLink": "Stuur een magische link",
     "submitPassword": "Inloggen met wachtwoord",
@@ -75,15 +83,7 @@
     "loading": "Even geduld…",
     "magicLinkSent": "Controleer uw e-mail voor de inloglink.",
     "emailPlaceholder": "u@voorbeeld.nl",
-    "passwordPlaceholder": "••••••••",
-    "adminSignupTitle": "Eerste admin-toegang",
-    "adminSignupDescription": "Maak uw account met e-mail en wachtwoord. De rol super-admin zet u in Supabase (tabel profiles).",
-    "adminSignupToggle": "Mijn admin-account aanmaken",
-    "adminSignupSubmit": "Account aanmaken en inloggen",
-    "signupMissingFields": "Vul e-mail en wachtwoord in.",
-    "signupNoSession": "Geen sessie na registratie: schakel ‘Confirm email’ uit onder Authentication → Providers → Email in Supabase en probeer opnieuw.",
-    "signupPasswordHint": "Minstens 6 tekens (gangbare Supabase-minimum).",
-    "signupSupabaseHint": "Zonder e-mailbevestiging geeft Supabase direct een sessie na registratie."
+    "passwordPlaceholder": "••••••••"
   },
   "kidsPages": {
     "common": {

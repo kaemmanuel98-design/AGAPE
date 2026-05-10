@@ -47,6 +47,7 @@
       "cta": "Explore",
       "gamesCta": "Games",
       "storiesCta": "Stories",
+      "loginWithParent": "Sign in with a parent",
       "backAdults": "Adults home"
     }
   },
@@ -60,13 +61,20 @@
   },
   "login": {
     "title": "Sign in",
-    "subtitle": "Authorized accounts only.",
+    "subtitle": "Create an account or sign in with email and password.",
     "email": "Email",
     "password": "Password",
     "tabMagicLink": "Magic link",
     "tabPassword": "Password",
     "passwordSubSignIn": "Sign in",
     "passwordSubSignUp": "Create account",
+    "kidsTitle": "Kids space",
+    "kidsSubtitle": "Ask a parent to sign in or create an account with you nearby. Big buttons make it easier for little hands.",
+    "kidsParentHint": "A grown-up uses their email here. After signing in, you’ll return to the kids area.",
+    "kidsBackToSpace": "Back to kids",
+    "kidsTabLogin": "I have an account",
+    "kidsTabSignUp": "New account",
+    "firstAccountAdminHint": "The very first account created on this site becomes an administrator automatically (after you run the Supabase “bootstrap” migration). Later accounts are members.",
     "magicLinkEmailHint": "Email sending is often capped on Supabase—use password sign-in or sign-up if you don’t receive the link.",
     "sendMagicLink": "Email me a magic link",
     "submitPassword": "Sign in with password",
@@ -75,15 +83,7 @@
     "loading": "Please wait…",
     "magicLinkSent": "Check your inbox for the sign-in link.",
     "emailPlaceholder": "you@example.com",
-    "passwordPlaceholder": "••••••••",
-    "adminSignupTitle": "First-time admin access",
-    "adminSignupDescription": "Create your account with email and password. The super-admin role is set in Supabase (profiles table).",
-    "adminSignupToggle": "Create my admin account",
-    "adminSignupSubmit": "Create account and sign me in",
-    "signupMissingFields": "Enter an email and password.",
-    "signupNoSession": "No session after sign-up: disable “Confirm email” under Authentication → Providers → Email in Supabase, then try again.",
-    "signupPasswordHint": "At least 6 characters (typical Supabase minimum).",
-    "signupSupabaseHint": "With email confirmation off, Supabase returns a session right after sign-up."
+    "passwordPlaceholder": "••••••••"
   },
   "kidsPages": {
     "common": {

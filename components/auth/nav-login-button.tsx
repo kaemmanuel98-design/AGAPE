@@ -41,6 +41,9 @@ export function NavLoginButton({ variantKids }: Props) {
     return null;
   }
 
+  const kidsContext = pathname === "/kids" || pathname.startsWith("/kids/");
+  const loginHref = kidsContext ? "/login?kids=1" : "/login";
+
   async function onSignOut() {
     const supabase = createSupabaseBrowserClient();
     await supabase.auth.signOut();
@@ -78,7 +81,7 @@ export function NavLoginButton({ variantKids }: Props) {
           : "bg-primary text-primary-foreground hover:bg-primary/90",
       )}
     >
-      <Link href="/login" prefetch>
+      <Link href={loginHref} prefetch>
         <LogIn className="size-4" aria-hidden />
         {t("login")}
       </Link>

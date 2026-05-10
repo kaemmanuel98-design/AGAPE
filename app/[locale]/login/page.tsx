@@ -18,10 +18,14 @@ function LoginFallback() {
 
 export default async function LoginPage({
   params,
+  searchParams,
 }: {
   params: Promise<{ locale: string }>;
+  searchParams: Promise<Record<string, string | string[] | undefined>>;
 }) {
   const { locale } = await params;
+  const sp = await searchParams;
+  const kidsReturn = sp.kids === "1";
 
   const supabase = await createSupabaseServerClient();
   const {
@@ -36,7 +40,7 @@ export default async function LoginPage({
       .maybeSingle();
 
     redirect({
-      href: profile?.role === "super-admin" ? "/admin" : "/",
+      href: profile?.role === "super-admin" ? "/admin" : kidsReturn ? "/kids" : "/",
       locale,
     });
   }
