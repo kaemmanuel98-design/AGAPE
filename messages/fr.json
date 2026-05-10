@@ -9,7 +9,9 @@
     "admin": "Admin",
     "brand": "Agapé",
     "locale": "Langue",
-    "calendar": "Calendrier"
+    "calendar": "Calendrier",
+    "login": "Connexion",
+    "logout": "Déconnexion"
   },
   "home": {
     "adults": {
@@ -61,7 +63,14 @@
     "subtitle": "Accès réservé aux comptes autorisés.",
     "email": "E-mail",
     "password": "Mot de passe",
-    "submit": "Se connecter"
+    "tabMagicLink": "Lien magique",
+    "tabPassword": "Mot de passe",
+    "sendMagicLink": "Recevoir un lien magique",
+    "submitPassword": "Se connecter avec mot de passe",
+    "loading": "Patientez…",
+    "magicLinkSent": "Consultez votre boîte mail pour le lien de connexion.",
+    "emailPlaceholder": "vous@exemple.com",
+    "passwordPlaceholder": "••••••••"
   },
   "kidsPages": {
     "common": {

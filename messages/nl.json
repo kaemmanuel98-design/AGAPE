@@ -9,7 +9,9 @@
     "admin": "Beheer",
     "brand": "Agapé",
     "locale": "Taal",
-    "calendar": "Kalender"
+    "calendar": "Kalender",
+    "login": "Inloggen",
+    "logout": "Afmelden"
   },
   "home": {
     "adults": {
@@ -61,7 +63,14 @@
     "subtitle": "Alleen voor geautoriseerde accounts.",
     "email": "E-mail",
     "password": "Wachtwoord",
-    "submit": "Inloggen"
+    "tabMagicLink": "Magische link",
+    "tabPassword": "Wachtwoord",
+    "sendMagicLink": "Stuur een magische link",
+    "submitPassword": "Inloggen met wachtwoord",
+    "loading": "Even geduld…",
+    "magicLinkSent": "Controleer uw e-mail voor de inloglink.",
+    "emailPlaceholder": "u@voorbeeld.nl",
+    "passwordPlaceholder": "••••••••"
   },
   "kidsPages": {
     "common": {

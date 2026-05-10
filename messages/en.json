@@ -9,7 +9,9 @@
     "admin": "Admin",
     "brand": "Agapé",
     "locale": "Language",
-    "calendar": "Calendar"
+    "calendar": "Calendar",
+    "login": "Sign in",
+    "logout": "Sign out"
   },
   "home": {
     "adults": {
@@ -61,7 +63,14 @@
     "subtitle": "Authorized accounts only.",
     "email": "Email",
     "password": "Password",
-    "submit": "Sign in"
+    "tabMagicLink": "Magic link",
+    "tabPassword": "Password",
+    "sendMagicLink": "Email me a magic link",
+    "submitPassword": "Sign in with password",
+    "loading": "Please wait…",
+    "magicLinkSent": "Check your inbox for the sign-in link.",
+    "emailPlaceholder": "you@example.com",
+    "passwordPlaceholder": "••••••••"
   },
   "kidsPages": {
     "common": {
