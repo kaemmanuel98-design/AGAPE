@@ -162,10 +162,29 @@ export default async function AcademyPage() {
                               Lire
                             </Button>
                           )}
-                          <span className="inline-flex items-center gap-2 rounded-full border border-white/15 bg-white/5 px-3 py-2 text-sm font-medium text-foreground">
-                            <Volume2 className="size-4 text-primary" aria-hidden />
-                            Écouter
-                          </span>
+                          {lesson.audio_url ? (
+                            <Button
+                              variant="outline"
+                              size="sm"
+                              className="rounded-full border-white/15 bg-white/5"
+                              asChild
+                            >
+                              <a href={`#audio-${lesson.id}`}>
+                                <Volume2 className="size-4" aria-hidden />
+                                Écouter
+                              </a>
+                            </Button>
+                          ) : (
+                            <Button
+                              variant="outline"
+                              size="sm"
+                              className="rounded-full border-white/10 bg-white/5"
+                              disabled
+                            >
+                              <Volume2 className="size-4" aria-hidden />
+                              Écouter
+                            </Button>
+                          )}
                         </div>
 
                         {lesson.text_content ? (
@@ -180,7 +199,10 @@ export default async function AcademyPage() {
                         ) : null}
 
                         {lesson.audio_url ? (
-                          <div className="mt-4 rounded-[18px] border border-primary/20 bg-primary/10 p-3">
+                          <div
+                            id={`audio-${lesson.id}`}
+                            className="mt-4 rounded-[18px] border border-primary/20 bg-primary/10 p-3"
+                          >
                             <div className="mb-2 flex items-center gap-2 text-sm font-medium text-foreground">
                               <Headphones className="size-4 text-primary" aria-hidden />
                               Lecteur audio intégré
