@@ -80,7 +80,18 @@
     "signUpConfirmation": "Account klaar—je bent ingelogd als e-mailbevestiging uit staat in Supabase.",
     "loading": "Even geduld…",
     "emailPlaceholder": "u@voorbeeld.nl",
-    "passwordPlaceholder": "••••••••"
+    "passwordPlaceholder": "••••••••",
+    "authErrors": {
+      "missing_fields": "Vul e-mail en wachtwoord in.",
+      "invalid_credentials": "Verkeerde e-mail of wachtwoord. Gebruik het wachtwoord dat u bij registratie koos.",
+      "email_not_confirmed": "Account nog niet geactiveerd. Schakel « Confirm email » uit in Supabase (Auth → E-mail) voor direct inloggen, of gebruik de bevestigingslink in uw mail.",
+      "user_already_exists": "Er bestaat al een account met dit e-mailadres. Ga naar « Inloggen » en gebruik het wachtwoord van uw registratie.",
+      "weak_password": "Wachtwoord te kort of te zwak (meestal minimaal 6 tekens).",
+      "rate_limit": "Te veel pogingen. Probeer het over enkele minuten opnieuw.",
+      "signup_disabled": "Registratie staat uit in uw Supabase-project.",
+      "no_session_after_signup": "Registratie gelukt maar geen automatische sessie: schakel « Confirm email » uit in Supabase (Authentication → Providers → Email) en probeer opnieuw in te loggen.",
+      "generic": "Er ging iets mis. Probeer opnieuw of controleer Supabase."
+    }
   },
   "kidsLogin": {
     "title": "Laten we gaan!",

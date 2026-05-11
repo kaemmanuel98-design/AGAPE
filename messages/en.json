@@ -80,7 +80,18 @@
     "signUpConfirmation": "Account ready—you’re signed in if email confirmation is off in Supabase.",
     "loading": "Please wait…",
     "emailPlaceholder": "you@example.com",
-    "passwordPlaceholder": "••••••••"
+    "passwordPlaceholder": "••••••••",
+    "authErrors": {
+      "missing_fields": "Enter both email and password.",
+      "invalid_credentials": "Wrong email or password. If you just signed up, use the password you chose.",
+      "email_not_confirmed": "Account not activated yet. Turn off “Confirm email” in Supabase (Auth → Email) for instant sign-in, or click the confirmation link in your inbox.",
+      "user_already_exists": "An account with this email already exists. Switch to “Sign in” and use the password you set when you registered.",
+      "weak_password": "Password is too short or weak (Supabase usually requires at least 6 characters).",
+      "rate_limit": "Too many attempts. Try again in a few minutes.",
+      "signup_disabled": "Sign-ups are disabled in your Supabase project settings.",
+      "no_session_after_signup": "Sign-up recorded but you weren’t signed in automatically: disable “Confirm email” in Supabase (Authentication → Providers → Email), then try signing in.",
+      "generic": "Something went wrong. Try again or check your Supabase settings."
+    }
   },
   "kidsLogin": {
     "title": "Let’s go!",

@@ -1,13 +1,15 @@
 "use client";
 
-import { Auth } from "@supabase/auth-ui-react";
-import { ThemeSupa } from "@supabase/auth-ui-shared";
 import Image from "next/image";
+import { Loader2 } from "lucide-react";
+import type { FormEvent } from "react";
 import { useSearchParams } from "next/navigation";
 import { useEffect, useMemo, useRef, useState } from "react";
 import { useLocale, useTranslations } from "next-intl";
 
+import { Button } from "@/components/ui/button";
 import { useRouter } from "@/i18n/navigation";
+import { mapSupabaseAuthError } from "@/lib/auth/map-auth-error";
 import { createSupabaseBrowserClient } from "@/lib/supabase/client";
 import { cn } from "@/lib/utils";
 
@@ -41,6 +43,8 @@ export function LoginForm({ embedded = false }: { embedded?: boolean }) {
   }, [nextRaw, locale]);
 
   const [passwordMode, setPasswordMode] = useState<PasswordMode>("sign_up");
+  const [pending, setPending] = useState(false);
+  const [formError, setFormError] = useState<string | null>(null);
   const redirectedRef = useRef(false);
 
   const supabase = useMemo(() => createSupabaseBrowserClient(), []);
@@ -58,30 +62,67 @@ export function LoginForm({ embedded = false }: { embedded?: boolean }) {
     return () => subscription.unsubscribe();
   }, [supabase, locale, nextPath, router]);
 
-  const localization = useMemo(
-    () => ({
-      variables: {
-        sign_in: {
-          email_label: t("email"),
-          password_label: t("password"),
-          email_input_placeholder: t("emailPlaceholder"),
-          password_input_placeholder: t("passwordPlaceholder"),
-          button_label: t("submitPassword"),
-          loading_button_label: t("loading"),
-        },
-        sign_up: {
-          email_label: t("email"),
-          password_label: t("password"),
-          email_input_placeholder: t("emailPlaceholder"),
-          password_input_placeholder: t("passwordPlaceholder"),
-          button_label: t("submitSignUp"),
-          loading_button_label: t("loading"),
-          confirmation_text: t("signUpConfirmation"),
-        },
+  function translateAuthError(message: string) {
+    const key = mapSupabaseAuthError(message);
+    return key === "generic" ? message || t("authErrors.generic") : t(`authErrors.${key}`);
+  }
+
+  async function onSubmit(e: FormEvent<HTMLFormElement>) {
+    e.preventDefault();
+    setFormError(null);
+    setPending(true);
+
+    const fd = new FormData(e.currentTarget);
+    const email = String(fd.get("email") ?? "").trim();
+    const password = String(fd.get("password") ?? "");
+
+    if (!email || !password) {
+      setFormError(t("authErrors.missing_fields"));
+      setPending(false);
+      return;
+    }
+
+    if (passwordMode === "sign_in") {
+      const { error } = await supabase.auth.signInWithPassword({ email, password });
+      if (error) {
+        setFormError(translateAuthError(error.message));
+        setPending(false);
+        return;
+      }
+      router.refresh();
+      setPending(false);
+      return;
+    }
+
+    const { data, error } = await supabase.auth.signUp({
+      email,
+      password,
+      options: {
+        emailRedirectTo: typeof window !== "undefined" ? `${window.location.origin}/auth/callback?next=${encodeURIComponent(nextPath)}` : undefined,
       },
-    }),
-    [t],
-  );
+    });
+
+    if (error) {
+      const key = mapSupabaseAuthError(error.message);
+      if (key === "user_already_exists") {
+        setFormError(t("authErrors.user_already_exists"));
+        setPasswordMode("sign_in");
+      } else {
+        setFormError(translateAuthError(error.message));
+      }
+      setPending(false);
+      return;
+    }
+
+    if (data.session?.user) {
+      router.refresh();
+      setPending(false);
+      return;
+    }
+
+    setFormError(t("authErrors.no_session_after_signup"));
+    setPending(false);
+  }
 
   return (
     <div className={cn("mx-auto w-full max-w-[440px] space-y-6", embedded && "space-y-5")}>
@@ -123,7 +164,10 @@ export function LoginForm({ embedded = false }: { embedded?: boolean }) {
                 ? "bg-background text-foreground shadow-sm"
                 : "text-muted-foreground hover:text-foreground",
             )}
-            onClick={() => setPasswordMode("sign_in")}
+            onClick={() => {
+              setPasswordMode("sign_in");
+              setFormError(null);
+            }}
           >
             {t("passwordSubSignIn")}
           </button>
@@ -135,7 +179,10 @@ export function LoginForm({ embedded = false }: { embedded?: boolean }) {
                 ? "bg-primary text-primary-foreground shadow-sm"
                 : "text-muted-foreground hover:text-foreground",
             )}
-            onClick={() => setPasswordMode("sign_up")}
+            onClick={() => {
+              setPasswordMode("sign_up");
+              setFormError(null);
+            }}
           >
             {t("passwordSubSignUp")}
           </button>
@@ -147,35 +194,50 @@ export function LoginForm({ embedded = false }: { embedded?: boolean }) {
           </p>
         ) : null}
 
-        <Auth
-          key={passwordMode}
-          supabaseClient={supabase}
-          view={passwordMode}
-          providers={[]}
-          magicLink={false}
-          showLinks={false}
-          appearance={{
-            extend: true,
-            theme: ThemeSupa,
-            variables: {
-              default: {
-                radii: {
-                  borderRadiusButton: "18px",
-                  inputBorderRadius: "14px",
-                },
-                colors: {
-                  brand: "rgb(37 99 235)",
-                  brandAccent: "rgb(29 78 216)",
-                  inputBackground: "rgb(255 255 255)",
-                  inputBorder: "rgb(226 232 240)",
-                  inputText: "rgb(15 23 42)",
-                  messageText: "rgb(51 65 85)",
-                },
-              },
-            },
-          }}
-          localization={localization}
-        />
+        <form key={passwordMode} className="space-y-4" onSubmit={(ev) => void onSubmit(ev)}>
+          {formError ? (
+            <p className="rounded-[12px] border border-amber-500/35 bg-amber-500/10 px-3 py-2 text-sm leading-relaxed text-amber-50">
+              {formError}
+            </p>
+          ) : null}
+
+          <div className="space-y-2">
+            <label className="text-sm font-medium text-foreground" htmlFor="login-email">
+              {t("email")}
+            </label>
+            <input
+              id="login-email"
+              name="email"
+              type="email"
+              autoComplete="email"
+              required
+              className="h-11 w-full rounded-[14px] border border-input bg-background px-4 text-foreground outline-none ring-ring focus:ring-2"
+            />
+          </div>
+          <div className="space-y-2">
+            <label className="text-sm font-medium text-foreground" htmlFor="login-password">
+              {t("password")}
+            </label>
+            <input
+              id="login-password"
+              name="password"
+              type="password"
+              autoComplete={passwordMode === "sign_up" ? "new-password" : "current-password"}
+              required
+              minLength={6}
+              className="h-11 w-full rounded-[14px] border border-input bg-background px-4 text-foreground outline-none ring-ring focus:ring-2"
+            />
+          </div>
+
+          <Button type="submit" className="h-11 w-full rounded-[18px] gap-2 font-semibold" disabled={pending}>
+            {pending ? <Loader2 className="size-4 animate-spin" aria-hidden /> : null}
+            {passwordMode === "sign_in" ? t("submitPassword") : t("submitSignUp")}
+          </Button>
+
+          {passwordMode === "sign_up" ? (
+            <p className="text-center text-[11px] leading-relaxed text-muted-foreground">{t("signUpConfirmation")}</p>
+          ) : null}
+        </form>
       </div>
     </div>
   );

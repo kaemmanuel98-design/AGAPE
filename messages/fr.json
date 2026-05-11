@@ -80,7 +80,18 @@
     "signUpConfirmation": "Compte créé — tu es connecté si la confirmation e-mail est désactivée dans Supabase.",
     "loading": "Patientez…",
     "emailPlaceholder": "vous@exemple.com",
-    "passwordPlaceholder": "••••••••"
+    "passwordPlaceholder": "••••••••",
+    "authErrors": {
+      "missing_fields": "Renseigne l’e-mail et le mot de passe.",
+      "invalid_credentials": "E-mail ou mot de passe incorrect. Si tu viens de t’inscrire, vérifie le mot de passe choisi à l’inscription.",
+      "email_not_confirmed": "Compte non activé : le lien de confirmation a été envoyé (ou bloqué). Dans Supabase, désactive « Confirm email » pour te connecter sans e-mail, ou clique sur le lien reçu.",
+      "user_already_exists": "Un compte existe déjà avec cet e-mail. Passe à l’onglet « Connexion » et utilise le même mot de passe que lors de l’inscription.",
+      "weak_password": "Mot de passe trop court ou trop faible (minimum souvent 6 caractères).",
+      "rate_limit": "Trop de tentatives. Réessaie dans quelques minutes.",
+      "signup_disabled": "Les inscriptions sont désactivées dans la configuration Supabase.",
+      "no_session_after_signup": "Inscription enregistrée mais pas de connexion automatique : désactive « Confirm email » dans Supabase (Authentication → Providers → Email), puis réessaie la connexion.",
+      "generic": "Une erreur s’est produite. Réessaie ou vérifie la configuration Supabase."
+    }
   },
   "kidsLogin": {
     "title": "C’est parti !",
