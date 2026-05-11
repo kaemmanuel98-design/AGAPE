@@ -1,7 +1,7 @@
 "use client";
 
 import { LayoutGroup, motion } from "framer-motion";
-import { Calendar, Shield, Sparkles, Users } from "lucide-react";
+import { BookOpen, Calendar, CalendarCheck, Shield, Sparkles, Users } from "lucide-react";
 import { useTranslations } from "next-intl";
 
 import { cn } from "@/lib/utils";
@@ -24,6 +24,10 @@ export function GlassSpaceNav() {
     pathname === "/admin" || pathname.startsWith("/admin/");
   const isCalendar =
     pathname === "/calendar" || pathname.startsWith("/calendar/");
+  const isAcademy =
+    pathname === "/academy" || pathname.startsWith("/academy/");
+  const isPlanning =
+    pathname === "/planning" || pathname.startsWith("/planning/");
 
   const shellClass = cn(
     "flex items-center gap-3 rounded-[24px] px-4 py-3 backdrop-blur-xl backdrop-saturate-150",
@@ -167,6 +171,36 @@ export function GlassSpaceNav() {
             title={t("calendar")}
           >
             <Calendar className="size-5" aria-hidden />
+          </Link>
+          <Link
+            href="/academy"
+            prefetch
+            className={cn(
+              "flex size-11 items-center justify-center rounded-[var(--radius)] transition-colors",
+              isKids
+                ? "border border-sky-300/55 bg-white/60 text-slate-700 hover:bg-white/85"
+                : "border border-white/20 bg-white/5 text-muted-foreground hover:bg-white/10 hover:text-foreground",
+              isAcademy && "ring-2 ring-primary ring-offset-2 ring-offset-transparent",
+            )}
+            aria-label={t("academy")}
+            title={t("academy")}
+          >
+            <BookOpen className="size-5" aria-hidden />
+          </Link>
+          <Link
+            href="/planning"
+            prefetch
+            className={cn(
+              "flex size-11 items-center justify-center rounded-[var(--radius)] transition-colors",
+              isKids
+                ? "border border-sky-300/55 bg-white/60 text-slate-700 hover:bg-white/85"
+                : "border border-white/20 bg-white/5 text-muted-foreground hover:bg-white/10 hover:text-foreground",
+              isPlanning && "ring-2 ring-primary ring-offset-2 ring-offset-transparent",
+            )}
+            aria-label={t("planning")}
+            title={t("planning")}
+          >
+            <CalendarCheck className="size-5" aria-hidden />
           </Link>
           <Link
             href="/admin"

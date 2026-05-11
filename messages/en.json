@@ -10,6 +10,8 @@
     "brand": "Agapé",
     "locale": "Language",
     "calendar": "Calendar",
+    "academy": "Academy",
+    "planning": "Planning",
     "login": "Sign in",
     "logout": "Sign out"
   },
