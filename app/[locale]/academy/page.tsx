@@ -19,11 +19,11 @@ function groupLessons(lessons: LessonRow[]): LessonGroup[] {
 
   for (const lesson of lessons) {
     const level = lesson.level?.trim() || "Niveau général";
-    const module = lesson.module?.trim() || "Module principal";
+    const moduleName = lesson.module?.trim() || "Module principal";
     const moduleMap = levels.get(level) ?? new Map<string, LessonRow[]>();
-    const rows = moduleMap.get(module) ?? [];
+    const rows = moduleMap.get(moduleName) ?? [];
     rows.push(lesson);
-    moduleMap.set(module, rows);
+    moduleMap.set(moduleName, rows);
     levels.set(level, moduleMap);
   }
 

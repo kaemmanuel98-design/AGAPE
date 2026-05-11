@@ -100,7 +100,7 @@ export async function createLesson(formData: FormData) {
   const locale = stringField(formData, "locale") || "fr";
   const title = stringField(formData, "title");
   const level = stringField(formData, "level") || "Niveau général";
-  const module = stringField(formData, "module") || "Module principal";
+  const moduleName = stringField(formData, "module") || "Module principal";
   const textContent = nullableField(formData, "text_content");
   const videoUrl = nullableField(formData, "video_url");
   const sortOrder = parseSortOrder(stringField(formData, "sort_order"));
@@ -132,7 +132,7 @@ export async function createLesson(formData: FormData) {
   const { error } = await auth.supabase.from("lessons").insert({
     title,
     level,
-    module,
+    module: moduleName,
     text_content: textContent,
     video_url: videoUrl,
     audio_url: audioUrl,
