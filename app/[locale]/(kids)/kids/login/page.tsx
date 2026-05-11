@@ -1,4 +1,4 @@
-import { KidsSimpleLoginForm } from "@/components/kids/kids-simple-login-form";
+import { redirect } from "@/i18n/navigation";
 
 export const dynamic = "force-dynamic";
 
@@ -8,5 +8,5 @@ export default async function KidsLoginPage({
   params: Promise<{ locale: string }>;
 }) {
   const { locale } = await params;
-  return <KidsSimpleLoginForm locale={locale} />;
+  redirect({ href: "/kids", locale });
 }

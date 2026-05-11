@@ -1,6 +1,6 @@
 "use client";
 
-import { Gamepad2, HeartHandshake, Home, Sparkles } from "lucide-react";
+import { Gamepad2, Home, Sparkles } from "lucide-react";
 import { useLocale, useTranslations } from "next-intl";
 
 import { Button } from "@/components/ui/button";
@@ -57,18 +57,6 @@ export function KidsHomePanel({ kidProfile }: { kidProfile: KidProfile | null })
             <Link href="/kids/histoires">
               <Sparkles className="size-6 shrink-0 sm:size-5" aria-hidden />
               <span className="text-lg font-semibold sm:text-base">{t("storiesCta")}</span>
-            </Link>
-          </Button>
-
-          <Button
-            size="lg"
-            type="button"
-            asChild
-            className="rounded-[var(--radius)] border-2 border-sky-500/80 bg-gradient-to-br from-sky-500 to-sky-600 text-white shadow-[0_12px_36px_rgba(2,132,199,0.35)] hover:from-sky-600 hover:to-sky-700 [&_svg]:size-6 sm:[&_svg]:size-5"
-          >
-            <Link href="/kids/login">
-              <HeartHandshake aria-hidden />
-              <span className="text-lg font-semibold sm:text-base">{t("loginWithParent")}</span>
             </Link>
           </Button>
 
