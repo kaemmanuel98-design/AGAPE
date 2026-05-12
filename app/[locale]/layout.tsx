@@ -17,7 +17,7 @@ const inter = Inter({
 });
 
 export const viewport: Viewport = {
-  themeColor: "#2563EB",
+  themeColor: "#1D4ED8",
 };
 
 export function generateStaticParams() {
@@ -60,7 +60,7 @@ export async function generateMetadata({
       shortcut: "/favicon.svg",
     },
     other: {
-      "msapplication-TileColor": "#0F172A",
+      "msapplication-TileColor": "#081225",
       "msapplication-TileImage": "/branding/mstile-150x150.png",
     },
   };

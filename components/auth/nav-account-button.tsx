@@ -40,7 +40,7 @@ export function NavAccountButton({ variantKids }: Props) {
   }
 
   const tone = cn(
-    "h-11 shrink-0 gap-2 rounded-[var(--radius)] px-5 font-semibold shadow-md",
+    "h-10 shrink-0 gap-2 rounded-[var(--radius)] px-4 text-sm font-semibold shadow-md",
     variantKids
       ? "bg-sky-600 text-white hover:bg-sky-700"
       : "bg-primary text-primary-foreground hover:bg-primary/90",

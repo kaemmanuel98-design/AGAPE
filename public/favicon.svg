@@ -1,20 +1,26 @@
 <svg width="64" height="64" viewBox="0 0 64 64" fill="none" xmlns="http://www.w3.org/2000/svg">
   <defs>
-    <linearGradient id="agape-bg" x1="8" y1="6" x2="56" y2="58" gradientUnits="userSpaceOnUse">
-      <stop offset="0" stop-color="#111827" />
-      <stop offset="1" stop-color="#1D4ED8" />
+    <linearGradient id="agape-bg" x1="9" y1="8" x2="55" y2="57" gradientUnits="userSpaceOnUse">
+      <stop offset="0" stop-color="#081225" />
+      <stop offset="0.54" stop-color="#12367A" />
+      <stop offset="1" stop-color="#2563EB" />
     </linearGradient>
-    <linearGradient id="agape-heart" x1="26" y1="24" x2="40" y2="41" gradientUnits="userSpaceOnUse">
-      <stop offset="0" stop-color="#FFE7A3" />
-      <stop offset="1" stop-color="#F4C95D" />
+    <linearGradient id="agape-heart" x1="27" y1="28" x2="38" y2="39" gradientUnits="userSpaceOnUse">
+      <stop offset="0" stop-color="#F8E7A1" />
+      <stop offset="1" stop-color="#D9A928" />
     </linearGradient>
+    <radialGradient id="agape-glow" cx="0" cy="0" r="1" gradientUnits="userSpaceOnUse" gradientTransform="translate(22 18) rotate(49.4) scale(33.4602)">
+      <stop offset="0" stop-color="#7CC6FF" stop-opacity="0.32" />
+      <stop offset="1" stop-color="#7CC6FF" stop-opacity="0" />
+    </radialGradient>
   </defs>
 
   <rect x="4" y="4" width="56" height="56" rx="18" fill="url(#agape-bg)" />
+  <rect x="4" y="4" width="56" height="56" rx="18" fill="url(#agape-glow)" />
   <rect x="5" y="5" width="54" height="54" rx="17" fill="none" stroke="#FFFFFF" stroke-opacity="0.12" />
-
-  <path d="M21 38.5C21 31.4 25.7 26 32 26" stroke="#7CC6FF" stroke-width="4.5" stroke-linecap="round" />
-  <path d="M43 38.5C43 31.4 38.3 26 32 26" stroke="#F8FAFC" stroke-width="4.5" stroke-linecap="round" />
-  <path d="M17.5 42.5C21.4 47.6 26 50 32 50C38 50 42.6 47.6 46.5 42.5" stroke="#E2E8F0" stroke-width="4" stroke-linecap="round" />
-  <path d="M32 41.4L25.9 35.4C24.4 33.9 24.4 31.5 25.9 30C27.4 28.5 29.8 28.5 31.3 30L32 30.7L32.7 30C34.2 28.5 36.6 28.5 38.1 30C39.6 31.5 39.6 33.9 38.1 35.4L32 41.4Z" fill="url(#agape-heart)" />
+  <path d="M17 18.6C22 13.4 29 10.7 36.2 11.3C44.9 12 51.1 17 53.5 23.6" stroke="#FFFFFF" stroke-opacity="0.14" stroke-width="2.4" stroke-linecap="round" />
+  <path d="M20.5 39.2C20.5 31.8 25.3 26.4 32 26.4" stroke="#7CC6FF" stroke-width="4.2" stroke-linecap="round" />
+  <path d="M43.5 39.2C43.5 31.8 38.7 26.4 32 26.4" stroke="#EAF2FF" stroke-width="4.2" stroke-linecap="round" />
+  <path d="M18.6 43.7C22.5 48 26.9 50.2 32 50.2C37.1 50.2 41.5 48 45.4 43.7" stroke="#D8E6FF" stroke-width="3.7" stroke-linecap="round" />
+  <path d="M32 40.8L27.2 36.1C25.9 34.8 25.9 32.7 27.2 31.4C28.5 30.1 30.5 30.1 31.8 31.4L32 31.7L32.2 31.4C33.5 30.1 35.5 30.1 36.8 31.4C38.1 32.7 38.1 34.8 36.8 36.1L32 40.8Z" fill="url(#agape-heart)" />
 </svg>

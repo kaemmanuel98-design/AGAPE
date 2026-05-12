@@ -9,8 +9,11 @@ export function BrandLogo({
   className?: string;
 }) {
   return (
-    <span className={className} style={{ height }}>
-      <Logo variant="icon" className="h-full" iconClassName="h-full" label="Agapé" />
+    <span
+      className={className}
+      style={{ height, width: height, display: "inline-flex", overflow: "hidden", verticalAlign: "middle" }}
+    >
+      <Logo variant="icon" className="size-full" iconClassName="size-full" label="Agapé" />
     </span>
   );
 }
@@ -28,11 +31,13 @@ export function BrandLockup({
   textClassName?: string;
 }) {
   return (
-    <span style={{ height: logoHeight }}>
+    <span
+      style={{ height: logoHeight, display: "inline-flex", maxWidth: "100%", overflow: "hidden", verticalAlign: "middle" }}
+    >
       <Logo
         variant="full"
         label={text}
-        className={className}
+        className={className ?? "h-full max-w-full"}
         iconClassName="h-full"
         textClassName={textClassName}
       />
