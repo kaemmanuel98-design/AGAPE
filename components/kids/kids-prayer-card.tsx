@@ -56,8 +56,9 @@ export function KidsPrayerCard({ defaultName }: { defaultName?: string | null })
 
         <Button
           type="button"
+          variant="brand"
           size="lg"
-          className="rounded-full bg-white text-sky-700 shadow-md hover:bg-sky-50"
+          className="rounded-full border-0"
           onClick={() => setOpen((value) => !value)}
         >
           <Bird className="size-5" />
@@ -90,7 +91,7 @@ export function KidsPrayerCard({ defaultName }: { defaultName?: string | null })
           </label>
 
           <div className="flex flex-wrap gap-3">
-            <Button type="submit" disabled={pending} className="rounded-full bg-sky-600 text-white hover:bg-sky-700">
+            <Button type="submit" disabled={pending} variant="brand" className="rounded-full border-0">
               {pending ? <Loader2 className="size-4 animate-spin" /> : <Send className="size-4" />}
               {t("submit")}
             </Button>

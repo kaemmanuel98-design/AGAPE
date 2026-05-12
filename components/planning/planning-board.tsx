@@ -19,12 +19,12 @@ export function PlanningBoard({
 }) {
   if (!entries.length) {
     return (
-      <section className="rounded-[var(--radius)] border border-border bg-card/50 p-8 shadow-lg backdrop-blur-md">
-        <div className="flex items-center gap-3 text-foreground">
-          <CalendarDays className="size-7 text-primary" />
+      <section className="agape-brand-surface rounded-[var(--radius)] p-8">
+        <div className="flex items-center gap-3 text-slate-50">
+          <CalendarDays className="size-7 text-[#7CC6FF]" />
           <div>
             <h2 className="text-2xl font-semibold tracking-tight">Planning du mois</h2>
-            <p className="mt-1 text-sm text-muted-foreground">
+            <p className="mt-1 text-sm text-slate-300">
               Le programme apparaîtra ici dès que les cultes seront remplis dans l&apos;admin.
             </p>
           </div>
@@ -40,12 +40,12 @@ export function PlanningBoard({
   });
 
   return (
-    <section className="space-y-5 rounded-[var(--radius)] border border-border bg-card/50 p-8 shadow-lg backdrop-blur-md">
-      <div className="flex items-center gap-3 text-foreground">
-        <CalendarDays className="size-7 text-primary" />
+    <section className="agape-brand-surface space-y-5 rounded-[var(--radius)] p-8">
+      <div className="flex items-center gap-3 text-slate-50">
+        <CalendarDays className="size-7 text-[#7CC6FF]" />
         <div>
           <h1 className="text-3xl font-semibold tracking-tight">Planning du mois</h1>
-          <p className="mt-1 text-sm text-muted-foreground">
+          <p className="mt-1 text-sm text-slate-300">
             Une vue claire des cultes et des personnes responsables.
           </p>
         </div>
@@ -61,18 +61,18 @@ export function PlanningBoard({
           return (
             <article
               key={entry.id}
-              className="rounded-[28px] border border-border bg-background/55 p-6 shadow-sm"
+              className="rounded-[28px] border border-white/10 bg-white/5 p-6 shadow-sm"
             >
               <div className="flex flex-wrap items-start justify-between gap-4">
                 <div>
-                  <p className="text-xs font-semibold uppercase tracking-[0.2em] text-primary">
+                  <p className="text-xs font-semibold uppercase tracking-[0.2em] text-[#7CC6FF]">
                     {entry.service_name}
                   </p>
-                  <h2 className="mt-2 text-xl font-semibold tracking-tight text-foreground">
+                  <h2 className="mt-2 text-xl font-semibold tracking-tight text-slate-50">
                     {dateFormatter.format(new Date(entry.service_date))}
                   </h2>
                 </div>
-                <span className="rounded-full bg-primary/10 px-3 py-1 text-xs font-medium text-primary">
+                <span className="rounded-full border border-white/10 bg-white/8 px-3 py-1 text-xs font-medium text-[#F4C95D]">
                   {people.length} rôle{people.length > 1 ? "s" : ""}
                 </span>
               </div>
@@ -81,14 +81,14 @@ export function PlanningBoard({
                 {people.map(({ key, label, icon: Icon }) => (
                   <div
                     key={key}
-                    className="flex items-center gap-3 rounded-[20px] border border-border bg-card/70 px-4 py-3"
+                    className="flex items-center gap-3 rounded-[20px] border border-white/8 bg-slate-950/20 px-4 py-3"
                   >
-                    <div className="flex size-10 items-center justify-center rounded-2xl bg-primary/10 text-primary">
+                    <div className="flex size-10 items-center justify-center rounded-2xl bg-white/10 text-[#7CC6FF]">
                       <Icon className="size-5" />
                     </div>
                     <div>
-                      <p className="text-xs uppercase tracking-wide text-muted-foreground">{label}</p>
-                      <p className="font-medium text-foreground">
+                      <p className="text-xs uppercase tracking-wide text-slate-400">{label}</p>
+                      <p className="font-medium text-slate-100">
                         {String(entry[key as keyof PlanningRow] ?? "")}
                       </p>
                     </div>

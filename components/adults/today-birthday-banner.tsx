@@ -27,15 +27,15 @@ export async function TodayBirthdayBanner({
       : t("birthdayBannerMultiple", { names });
 
   return (
-    <section className="rounded-[32px] border border-amber-300/30 bg-gradient-to-r from-amber-500/15 via-orange-400/10 to-pink-500/10 p-6 shadow-lg backdrop-blur-md">
+    <section className="agape-brand-surface rounded-[32px] p-6">
       <div className="flex flex-wrap items-center justify-between gap-4">
         <div className="space-y-2">
-          <div className="inline-flex items-center gap-2 rounded-full bg-amber-400/15 px-3 py-1 text-xs font-semibold uppercase tracking-[0.18em] text-amber-200">
+          <div className="agape-brand-badge">
             <PartyPopper className="size-3.5" />
             {t("birthdayBadge")}
           </div>
-          <p className="text-lg font-semibold text-foreground md:text-xl">{title}</p>
-          <p className="text-sm text-muted-foreground">{t("birthdayBannerHint")}</p>
+          <p className="text-lg font-semibold text-slate-50 md:text-xl">{title}</p>
+          <p className="text-sm text-slate-300">{t("birthdayBannerHint")}</p>
         </div>
 
         <div className="flex flex-wrap gap-3">
@@ -47,12 +47,12 @@ export async function TodayBirthdayBanner({
                 recipientProfileId={person.id}
                 recipientName={name}
                 source="home"
-                className="rounded-full"
+                className="rounded-full border-white/12 bg-white/7 text-slate-100 hover:bg-white/12"
                 variant="secondary"
               />
             );
           })}
-          <div className="flex h-12 w-12 items-center justify-center rounded-full bg-amber-400/15 text-amber-200">
+          <div className="flex h-12 w-12 items-center justify-center rounded-full bg-white/10 text-[#F4C95D]">
             <Gift className="size-5" />
           </div>
         </div>

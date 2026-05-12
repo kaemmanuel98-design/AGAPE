@@ -13,23 +13,23 @@ export function DailyExhortationCard({
   }
 
   return (
-    <section className="space-y-5 rounded-[var(--radius)] border border-primary/15 bg-gradient-to-br from-primary/10 to-card/60 p-8 shadow-lg backdrop-blur-md">
+    <section className="agape-brand-surface space-y-5 rounded-[var(--radius)] p-8">
       <div className="flex flex-wrap items-start justify-between gap-4">
         <div className="space-y-2">
-          <p className="text-xs font-semibold uppercase tracking-[0.2em] text-primary">
+          <p className="agape-brand-badge w-fit">
             Exhortation du jour
           </p>
-          <h2 className="text-2xl font-semibold tracking-tight text-foreground">
+          <h2 className="text-2xl font-semibold tracking-tight text-slate-50">
             {exhortation.title}
           </h2>
         </div>
-        <div className="flex size-12 items-center justify-center rounded-2xl bg-primary text-primary-foreground shadow">
+        <div className="flex size-12 items-center justify-center rounded-2xl bg-white/10 text-[#F4C95D] shadow">
           <Quote className="size-6" />
         </div>
       </div>
 
       {exhortation.message ? (
-        <p className="max-w-3xl text-base leading-8 text-muted-foreground">{exhortation.message}</p>
+        <p className="max-w-3xl text-base leading-8 text-slate-300">{exhortation.message}</p>
       ) : null}
 
       <div className="flex flex-wrap items-center gap-3">
@@ -39,8 +39,8 @@ export function DailyExhortationCard({
           buttonLabel="Écouter"
           ttsLabel="Écouter l’exhortation"
         />
-        <span className="inline-flex items-center gap-2 text-sm text-muted-foreground">
-          <Volume2 className="size-4 text-primary" />
+        <span className="inline-flex items-center gap-2 text-sm text-slate-300">
+          <Volume2 className="size-4 text-[#7CC6FF]" />
           Audio chargé ou synthèse vocale si aucun fichier n&apos;est fourni.
         </span>
       </div>
