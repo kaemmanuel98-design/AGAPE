@@ -1,12 +1,12 @@
 "use client";
 
-import Image from "next/image";
 import { Loader2 } from "lucide-react";
 import type { FormEvent } from "react";
 import { useSearchParams } from "next/navigation";
 import { useEffect, useMemo, useRef, useState } from "react";
 import { useLocale, useTranslations } from "next-intl";
 
+import { BrandLogo } from "@/components/brand/brand-logo";
 import { Button } from "@/components/ui/button";
 import { useRouter } from "@/i18n/navigation";
 import { mapSupabaseAuthError } from "@/lib/auth/map-auth-error";
@@ -129,13 +129,10 @@ export function LoginForm({ embedded = false }: { embedded?: boolean }) {
       {!embedded ? (
         <>
           <div className="flex flex-col items-center gap-4 text-center">
-            <Image
-              src="/icons/icon-192x192.png"
-              alt=""
-              width={80}
-              height={80}
+            <BrandLogo
+              height={100}
               priority
-              className="rounded-[22px] shadow-[0_12px_40px_rgba(15,23,42,0.25)]"
+              className="drop-shadow-[0_18px_40px_rgba(15,23,42,0.16)]"
             />
             <div className="space-y-2">
               <h1 className="text-3xl font-semibold tracking-tight text-foreground">{t("title")}</h1>

@@ -4,6 +4,7 @@ import { LayoutGroup, motion } from "framer-motion";
 import { Calendar, Shield, Sparkles, Users } from "lucide-react";
 import { useTranslations } from "next-intl";
 
+import { BrandLockup } from "@/components/brand/brand-logo";
 import { cn } from "@/lib/utils";
 import { Link, usePathname } from "@/i18n/navigation";
 
@@ -43,7 +44,11 @@ export function GlassSpaceNav() {
             href="/"
             className="flex items-center gap-2 text-lg font-semibold tracking-tight"
           >
-            {t("brand")}
+            <BrandLockup
+              text={t("brand")}
+              logoHeight={30}
+              textClassName="text-[1.02rem] font-medium tracking-[0.05em]"
+            />
           </Link>
           <div className="flex items-center gap-2">
             <NavAccountButton />
@@ -70,7 +75,11 @@ export function GlassSpaceNav() {
             isKids ? "text-slate-900" : "text-foreground",
           )}
         >
-          {t("brand")}
+          <BrandLockup
+            text={t("brand")}
+            logoHeight={30}
+            textClassName="text-[1.02rem] font-medium tracking-[0.05em]"
+          />
         </Link>
 
         <LayoutGroup id="space-tabs">

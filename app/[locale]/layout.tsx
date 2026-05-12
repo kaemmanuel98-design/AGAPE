@@ -42,12 +42,23 @@ export async function generateMetadata({
       statusBarStyle: "black-translucent",
     },
     icons: {
-      icon: [{ url: "/icons/icon-192x192.png", sizes: "192x192", type: "image/png" }],
-      apple: "/icons/apple-touch-icon.png",
+      icon: [
+        { url: "/branding/favicon-16x16.png", sizes: "16x16", type: "image/png" },
+        { url: "/branding/favicon-32x32.png", sizes: "32x32", type: "image/png" },
+        { url: "/branding/icon-192x192.png", sizes: "192x192", type: "image/png" },
+      ],
+      apple: [
+        {
+          url: "/branding/apple-touch-icon.png",
+          sizes: "180x180",
+          type: "image/png",
+        },
+      ],
+      shortcut: "/branding/favicon-32x32.png",
     },
     other: {
       "msapplication-TileColor": "#0F172A",
-      "msapplication-TileImage": "/icons/mstile-150x150.png",
+      "msapplication-TileImage": "/branding/mstile-150x150.png",
     },
   };
 }
