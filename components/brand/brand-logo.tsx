@@ -13,11 +13,12 @@ export function BrandLogo({
 }) {
   return (
     <Image
-      src="/agape-logo-final.png"
+      src="/branding/logo"
       alt="Logo Agapé"
       width={512}
       height={512}
       priority={priority}
+      unoptimized
       className={cn("w-auto object-contain", className)}
       style={{ height, width: "auto" }}
     />

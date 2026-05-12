@@ -31,10 +31,12 @@ export async function generateMetadata({
 }): Promise<Metadata> {
   const { locale } = await params;
   const t = await getTranslations({ locale, namespace: "meta" });
+  const siteUrl = process.env.NEXT_PUBLIC_SITE_URL;
 
   return {
     title: t("title"),
     description: t("description"),
+    metadataBase: siteUrl ? new URL(siteUrl) : undefined,
     manifest: "/manifest.json",
     appleWebApp: {
       capable: true,

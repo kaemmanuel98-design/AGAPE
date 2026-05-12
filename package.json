@@ -4,6 +4,7 @@
   "private": true,
   "scripts": {
     "icons": "node scripts/generate-icons.mjs",
+    "deploy:check": "node scripts/deploy-check.mjs",
     "dev": "next dev --turbopack",
     "build": "next build",
     "start": "next start",

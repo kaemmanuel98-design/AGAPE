@@ -1,11 +1,14 @@
-import { readFile } from "node:fs/promises";
+import { access, readFile } from "node:fs/promises";
 import path from "node:path";
 
 import sharp from "sharp";
 
 export const runtime = "nodejs";
 
-const LOGO_PATH = path.join(process.cwd(), "public", "agape-logo-final.png");
+const LOGO_PATHS = [
+  path.join(process.cwd(), "public", "agape-logo-final.png"),
+  path.join(process.cwd(), "public", "agape-logo-final.png.png"),
+];
 
 const ICON_PRESETS: Record<
   string,
@@ -69,11 +72,16 @@ function buildFallbackLogoSvg(size: number) {
 }
 
 async function loadLogoBuffer() {
-  try {
-    return await readFile(LOGO_PATH);
-  } catch {
-    return null;
+  for (const candidate of LOGO_PATHS) {
+    try {
+      await access(candidate);
+      return await readFile(candidate);
+    } catch {
+      continue;
+    }
   }
+
+  return null;
 }
 
 async function buildIcon(asset: keyof typeof ICON_PRESETS) {
