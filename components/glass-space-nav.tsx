@@ -4,10 +4,11 @@ import { LayoutGroup, motion } from "framer-motion";
 import { BookOpen, Calendar, CalendarCheck, Shield, Sparkles, Users } from "lucide-react";
 import { useTranslations } from "next-intl";
 
+import { BrandLockup } from "@/components/brand/brand-logo";
 import { cn } from "@/lib/utils";
 import { Link, usePathname } from "@/i18n/navigation";
 
-import { NavLoginButton } from "./auth/nav-login-button";
+import { NavAccountButton } from "./auth/nav-account-button";
 import { LocaleSwitcher } from "./locale-switcher";
 
 const pillTransition = {
@@ -47,10 +48,14 @@ export function GlassSpaceNav() {
             href="/"
             className="flex items-center gap-2 text-lg font-semibold tracking-tight"
           >
-            {t("brand")}
+            <BrandLockup
+              text={t("brand")}
+              logoHeight={30}
+              textClassName="text-[1.02rem] font-medium tracking-[0.05em]"
+            />
           </Link>
           <div className="flex items-center gap-2">
-            <NavLoginButton />
+            <NavAccountButton />
             <LocaleSwitcher />
           </div>
         </nav>
@@ -74,7 +79,11 @@ export function GlassSpaceNav() {
             isKids ? "text-slate-900" : "text-foreground",
           )}
         >
-          {t("brand")}
+          <BrandLockup
+            text={t("brand")}
+            logoHeight={30}
+            textClassName="text-[1.02rem] font-medium tracking-[0.05em]"
+          />
         </Link>
 
         <LayoutGroup id="space-tabs">
@@ -156,7 +165,7 @@ export function GlassSpaceNav() {
         </LayoutGroup>
 
         <div className="relative z-10 flex shrink-0 flex-wrap items-center justify-end gap-2 sm:flex-nowrap">
-          <NavLoginButton variantKids={isKids} />
+          <NavAccountButton variantKids={isKids} />
           <Link
             href="/calendar"
             prefetch

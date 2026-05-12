@@ -1,7 +1,7 @@
 "use client";
 
 import { motion } from "framer-motion";
-import { BookOpen, CalendarDays, ChevronDown, Newspaper } from "lucide-react";
+import { BookOpen, BookOpenText, CalendarDays, ChevronDown, Newspaper } from "lucide-react";
 import { useTranslations } from "next-intl";
 
 import { Button } from "@/components/ui/button";
@@ -33,9 +33,23 @@ export function AdultsHomeHero() {
         </Button>
 
         <Button variant="secondary" size="lg" type="button" asChild className="rounded-[var(--radius)]">
+          <Link href="/academy">
+            <BookOpenText className="size-5" aria-hidden />
+            {t("academyLink")}
+          </Link>
+        </Button>
+
+        <Button variant="secondary" size="lg" type="button" asChild className="rounded-[var(--radius)]">
           <Link href="/calendar">
             <CalendarDays className="size-5" aria-hidden />
             {t("calendarLink")}
+          </Link>
+        </Button>
+
+        <Button variant="outline" size="lg" type="button" asChild className="rounded-[var(--radius)]">
+          <Link href="/planning">
+            <CalendarDays className="size-5" aria-hidden />
+            {t("planningLink")}
           </Link>
         </Button>
 

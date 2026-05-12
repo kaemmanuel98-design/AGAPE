@@ -31,8 +31,9 @@ export function BackgroundByRoute() {
       className="pointer-events-none fixed inset-0 -z-10 overflow-hidden"
       aria-hidden
     >
-      <div className="absolute inset-0 bg-gradient-to-br from-amber-50 via-sky-100 to-violet-100" />
-      <div className="absolute inset-0 bg-[radial-gradient(circle_at_20%_30%,rgba(253,224,71,0.35),transparent_45%),radial-gradient(circle_at_80%_20%,rgba(96,165,250,0.35),transparent_40%),radial-gradient(circle_at_50%_85%,rgba(196,181,253,0.4),transparent_42%)]" />
+      <div className="absolute inset-0 bg-gradient-to-br from-sky-200 via-yellow-100 to-pink-100" />
+      <div className="absolute inset-0 bg-[radial-gradient(circle_at_18%_22%,rgba(255,255,255,0.65),transparent_26%),radial-gradient(circle_at_78%_18%,rgba(125,211,252,0.45),transparent_34%),radial-gradient(circle_at_50%_84%,rgba(253,224,71,0.35),transparent_34%),radial-gradient(circle_at_88%_72%,rgba(244,114,182,0.22),transparent_26%)]" />
+      <div className="absolute inset-0 opacity-40 [background-image:linear-gradient(rgba(255,255,255,0.18)_1px,transparent_1px),linear-gradient(90deg,rgba(255,255,255,0.18)_1px,transparent_1px)] [background-size:38px_38px]" />
 
       {decor.map(({ Icon, className, delay }, i) => (
         <motion.div
