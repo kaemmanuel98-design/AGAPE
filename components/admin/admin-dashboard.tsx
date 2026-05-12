@@ -12,6 +12,7 @@ import {
   FileText,
   GraduationCap,
   Headphones,
+  HeartHandshake,
   Home,
   Layers3,
   Loader2,
@@ -300,7 +301,7 @@ export function AdminDashboard({
                 className="h-full"
                 iconClassName="h-7"
                 textClassName="text-xs font-semibold uppercase tracking-[0.2em]"
-                label="Agapé Admin"
+                label="AGAPE Admin"
               />
             </div>
             <h1 className="mt-1 text-3xl font-semibold tracking-tight text-slate-900 dark:text-slate-50">
@@ -346,6 +347,18 @@ export function AdminDashboard({
               <Link href="/planning" className="gap-2">
                 <CalendarDays className="size-4" />
                 Planning
+              </Link>
+            </Button>
+            <Button
+              type="button"
+              variant="outline"
+              size="sm"
+              className="h-9 rounded-full border-slate-300 bg-white/80 px-4 text-slate-800 shadow-sm backdrop-blur-sm dark:border-white/15 dark:bg-white/5 dark:text-slate-100"
+              asChild
+            >
+              <Link href="/admin/assistance" className="gap-2">
+                <HeartHandshake className="size-4" />
+                Assistance
               </Link>
             </Button>
           </div>
