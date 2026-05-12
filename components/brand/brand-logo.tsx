@@ -1,10 +1,7 @@
-import Image from "next/image";
-
-import { cn } from "@/lib/utils";
+import { Logo } from "@/components/ui/Logo";
 
 export function BrandLogo({
   height = 30,
-  priority = false,
   className,
 }: {
   height?: number;
@@ -12,23 +9,15 @@ export function BrandLogo({
   className?: string;
 }) {
   return (
-    <Image
-      src="/branding/logo"
-      alt="Logo Agapé"
-      width={512}
-      height={512}
-      priority={priority}
-      unoptimized
-      className={cn("w-auto object-contain", className)}
-      style={{ height, width: "auto" }}
-    />
+    <span className={className} style={{ height }}>
+      <Logo variant="icon" className="h-full" iconClassName="h-full" label="Agapé" />
+    </span>
   );
 }
 
 export function BrandLockup({
   text = "Agapé",
   logoHeight = 30,
-  priority = false,
   className,
   textClassName,
 }: {
@@ -39,16 +28,14 @@ export function BrandLockup({
   textClassName?: string;
 }) {
   return (
-    <span className={cn("inline-flex items-center gap-2.5", className)}>
-      <BrandLogo height={logoHeight} priority={priority} />
-      <span
-        className={cn(
-          "text-base font-medium tracking-[0.04em] text-current",
-          textClassName,
-        )}
-      >
-        {text}
-      </span>
+    <span style={{ height: logoHeight }}>
+      <Logo
+        variant="full"
+        label={text}
+        className={className}
+        iconClassName="h-full"
+        textClassName={textClassName}
+      />
     </span>
   );
 }

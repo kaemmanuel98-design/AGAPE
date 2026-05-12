@@ -4,6 +4,7 @@ import { Gamepad2, Home, Sparkles } from "lucide-react";
 import { useLocale, useTranslations } from "next-intl";
 
 import { Button } from "@/components/ui/button";
+import { Logo } from "@/components/ui/Logo";
 import { Link } from "@/i18n/navigation";
 import { clearKidsProfile } from "@/lib/actions/kids-session";
 import { KIDS_AVATARS } from "@/lib/kids/avatars";
@@ -41,8 +42,14 @@ export function KidsHomePanel({ kidProfile }: { kidProfile: KidProfile | null })
 
       <div className="space-y-6 rounded-[40px] border border-white/70 bg-gradient-to-br from-white/96 via-sky-50/95 to-yellow-50/95 p-8 shadow-[0_22px_60px_rgba(56,189,248,0.16)] backdrop-blur-md">
         <div className="space-y-2">
-          <div className="inline-flex rounded-full bg-sky-100 px-4 py-1 text-xs font-semibold uppercase tracking-[0.18em] text-sky-700">
-            Agapé Kids
+          <div className="inline-flex h-10 max-w-full items-center rounded-full bg-sky-100 px-3 text-sky-700">
+            <Logo
+              variant="full"
+              className="h-full"
+              iconClassName="h-7"
+              textClassName="text-xs font-semibold uppercase tracking-[0.18em]"
+              label="Agapé Kids"
+            />
           </div>
           <h1 className="text-3xl font-bold tracking-tight text-slate-900 md:text-5xl">{t("title")}</h1>
           <p className="max-w-2xl text-lg leading-8 text-slate-600">{t("subtitle")}</p>

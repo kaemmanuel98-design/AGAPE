@@ -6,6 +6,7 @@ import { useState, useTransition } from "react";
 import { useLocale, useTranslations } from "next-intl";
 
 import { Button } from "@/components/ui/button";
+import { Logo } from "@/components/ui/Logo";
 import { useRouter } from "@/i18n/navigation";
 import {
   deleteChildProfile,
@@ -242,7 +243,15 @@ export function ProfilePage({
             </div>
           )}
           <div>
-            <p className="text-xs font-semibold uppercase tracking-[0.2em] text-slate-500">{t("badge")}</p>
+            <div className="inline-flex h-9 max-w-full items-center rounded-full border border-slate-200/80 bg-white/75 px-3 text-slate-700 shadow-sm dark:border-white/10 dark:bg-white/5 dark:text-slate-200">
+              <Logo
+                variant="full"
+                className="h-full"
+                iconClassName="h-6"
+                textClassName="text-[11px] font-semibold uppercase tracking-[0.2em]"
+                label={t("badge")}
+              />
+            </div>
             <h1 className="mt-1 text-3xl font-semibold tracking-tight text-slate-900 dark:text-slate-50">{t("title")}</h1>
             <p className="mt-2 max-w-2xl text-sm leading-relaxed text-slate-600 dark:text-slate-400">{t("subtitle")}</p>
           </div>

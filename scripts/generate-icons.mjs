@@ -7,7 +7,7 @@ import sharp from "sharp";
 const __dirname = path.dirname(fileURLToPath(import.meta.url));
 const root = path.join(__dirname, "..");
 const outDir = path.join(root, "public", "icons");
-const logoPath = path.join(root, "public", "agape-logo-final.png");
+const logoPath = path.join(root, "public", "favicon.svg");
 
 const sizes = [
   ["icon-72x72.png", 72],

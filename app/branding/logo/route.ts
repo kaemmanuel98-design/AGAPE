@@ -4,6 +4,7 @@ import path from "node:path";
 export const runtime = "nodejs";
 
 const CANDIDATE_LOGOS = [
+  path.join(process.cwd(), "public", "favicon.svg"),
   path.join(process.cwd(), "public", "agape-logo-final.png"),
   path.join(process.cwd(), "public", "agape-logo-final.png.png"),
 ];
@@ -29,10 +30,11 @@ export async function GET() {
   }
 
   const file = await readFile(logoPath);
+  const contentType = logoPath.endsWith(".svg") ? "image/svg+xml" : "image/png";
 
   return new Response(new Uint8Array(file), {
     headers: {
-      "Content-Type": "image/png",
+      "Content-Type": contentType,
       "Cache-Control": "public, max-age=31536000, immutable",
     },
   });

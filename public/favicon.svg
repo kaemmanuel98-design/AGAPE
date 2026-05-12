@@ -1,0 +1,20 @@
+<svg width="64" height="64" viewBox="0 0 64 64" fill="none" xmlns="http://www.w3.org/2000/svg">
+  <defs>
+    <linearGradient id="agape-bg" x1="8" y1="6" x2="56" y2="58" gradientUnits="userSpaceOnUse">
+      <stop offset="0" stop-color="#111827" />
+      <stop offset="1" stop-color="#1D4ED8" />
+    </linearGradient>
+    <linearGradient id="agape-heart" x1="26" y1="24" x2="40" y2="41" gradientUnits="userSpaceOnUse">
+      <stop offset="0" stop-color="#FFE7A3" />
+      <stop offset="1" stop-color="#F4C95D" />
+    </linearGradient>
+  </defs>
+
+  <rect x="4" y="4" width="56" height="56" rx="18" fill="url(#agape-bg)" />
+  <rect x="5" y="5" width="54" height="54" rx="17" fill="none" stroke="#FFFFFF" stroke-opacity="0.12" />
+
+  <path d="M21 38.5C21 31.4 25.7 26 32 26" stroke="#7CC6FF" stroke-width="4.5" stroke-linecap="round" />
+  <path d="M43 38.5C43 31.4 38.3 26 32 26" stroke="#F8FAFC" stroke-width="4.5" stroke-linecap="round" />
+  <path d="M17.5 42.5C21.4 47.6 26 50 32 50C38 50 42.6 47.6 46.5 42.5" stroke="#E2E8F0" stroke-width="4" stroke-linecap="round" />
+  <path d="M32 41.4L25.9 35.4C24.4 33.9 24.4 31.5 25.9 30C27.4 28.5 29.8 28.5 31.3 30L32 30.7L32.7 30C34.2 28.5 36.6 28.5 38.1 30C39.6 31.5 39.6 33.9 38.1 35.4L32 41.4Z" fill="url(#agape-heart)" />
+</svg>

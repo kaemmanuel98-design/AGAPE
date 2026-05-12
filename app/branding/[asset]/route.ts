@@ -6,6 +6,7 @@ import sharp from "sharp";
 export const runtime = "nodejs";
 
 const LOGO_PATHS = [
+  path.join(process.cwd(), "public", "favicon.svg"),
   path.join(process.cwd(), "public", "agape-logo-final.png"),
   path.join(process.cwd(), "public", "agape-logo-final.png.png"),
 ];

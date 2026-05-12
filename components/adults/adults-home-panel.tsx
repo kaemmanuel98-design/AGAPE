@@ -5,6 +5,7 @@ import { BookOpen, BookOpenText, CalendarDays, ChevronDown, Newspaper } from "lu
 import { useTranslations } from "next-intl";
 
 import { Button } from "@/components/ui/button";
+import { Logo } from "@/components/ui/Logo";
 import { Link } from "@/i18n/navigation";
 
 const STRONG_LEXICON_URL =
@@ -18,6 +19,15 @@ export function AdultsHomeHero() {
   return (
     <div className="space-y-6 rounded-[var(--radius)] border border-border bg-card/50 p-8 shadow-lg backdrop-blur-md">
       <div className="space-y-2">
+        <div className="inline-flex h-10 max-w-full items-center rounded-full border border-white/10 bg-white/5 px-3 text-slate-100/90">
+          <Logo
+            variant="full"
+            className="h-full"
+            iconClassName="h-7"
+            textClassName="text-sm font-semibold tracking-[0.12em]"
+            label="Agapé Adults"
+          />
+        </div>
         <h1 className="text-3xl font-bold tracking-tight text-foreground md:text-4xl">
           {t("title")}
         </h1>

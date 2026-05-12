@@ -45,6 +45,7 @@ export async function generateMetadata({
     },
     icons: {
       icon: [
+        { url: "/favicon.svg", type: "image/svg+xml" },
         { url: "/branding/favicon-16x16.png", sizes: "16x16", type: "image/png" },
         { url: "/branding/favicon-32x32.png", sizes: "32x32", type: "image/png" },
         { url: "/branding/icon-192x192.png", sizes: "192x192", type: "image/png" },
@@ -56,7 +57,7 @@ export async function generateMetadata({
           type: "image/png",
         },
       ],
-      shortcut: "/branding/favicon-32x32.png",
+      shortcut: "/favicon.svg",
     },
     other: {
       "msapplication-TileColor": "#0F172A",
