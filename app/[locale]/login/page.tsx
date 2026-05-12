@@ -26,11 +26,8 @@ export default async function LoginPage({
   const { locale } = await params;
   const sp = await searchParams;
   const next = Array.isArray(sp.next) ? sp.next[0] : sp.next;
-  const isAdminAccess = typeof next === "string" && next.includes("/admin");
-
-  if (!isAdminAccess) {
-    redirect({ href: "/", locale });
-  }
+  const nextPath = typeof next === "string" && next.startsWith("/") ? next : `/${locale}/profile`;
+  const isAdminAccess = nextPath.includes("/admin");
 
   const supabase = await createSupabaseServerClient();
   const {
@@ -45,7 +42,7 @@ export default async function LoginPage({
       .maybeSingle();
 
     redirect({
-      href: profile?.role === "super-admin" ? "/admin" : "/",
+      href: isAdminAccess && profile?.role === "super-admin" ? "/admin" : "/profile",
       locale,
     });
   }

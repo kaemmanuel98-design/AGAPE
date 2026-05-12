@@ -39,7 +39,7 @@ export function LoginForm({ embedded = false }: { embedded?: boolean }) {
 
   const nextPath = useMemo(() => {
     if (nextRaw && nextRaw.startsWith("/")) return nextRaw;
-    return `/${locale}`;
+    return `/${locale}/profile`;
   }, [nextRaw, locale]);
 
   const [passwordMode, setPasswordMode] = useState<PasswordMode>("sign_up");

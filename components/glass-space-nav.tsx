@@ -7,6 +7,7 @@ import { useTranslations } from "next-intl";
 import { cn } from "@/lib/utils";
 import { Link, usePathname } from "@/i18n/navigation";
 
+import { NavAccountButton } from "./auth/nav-account-button";
 import { LocaleSwitcher } from "./locale-switcher";
 
 const pillTransition = {
@@ -44,7 +45,10 @@ export function GlassSpaceNav() {
           >
             {t("brand")}
           </Link>
-          <LocaleSwitcher />
+          <div className="flex items-center gap-2">
+            <NavAccountButton />
+            <LocaleSwitcher />
+          </div>
         </nav>
       </header>
     );
@@ -148,6 +152,7 @@ export function GlassSpaceNav() {
         </LayoutGroup>
 
         <div className="relative z-10 flex shrink-0 flex-wrap items-center justify-end gap-2 sm:flex-nowrap">
+          <NavAccountButton variantKids={isKids} />
           <Link
             href="/calendar"
             prefetch

@@ -9,9 +9,10 @@
     "admin": "Beheer",
     "brand": "Agapé",
     "locale": "Taal",
-    "calendar": "Kalender",
+    "calendar": "Broederlijke kalender",
     "login": "Inloggen",
-    "logout": "Afmelden"
+    "logout": "Afmelden",
+    "profile": "Mijn profiel"
   },
   "home": {
     "adults": {
@@ -20,11 +21,15 @@
       "cta": "Bekijk het nieuws",
       "ctaResources": "Ontdek inhoud",
       "academyLink": "Academy",
-      "calendarLink": "Kalender",
+      "calendarLink": "Broederlijke kalender",
       "planningLink": "Planning",
       "strongCtaShort": "Strong-bijbel",
       "newsTitle": "Nieuws van de gemeente",
       "strongCta": "Strong bijbel (lexicon)",
+      "birthdayBadge": "Verjaardag vandaag",
+      "birthdayBannerSingle": "Vandaag is het de verjaardag van {name}!",
+      "birthdayBannerMultiple": "Vandaag vieren we {names}!",
+      "birthdayBannerHint": "Neem even de tijd om een kort woord van bemoediging of zegen te sturen.",
       "newsItems": [
         {
           "title": "Zondagsdienst",
@@ -58,6 +63,9 @@
   "discover": {
     "heading": "Ontdekken",
     "subheading": "Video’s en documenten voor jouw ruimte.",
+    "kidsHeading": "Mijn Verhalen",
+    "kidsSubheading": "Alle kinderverhalen, video’s en documenten die in de admin worden toegevoegd, verschijnen hier.",
+    "kidsEmpty": "Je verhalen verschijnen hier binnenkort. Vraag een volwassene om inhoud toe te voegen via de adminruimte.",
     "watch": "Bekijken",
     "openPdf": "PDF openen",
     "badgeVideo": "Video",
@@ -95,6 +103,31 @@
       "generic": "Er ging iets mis. Probeer opnieuw of controleer Supabase."
     }
   },
+  "profile": {
+    "badge": "Ledenaccount",
+    "title": "Mijn profiel",
+    "subtitle": "Vul eenvoudig de gegevens van het lid in en beheer daarna de gekoppelde kinderen op dezelfde pagina.",
+    "signOut": "Afmelden",
+    "myProfile": "Profiel volwassene",
+    "myProfileHint": "Naam, voornamen, telefoonnummer, adres en profielfoto.",
+    "childrenTitle": "Profielen van kinderen",
+    "childrenHint": "Voeg elk kind toe of werk het hier bij.",
+    "childProfile": "Kinderprofiel",
+    "firstNames": "Voornamen",
+    "lastName": "Naam",
+    "birthDate": "Verjaardagsdatum",
+    "phone": "Telefoonnummer",
+    "address": "Adres",
+    "avatarUrl": "Foto-URL (optioneel)",
+    "profilePhoto": "Profielfoto",
+    "saveProfile": "Mijn profiel opslaan",
+    "saveChild": "Kind opslaan",
+    "deleteChild": "Verwijderen",
+    "addChild": "Kind toevoegen",
+    "childrenEmpty": "Nog geen kind toegevoegd.",
+    "saved": "Profiel opgeslagen.",
+    "saveError": "Profiel kon niet worden opgeslagen."
+  },
   "kidsLogin": {
     "title": "Laten we gaan!",
     "subtitle": "Kies een avatar en je voornaam — geen moeilijk wachtwoord.",
@@ -130,25 +163,43 @@
       "body": "Binnenkort: bijbelverhalen om naar te luisteren. Kom snel terug!"
     }
   },
+  "kidsPrayer": {
+    "badge": "Gebed",
+    "title": "Een klein berichtje voor Jezus",
+    "subtitle": "Wil je een gebed? Schrijf gewoon je naam en wat er in je hart leeft.",
+    "cta": "Ik wil een gebed",
+    "nameLabel": "Je naam",
+    "namePlaceholder": "Bijv. Sarah",
+    "heartLabel": "Wat leeft er in je hart",
+    "heartPlaceholder": "Ik kan mijn blijdschap, angst, vraag of dankje opschrijven...",
+    "submit": "Verzenden",
+    "cancel": "Sluiten",
+    "saved": "Dank je, je gebedsverzoek is verzonden.",
+    "missingFields": "Schrijf eerst je naam en bericht.",
+    "error": "Verzenden lukt nu niet. Probeer het zo meteen opnieuw."
+  },
   "calendar": {
-    "title": "Kalender",
-    "subtitle": "Verjaardagen en gebeurtenissen door de gemeenschap.",
-    "prevMonth": "Vorige maand",
-    "nextMonth": "Volgende maand",
-    "addBirthday": "Verjaardag toevoegen",
-    "addBirthdayHint": "Gebeurtenissen worden opgeslagen in Supabase (tabel events). Controleer uw RLS-beleid.",
-    "birthdayLabel": "Label (optioneel)",
-    "birthdayPlaceholder": "Bv. verjaardag van Marie",
-    "birthdayDate": "Datum",
-    "save": "Opslaan",
+    "badge": "Gemeenschapsleven",
+    "title": "Broederlijke kalender",
+    "subtitle": "Zie welke leden deze maand jarig zijn en stuur hen een kort zegenwoord.",
+    "monthListTitle": "Verjaardagen deze maand",
+    "monthListSubtitle": "Deze lijst gebruikt de verjaardagsdata die in de ledenprofielen zijn opgeslagen.",
+    "emptyThisMonth": "Voor deze maand is nog geen verjaardag van een lid ingevuld.",
+    "congratulate": "Feliciteren",
+    "congratsTitle": "Feliciteer {name}",
+    "congratsSubtitle": "Schrijf een kort bericht dat voor deze persoon wordt opgeslagen.",
+    "senderName": "Je naam (optioneel)",
+    "senderNamePlaceholder": "Bijv. Emmanuel",
+    "messageLabel": "Bericht",
+    "messagePlaceholder": "Gelukkige verjaardag! Moge de Heer je overvloedig zegenen.",
+    "sendCongrats": "Bericht verzenden",
     "cancel": "Annuleren",
-    "saving": "Bezig met opslaan…",
-    "saveSuccess": "Verjaardag opgeslagen.",
-    "saveError": "Opslaan mislukt. Controleer Supabase en invoerrechten.",
-    "loadError": "Gebeurtenissen konden niet worden geladen.",
-    "configWarning": "Stel NEXT_PUBLIC_SUPABASE_URL en NEXT_PUBLIC_SUPABASE_ANON_KEY in .env.local in om de kalender te activeren.",
-    "defaultBirthdayTitle": "Verjaardag",
-    "eventFallback": "Gebeurtenis"
+    "congratsSuccess": "Je felicitatiebericht is verzonden.",
+    "congratsInvalid": "Vul minstens een bericht in voordat je verzendt.",
+    "congratsError": "De felicitatie kon nu niet worden verzonden.",
+    "quickMessage1": "Gelukkige verjaardag! Moge God je dag vullen met vrede en vreugde.",
+    "quickMessage2": "Gezegende verjaardag! Dank je dat je deel uitmaakt van de Agape-familie.",
+    "quickMessage3": "Een mooi nieuw levensjaar! Moge de Heer je sterken en bewaren."
   },
   "admin": {
     "dashboard": {

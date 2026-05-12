@@ -20,7 +20,7 @@ export function KidsHomePanel({ kidProfile }: { kidProfile: KidProfile | null })
   return (
     <div className="space-y-8">
       {kidProfile ? (
-        <div className="flex flex-wrap items-center justify-between gap-4 rounded-[var(--radius)] border border-sky-200 bg-gradient-to-r from-sky-50 to-white px-5 py-4 shadow-sm">
+        <div className="flex flex-wrap items-center justify-between gap-4 rounded-[32px] border border-sky-200/90 bg-gradient-to-r from-white/95 via-sky-50 to-yellow-50 px-5 py-4 shadow-[0_16px_40px_rgba(56,189,248,0.12)]">
           <p className="flex items-center gap-3 text-xl font-bold tracking-tight text-slate-900 md:text-2xl">
             <span className="text-4xl leading-none" aria-hidden>
               {emoji}
@@ -39,28 +39,31 @@ export function KidsHomePanel({ kidProfile }: { kidProfile: KidProfile | null })
         </div>
       ) : null}
 
-      <div className="space-y-6 rounded-[var(--radius)] border border-sky-200/90 bg-white/80 p-8 shadow-[0_16px_48px_rgba(15,23,42,0.08)] backdrop-blur-md">
+      <div className="space-y-6 rounded-[40px] border border-white/70 bg-gradient-to-br from-white/96 via-sky-50/95 to-yellow-50/95 p-8 shadow-[0_22px_60px_rgba(56,189,248,0.16)] backdrop-blur-md">
         <div className="space-y-2">
-          <h1 className="text-3xl font-bold tracking-tight text-slate-900 md:text-4xl">{t("title")}</h1>
-          <p className="max-w-xl text-lg text-slate-600">{t("subtitle")}</p>
+          <div className="inline-flex rounded-full bg-sky-100 px-4 py-1 text-xs font-semibold uppercase tracking-[0.18em] text-sky-700">
+            Agapé Kids
+          </div>
+          <h1 className="text-3xl font-bold tracking-tight text-slate-900 md:text-5xl">{t("title")}</h1>
+          <p className="max-w-2xl text-lg leading-8 text-slate-600">{t("subtitle")}</p>
         </div>
 
         <div className="flex flex-col gap-3 sm:flex-row sm:flex-wrap">
-          <Button size="lg" type="button" asChild className="rounded-[var(--radius)] shadow-md">
+          <Button size="lg" type="button" asChild className="rounded-[28px] bg-sky-600 shadow-[0_10px_30px_rgba(2,132,199,0.28)] hover:bg-sky-700">
             <Link href="/kids/jeux">
               <Gamepad2 className="size-6 shrink-0 sm:size-5" aria-hidden />
               <span className="text-lg font-semibold sm:text-base">{t("gamesCta")}</span>
             </Link>
           </Button>
 
-          <Button size="lg" variant="secondary" type="button" asChild className="rounded-[var(--radius)] shadow-md">
+          <Button size="lg" variant="secondary" type="button" asChild className="rounded-[28px] border border-yellow-200 bg-yellow-100 text-amber-900 shadow-[0_10px_26px_rgba(250,204,21,0.24)] hover:bg-yellow-200">
             <Link href="/kids/histoires">
               <Sparkles className="size-6 shrink-0 sm:size-5" aria-hidden />
               <span className="text-lg font-semibold sm:text-base">{t("storiesCta")}</span>
             </Link>
           </Button>
 
-          <Button variant="outline" size="lg" type="button" asChild className="rounded-[var(--radius)] border-sky-300 bg-white/90 text-slate-800 shadow-sm">
+          <Button variant="outline" size="lg" type="button" asChild className="rounded-[28px] border-pink-200 bg-white/90 text-slate-800 shadow-sm hover:bg-pink-50">
             <Link href="/">
               <Home className="size-5" aria-hidden />
               {t("backAdults")}

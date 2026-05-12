@@ -11,6 +11,7 @@ export async function middleware(request: NextRequest) {
 
   const pathname = request.nextUrl.pathname;
   const adminMatch = pathname.match(/^\/(fr|en|nl)\/admin(?:\/|$)/);
+  const profileMatch = pathname.match(/^\/(fr|en|nl)\/profile(?:\/|$)/);
 
   const url = process.env.NEXT_PUBLIC_SUPABASE_URL;
   const anon = process.env.NEXT_PUBLIC_SUPABASE_ANON_KEY;
@@ -42,14 +43,15 @@ export async function middleware(request: NextRequest) {
     });
   }
 
-  if (adminMatch) {
-    const locale = adminMatch[1];
+  if (adminMatch || profileMatch) {
+    const locale = (adminMatch?.[1] ?? profileMatch?.[1]) as string;
     const origin = request.nextUrl.origin;
 
     if (!user) {
+      const nextPath = adminMatch ? `/${locale}/admin` : `/${locale}/profile`;
       const login = NextResponse.redirect(
         new URL(
-          `/${locale}/login?next=${encodeURIComponent(`/${locale}/admin`)}`,
+          `/${locale}/login?next=${encodeURIComponent(nextPath)}`,
           origin,
         ),
       );
@@ -57,16 +59,18 @@ export async function middleware(request: NextRequest) {
       return login;
     }
 
-    const { data: profile } = await supabase
-      .from("profiles")
-      .select("role")
-      .eq("id", user.id)
-      .maybeSingle();
+    if (adminMatch) {
+      const { data: profile } = await supabase
+        .from("profiles")
+        .select("role")
+        .eq("id", user.id)
+        .maybeSingle();
 
-    if (profile?.role !== "super-admin") {
-      const home = NextResponse.redirect(new URL(`/${locale}`, origin));
-      mergeCookies(response, home);
-      return home;
+      if (profile?.role !== "super-admin") {
+        const home = NextResponse.redirect(new URL(`/${locale}`, origin));
+        mergeCookies(response, home);
+        return home;
+      }
     }
   }
 
