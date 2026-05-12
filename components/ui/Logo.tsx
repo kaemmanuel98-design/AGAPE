@@ -91,7 +91,7 @@ export function Logo({
   className,
   iconClassName,
   textClassName,
-  label = "Agapé",
+  label = "AGAPE",
 }: LogoProps) {
   if (variant === "icon") {
     return (

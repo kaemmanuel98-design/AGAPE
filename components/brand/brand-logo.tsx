@@ -13,13 +13,13 @@ export function BrandLogo({
       className={className}
       style={{ height, width: height, display: "inline-flex", overflow: "hidden", verticalAlign: "middle" }}
     >
-      <Logo variant="icon" className="size-full" iconClassName="size-full" label="Agapé" />
+      <Logo variant="icon" className="size-full" iconClassName="size-full" label="AGAPE" />
     </span>
   );
 }
 
 export function BrandLockup({
-  text = "Agapé",
+  text = "AGAPE",
   logoHeight = 30,
   className,
   textClassName,

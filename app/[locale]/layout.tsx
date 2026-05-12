@@ -40,7 +40,7 @@ export async function generateMetadata({
     manifest: "/manifest.json",
     appleWebApp: {
       capable: true,
-      title: "Agapé",
+      title: "AGAPE",
       statusBarStyle: "black-translucent",
     },
     icons: {
