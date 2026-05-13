@@ -53,7 +53,17 @@
     "listenHeading": "Naar de les luisteren",
     "audioOpenPlayer": "Audiospeler openen",
     "audioTtsLabel": "Voorlezen met spraaksynthese",
-    "listenOnlyHint": "Deze les is vooral om naar te luisteren — gebruik de speler hieronder."
+    "listenOnlyHint": "Deze les is vooral om naar te luisteren — gebruik de speler hieronder.",
+    "featuredSectionTitle": "In de kijker",
+    "featuredBadge": "Openbaring",
+    "featuredGynoskoSubtitle": "God kennen voorbij de letter — een meeslepende leeservaring.",
+    "featuredRevelationLead": "Ontdek de nieuwe openbaring van Ange Emmanuel KOUAME.",
+    "featuredCta": "Lezing openen",
+    "readerProgressLabel": "Voortgang in het manuscript",
+    "readerShareButton": "Deze lezing delen",
+    "readerShareCopied": "Link gekopieerd — plak hem in je bericht.",
+    "readerShareTitle": "GYNOSKO — AGAPE Academy",
+    "readerShareBody": "Ik deel de lezing GYNOSKO met je op AGAPE."
   },
   "bibleStrong": {
     "title": "Bible Strong",

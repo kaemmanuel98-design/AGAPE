@@ -53,7 +53,17 @@
     "listenHeading": "Écouter la leçon",
     "audioOpenPlayer": "Ouvrir le lecteur audio",
     "audioTtsLabel": "Lire avec la synthèse vocale",
-    "listenOnlyHint": "Cette leçon est surtout pensée pour l'écoute ; tu peux utiliser le lecteur ci-dessous."
+    "listenOnlyHint": "Cette leçon est surtout pensée pour l'écoute ; tu peux utiliser le lecteur ci-dessous.",
+    "featuredSectionTitle": "À la une",
+    "featuredBadge": "Révélation",
+    "featuredGynoskoSubtitle": "Connaître Dieu, au-delà de la lettre — une lecture immersive sur fond papier.",
+    "featuredRevelationLead": "Découvrez la nouvelle révélation d'Ange Emmanuel KOUAME.",
+    "featuredCta": "Ouvrir la lecture",
+    "readerProgressLabel": "Progression dans le manuscrit",
+    "readerShareButton": "Partager cette lecture",
+    "readerShareCopied": "Lien copié — tu peux le coller dans ton message.",
+    "readerShareTitle": "GYNOSKO — Academy AGAPE",
+    "readerShareBody": "Je te partage la lecture GYNOSKO sur AGAPE."
   },
   "bibleStrong": {
     "title": "Bible Strong",

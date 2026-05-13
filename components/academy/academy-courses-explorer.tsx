@@ -47,27 +47,30 @@ function matchesFilterTab(lesson: LessonRow, tab: AcademyFilterTab) {
 
 type Props = {
   lessons: LessonRow[];
+  /** Retire une entrée de la grille (ex. livre déjà affiché dans « À la une »). */
+  excludeLessonId?: string | null;
 };
 
 /**
  * Grille Academy + recherche + onglets [Tous | Vidéos | Articles | Livres].
  * Les entrées `livre` utilisent une carte « format livre » (couverture dominante + auteur).
  */
-export function AcademyCoursesExplorer({ lessons }: Props) {
+export function AcademyCoursesExplorer({ lessons, excludeLessonId }: Props) {
   const t = useTranslations("academy");
   const [query, setQuery] = useState("");
   const [tab, setTab] = useState<AcademyFilterTab>("all");
 
   const filtered = useMemo(() => {
+    const base = excludeLessonId ? lessons.filter((l) => l.id !== excludeLessonId) : lessons;
     const q = query.trim().toLowerCase();
-    return lessons.filter((l) => {
+    return base.filter((l) => {
       if (!matchesFilterTab(l, tab)) return false;
       if (!q) return true;
       const author = l.author?.toLowerCase() ?? "";
       const hay = `${l.title} ${l.module_title} ${l.level} ${author}`.toLowerCase();
       return hay.includes(q);
     });
-  }, [lessons, query, tab]);
+  }, [lessons, query, tab, excludeLessonId]);
 
   const tabBtn = (id: AcademyFilterTab, label: string) => (
     <button

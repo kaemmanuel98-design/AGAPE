@@ -4,11 +4,13 @@ import { getTranslations } from "next-intl/server";
 import { notFound } from "next/navigation";
 
 import { AcademyBookReadingSheet } from "@/components/academy/academy-book-reading-sheet";
+import { BookReader } from "@/components/academy/BookReader";
 import { LessonArticleBody } from "@/components/academy/lesson-article-body";
 import { AccessibleAudioPlayer } from "@/components/audio/accessible-audio-player";
 import { Button } from "@/components/ui/button";
 import { Link } from "@/i18n/navigation";
 import { getLessonById } from "@/lib/academy/queries";
+import { isGynoskoLesson } from "@/lib/academy/gynosko";
 import type { LessonKind } from "@/lib/academy/types";
 import { getLessonVideoEmbedUrl } from "@/lib/academy/video";
 
@@ -56,7 +58,7 @@ export default async function LessonPage({
   }
 
   if (lesson.content_kind === "livre") {
-    return <AcademyBookReadingSheet lesson={lesson} />;
+    return isGynoskoLesson(lesson) ? <BookReader lesson={lesson} /> : <AcademyBookReadingSheet lesson={lesson} />;
   }
 
   const embedUrl = getLessonVideoEmbedUrl(lesson.video_url);

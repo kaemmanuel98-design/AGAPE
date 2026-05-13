@@ -84,3 +84,30 @@ body {
   letter-spacing: 0.18em;
   text-transform: uppercase;
 }
+
+/* --- BookReader GYNOSKO : style typographique livre (lettrine) --- */
+.book-reader-gynosko .drop-cap {
+  float: left;
+  margin-right: 0.35rem;
+  margin-top: 0.15rem;
+  line-height: 0.85;
+  font-size: 3.25rem;
+  font-weight: 600;
+  color: rgb(120 53 15 / 0.9);
+}
+
+@media (min-width: 640px) {
+  .book-reader-gynosko .drop-cap {
+    font-size: 3.75rem;
+  }
+}
+
+.dark .book-reader-gynosko .drop-cap {
+  color: rgb(251 191 36 / 0.85);
+}
+
+.book-reader-gynosko .first-para-drop-cap-wrap::after {
+  content: "";
+  display: table;
+  clear: both;
+}
