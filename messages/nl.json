@@ -10,6 +10,8 @@
     "brand": "AGAPE",
     "locale": "Taal",
     "calendar": "Broederlijke kalender",
+    "academy": "Academie",
+    "planning": "Planning",
     "login": "Inloggen",
     "logout": "Afmelden",
     "profile": "Mijn profiel"
@@ -20,7 +22,7 @@
       "subtitle": "Inhoud en trajecten voor begeleiders.",
       "cta": "Bekijk het nieuws",
       "ctaResources": "Ontdek inhoud",
-      "academyLink": "Academy",
+      "academyLink": "Academie",
       "calendarLink": "Broederlijke kalender",
       "planningLink": "Planning",
       "strongCtaShort": "Strong-bijbel",
