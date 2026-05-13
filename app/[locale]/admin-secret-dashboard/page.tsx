@@ -1,7 +1,6 @@
 import type { Metadata } from "next";
 
 import { MembersRegistrationDashboard } from "@/components/admin/MembersRegistrationDashboard";
-import { SecretAdminLogin } from "@/components/admin/SecretAdminLogin";
 import { listMembersRegistration } from "@/lib/members/queries";
 import { getCurrentProfile } from "@/lib/profile/queries";
 import { redirect } from "@/i18n/navigation";
@@ -25,11 +24,7 @@ export default async function AdminSecretDashboardPage({
   const { userId, profile } = await getCurrentProfile();
 
   if (!userId) {
-    return (
-      <div className="mx-auto max-w-5xl px-4 py-16 sm:py-20">
-        <SecretAdminLogin />
-      </div>
-    );
+    redirect({ href: "/", locale });
   }
 
   if (profile?.role !== "super-admin") {

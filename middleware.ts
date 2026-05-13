@@ -56,18 +56,22 @@ export async function middleware(request: NextRequest) {
     const locale = adminSecretMatch[1] as string;
     const origin = request.nextUrl.origin;
 
-    if (user) {
-      const { data: profile } = await supabase
-        .from("profiles")
-        .select("role")
-        .eq("id", user.id)
-        .maybeSingle();
+    if (!user) {
+      const home = NextResponse.redirect(new URL(`/${locale}`, origin));
+      mergeCookies(response, home);
+      return home;
+    }
 
-      if (profile?.role !== "super-admin") {
-        const home = NextResponse.redirect(new URL(`/${locale}`, origin));
-        mergeCookies(response, home);
-        return home;
-      }
+    const { data: profile } = await supabase
+      .from("profiles")
+      .select("role")
+      .eq("id", user.id)
+      .maybeSingle();
+
+    if (profile?.role !== "super-admin") {
+      const home = NextResponse.redirect(new URL(`/${locale}`, origin));
+      mergeCookies(response, home);
+      return home;
     }
 
     return response;
