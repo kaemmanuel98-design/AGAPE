@@ -17,7 +17,8 @@ export function AdultsHomeHero() {
   const t = useTranslations("home.adults");
 
   return (
-    <div className="agape-brand-surface space-y-6 rounded-[var(--radius)] p-8 text-white">
+    <div className="agape-brand-surface mt-4 space-y-6 scroll-mt-32 rounded-[var(--radius)] p-8 text-white sm:mt-3">
+      {/* mt-4 / scroll-mt : marge sous le header fixe pour que le titre « Espace adultes » ne colle pas à la barre AGAPE */}
       <div className="space-y-2">
         <div className="agape-brand-badge h-10 max-w-full px-3">
           <Logo
