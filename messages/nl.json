@@ -10,7 +10,8 @@
     "brand": "AGAPE",
     "locale": "Taal",
     "calendar": "Broederlijke kalender",
-    "login": "Inloggen",
+    "signupAgape": "Inschrijven bij AGAPE",
+    "needHelp": "Hulp nodig?",
     "logout": "Afmelden",
     "profile": "Mijn profiel"
   },
@@ -18,6 +19,8 @@
     "adults": {
       "title": "Ruimte voor volwassenen",
       "subtitle": "Inhoud en trajecten voor begeleiders.",
+      "signupAgape": "Inschrijven bij AGAPE",
+      "needHelp": "Hulp nodig?",
       "cta": "Bekijk het nieuws",
       "ctaResources": "Ontdek inhoud",
       "academyLink": "Academy",

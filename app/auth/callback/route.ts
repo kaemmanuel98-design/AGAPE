@@ -29,7 +29,7 @@ export async function GET(request: NextRequest) {
 
   if (!code) {
     const loc = extractLocale(sanitizeDestination(rawNext));
-    return NextResponse.redirect(new URL(`/${loc}/login`, url.origin));
+    return NextResponse.redirect(new URL(`/${loc}`, url.origin));
   }
 
   const cookieStore = await cookies();
@@ -43,7 +43,7 @@ export async function GET(request: NextRequest) {
   const supabaseAnonKey = process.env.NEXT_PUBLIC_SUPABASE_ANON_KEY;
 
   if (!supabaseUrl || !supabaseAnonKey) {
-    return NextResponse.redirect(new URL(`/${locale}/login`, url.origin));
+    return NextResponse.redirect(new URL(`/${locale}`, url.origin));
   }
 
   const supabase = createServerClient(supabaseUrl, supabaseAnonKey, {
@@ -62,9 +62,7 @@ export async function GET(request: NextRequest) {
   const { error } = await supabase.auth.exchangeCodeForSession(code);
 
   if (error) {
-    return NextResponse.redirect(
-      new URL(`/fr/login?error=${encodeURIComponent(error.message)}`, url.origin),
-    );
+    return NextResponse.redirect(new URL(`/fr`, url.origin));
   }
 
   const {

@@ -1,7 +1,7 @@
 "use client";
 
 import { LayoutGroup, motion } from "framer-motion";
-import { Calendar, Shield, Sparkles, Users } from "lucide-react";
+import { Calendar, Sparkles, Users } from "lucide-react";
 import { useTranslations } from "next-intl";
 
 import { Logo } from "@/components/ui/Logo";
@@ -25,6 +25,7 @@ export function GlassSpaceNav() {
     pathname === "/admin" || pathname.startsWith("/admin/");
   const isCalendar =
     pathname === "/calendar" || pathname.startsWith("/calendar/");
+  const isSecretManagement = pathname.includes("management-agape-secret");
 
   const shellClass = cn(
     "grid grid-cols-[minmax(0,1fr)_auto] items-center gap-x-3 gap-y-3 rounded-[24px] px-3 py-3 backdrop-blur-xl backdrop-saturate-150 sm:flex sm:flex-nowrap sm:items-center sm:justify-between sm:px-4",
@@ -32,6 +33,31 @@ export function GlassSpaceNav() {
       ? "border border-sky-300/50 bg-white/45 text-slate-900 shadow-[0_10px_36px_rgba(15,23,42,0.12)]"
       : "border border-white/20 bg-white/10 text-foreground shadow-[0_8px_32px_rgba(15,23,42,0.35)]",
   );
+
+  if (isSecretManagement) {
+    return (
+      <header className="fixed inset-x-0 top-0 z-50 px-4 pt-4">
+        <nav
+          className="mx-auto flex max-w-4xl items-center justify-between rounded-[24px] border border-slate-200/90 bg-white/95 px-3 py-3 shadow-sm backdrop-blur-xl sm:px-4"
+          aria-label={t("brand")}
+        >
+          <Link
+            href="/"
+            className="flex min-w-0 max-w-[11rem] items-center overflow-hidden text-lg font-semibold tracking-tight text-slate-900 sm:max-w-none"
+          >
+            <Logo
+              variant="full"
+              label={t("brand")}
+              className="h-8 max-w-full sm:h-9"
+              iconClassName="h-full"
+              textClassName="text-[0.95rem] font-semibold uppercase tracking-[0.12em] sm:text-base"
+            />
+          </Link>
+          <LocaleSwitcher />
+        </nav>
+      </header>
+    );
+  }
 
   if (isAdmin) {
     return (
@@ -58,7 +84,6 @@ export function GlassSpaceNav() {
             />
           </Link>
           <div className="flex items-center gap-2">
-            <NavAccountButton />
             <LocaleSwitcher />
           </div>
         </nav>
@@ -185,20 +210,6 @@ export function GlassSpaceNav() {
             title={t("calendar")}
           >
             <Calendar className="size-5" aria-hidden />
-          </Link>
-          <Link
-            href="/admin"
-            prefetch
-            className={cn(
-              "hidden size-10 items-center justify-center rounded-[var(--radius)] transition-colors min-[380px]:flex",
-              isKids
-                ? "border border-sky-300/55 bg-white/60 text-slate-700 hover:bg-white/85"
-                : "border border-white/20 bg-white/5 text-muted-foreground hover:bg-white/10 hover:text-foreground",
-            )}
-            aria-label={t("admin")}
-            title={t("admin")}
-          >
-            <Shield className="size-5" aria-hidden />
           </Link>
           <LocaleSwitcher />
         </div>

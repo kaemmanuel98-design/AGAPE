@@ -10,7 +10,8 @@
     "brand": "AGAPE",
     "locale": "Language",
     "calendar": "Fraternal calendar",
-    "login": "Sign in",
+    "signupAgape": "Sign up for AGAPE",
+    "needHelp": "Need help?",
     "logout": "Sign out",
     "profile": "My profile"
   },
@@ -18,6 +19,8 @@
     "adults": {
       "title": "Adults space",
       "subtitle": "Content and journeys designed for caregivers.",
+      "signupAgape": "Sign up for AGAPE",
+      "needHelp": "Need help?",
       "cta": "View church news",
       "ctaResources": "Discover content",
       "academyLink": "Academy",

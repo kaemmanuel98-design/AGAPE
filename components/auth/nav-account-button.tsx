@@ -1,12 +1,10 @@
 "use client";
 
-import { LogIn, UserRound } from "lucide-react";
-import { useEffect, useState } from "react";
-import { useLocale, useTranslations } from "next-intl";
+import { HeartHandshake, UserPlus } from "lucide-react";
+import { useTranslations } from "next-intl";
 
 import { Button } from "@/components/ui/button";
 import { Link, usePathname } from "@/i18n/navigation";
-import { createSupabaseBrowserClient } from "@/lib/supabase/client";
 import { cn } from "@/lib/utils";
 
 type Props = {
@@ -15,54 +13,36 @@ type Props = {
 
 export function NavAccountButton({ variantKids }: Props) {
   const t = useTranslations("nav");
-  const locale = useLocale();
   const pathname = usePathname();
-  const [session, setSession] = useState(false);
 
-  useEffect(() => {
-    const supabase = createSupabaseBrowserClient();
+  if (pathname.includes("management-agape-secret")) return null;
 
-    void supabase.auth.getSession().then(({ data }) => {
-      setSession(Boolean(data.session));
-    });
-
-    const {
-      data: { subscription },
-    } = supabase.auth.onAuthStateChange((_event, nextSession) => {
-      setSession(Boolean(nextSession));
-    });
-
-    return () => subscription.unsubscribe();
-  }, []);
-
-  if (pathname === "/login") {
-    return null;
-  }
-
-  const tone = cn(
-    "h-10 shrink-0 gap-2 rounded-[var(--radius)] px-4 text-sm font-semibold shadow-md",
+  const outlineTone = cn(
+    "h-10 shrink-0 gap-1.5 rounded-[var(--radius)] px-3 text-xs font-semibold shadow-md sm:gap-2 sm:px-4 sm:text-sm",
     variantKids
-      ? "bg-sky-600 text-white hover:bg-sky-700"
-      : "bg-primary text-primary-foreground hover:bg-primary/90",
+      ? "border border-sky-400/60 bg-white/80 text-slate-900 hover:bg-white"
+      : "border border-white/25 bg-white/10 text-primary-foreground hover:bg-white/15",
   );
 
-  if (session) {
-    return (
-      <Button asChild size="sm" className={tone}>
-        <Link href="/profile" prefetch>
-          <UserRound className="size-4" aria-hidden />
-          {t("profile")}
-        </Link>
-      </Button>
-    );
-  }
+  const primaryTone = cn(
+    "h-10 shrink-0 gap-1.5 rounded-[var(--radius)] px-3 text-xs font-semibold shadow-md sm:gap-2 sm:px-4 sm:text-sm",
+    variantKids ? "bg-sky-600 text-white hover:bg-sky-700" : "bg-primary text-primary-foreground hover:bg-primary/90",
+  );
 
   return (
-    <Button asChild size="sm" className={tone}>
-      <Link href={`/login?next=${encodeURIComponent(`/${locale}/profile`)}`} prefetch={false}>
-        <LogIn className="size-4" aria-hidden />
-        {t("login")}
-      </Link>
-    </Button>
+    <div className="flex max-w-[11rem] flex-col gap-2 min-[420px]:max-w-none min-[420px]:flex-row min-[420px]:items-center">
+      <Button asChild size="sm" className={primaryTone}>
+        <Link href="/#member-form" prefetch={false}>
+          <UserPlus className="size-4 shrink-0" aria-hidden />
+          <span className="truncate">{t("signupAgape")}</span>
+        </Link>
+      </Button>
+      <Button asChild size="sm" variant="outline" className={outlineTone}>
+        <Link href="/#member-form-urgent" prefetch={false}>
+          <HeartHandshake className="size-4 shrink-0" aria-hidden />
+          <span className="truncate">{t("needHelp")}</span>
+        </Link>
+      </Button>
+    </div>
   );
 }

@@ -10,7 +10,8 @@
     "brand": "AGAPE",
     "locale": "Langue",
     "calendar": "Calendrier fraternel",
-    "login": "Connexion",
+    "signupAgape": "S'inscrire à AGAPE",
+    "needHelp": "Besoin d'aide ?",
     "logout": "Déconnexion",
     "profile": "Mon profil"
   },
@@ -18,6 +19,8 @@
     "adults": {
       "title": "Espace adultes",
       "subtitle": "Contenu et parcours pensés pour les accompagnants.",
+      "signupAgape": "S'inscrire à AGAPE",
+      "needHelp": "Besoin d'aide ?",
       "cta": "Voir les actualités",
       "ctaResources": "Découvrir les contenus",
       "academyLink": "Academy",

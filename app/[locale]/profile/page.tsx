@@ -14,7 +14,7 @@ export default async function MemberProfilePage({
   const { userId, profile } = await getCurrentProfile();
 
   if (!userId) {
-    nextRedirect(`/${locale}/login?next=${encodeURIComponent(`/${locale}/profile`)}`);
+    nextRedirect(`/${locale}`);
   }
 
   const children = await listCurrentChildProfiles();
