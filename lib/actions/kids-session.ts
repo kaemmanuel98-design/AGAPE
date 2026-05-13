@@ -6,7 +6,12 @@ import { redirect } from "@/i18n/navigation";
 import { isKidsAvatarId } from "@/lib/kids/avatars";
 import { KIDS_PROFILE_COOKIE } from "@/lib/kids/profile-cookie";
 
-export async function saveKidsProfile(formData: FormData) {
+/**
+ * Compatible `useActionState` : premier argument ignoré (état précédent), requis par React pour les actions de formulaire.
+ * `unknown` : conformité ESLint (`no-explicit-any`) sur Vercel.
+ */
+export async function saveKidsProfile(prevState: unknown, formData: FormData) {
+  void prevState;
   const locale = String(formData.get("locale") ?? "fr").slice(0, 5);
   const firstName = String(formData.get("firstName") ?? "").trim().slice(0, 40);
   const avatarIdRaw = String(formData.get("avatarId") ?? "");
@@ -32,7 +37,9 @@ export async function saveKidsProfile(formData: FormData) {
   redirect({ href: "/kids", locale });
 }
 
-export async function clearKidsProfile(formData: FormData) {
+/** Idem `saveKidsProfile` : signature alignée sur `useActionState` pour le formulaire Kids. */
+export async function clearKidsProfile(prevState: unknown, formData: FormData) {
+  void prevState;
   const locale = String(formData.get("locale") ?? "fr").slice(0, 5);
   const cookieStore = await cookies();
   cookieStore.delete(KIDS_PROFILE_COOKIE);

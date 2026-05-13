@@ -15,7 +15,18 @@ const decor = [
 
 export function BackgroundByRoute() {
   const pathname = usePathname();
+  const isSecretConsole =
+    pathname.includes("management-agape-secret") || pathname.includes("admin-secret-dashboard");
   const isKids = pathname === "/kids" || pathname.startsWith("/kids/");
+
+  if (isSecretConsole) {
+    return (
+      <div
+        className="pointer-events-none fixed inset-0 -z-10 bg-zinc-950 bg-[radial-gradient(ellipse_at_top,rgba(39,39,42,0.9),transparent_55%)]"
+        aria-hidden
+      />
+    );
+  }
 
   if (!isKids) {
     return (

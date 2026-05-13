@@ -10,9 +10,10 @@ export async function middleware(request: NextRequest) {
   let response = intlMiddleware(request);
 
   const pathname = request.nextUrl.pathname;
-  const adminSecretMatch = pathname.match(/^\/(fr|en|nl)\/admin-secret-dashboard(?:\/|$)/);
+  const protectedSecretAdminMatch = pathname.match(
+    /^\/(fr|en|nl)\/(?:admin-secret-dashboard|management-agape-secret)(?:\/|$)/,
+  );
   const legacyPortalMatch = pathname.match(/^\/(fr|en|nl)\/admin-portal-agape(?:\/|$)/);
-  const legacyManagementMatch = pathname.match(/^\/(fr|en|nl)\/management-agape-secret(?:\/|$)/);
 
   const url = process.env.NEXT_PUBLIC_SUPABASE_URL;
   const anon = process.env.NEXT_PUBLIC_SUPABASE_ANON_KEY;
@@ -44,16 +45,16 @@ export async function middleware(request: NextRequest) {
     });
   }
 
-  if (legacyPortalMatch || legacyManagementMatch) {
-    const locale = (legacyPortalMatch?.[1] ?? legacyManagementMatch?.[1]) as string;
+  if (legacyPortalMatch) {
+    const locale = legacyPortalMatch[1] as string;
     const origin = request.nextUrl.origin;
     const next = NextResponse.redirect(new URL(`/${locale}/admin-secret-dashboard`, origin));
     mergeCookies(response, next);
     return next;
   }
 
-  if (adminSecretMatch) {
-    const locale = adminSecretMatch[1] as string;
+  if (protectedSecretAdminMatch) {
+    const locale = protectedSecretAdminMatch[1] as string;
     const origin = request.nextUrl.origin;
 
     if (!user) {

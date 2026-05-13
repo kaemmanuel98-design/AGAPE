@@ -26,7 +26,9 @@ export function GlassSpaceNav() {
   const isCalendar =
     pathname === "/calendar" || pathname.startsWith("/calendar/");
   const isAdminPortal =
-    pathname.includes("admin-portal-agape") || pathname.includes("admin-secret-dashboard");
+    pathname.includes("admin-portal-agape") ||
+    pathname.includes("admin-secret-dashboard") ||
+    pathname.includes("management-agape-secret");
 
   const shellClass = cn(
     "grid grid-cols-[minmax(0,1fr)_auto] items-center gap-x-3 gap-y-3 rounded-[24px] px-3 py-3 backdrop-blur-xl backdrop-saturate-150 sm:flex sm:flex-nowrap sm:items-center sm:justify-between sm:px-4",

@@ -10,7 +10,20 @@ function normalizeText(value: FormDataEntryValue | null) {
 
 const STATUSES = new Set(["en_attente", "en_cours", "accompagne"]);
 
-export async function updateAssistanceRequest(formData: FormData) {
+export type AssistanceUpdateState =
+  | null
+  | { ok: true }
+  | { ok: false; message: string };
+
+/**
+ * `prevState` : valeur renvoyée au cycle précédent par `useActionState` (obligatoire pour l’API React 19).
+ * `unknown` plutôt que `any` : la règle ESLint `no-explicit-any` bloque sinon le `next build` sur Vercel.
+ */
+export async function updateAssistanceRequest(
+  prevState: unknown,
+  formData: FormData,
+): Promise<AssistanceUpdateState> {
+  void prevState;
   const id = normalizeText(formData.get("id"));
   const status = normalizeText(formData.get("assistance_status"));
   const internalNotes = normalizeText(formData.get("internal_notes")) || null;

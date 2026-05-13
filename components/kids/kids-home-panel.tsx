@@ -1,6 +1,7 @@
 "use client";
 
 import { Gamepad2, Home, Sparkles } from "lucide-react";
+import { useActionState } from "react";
 import { useLocale, useTranslations } from "next-intl";
 
 import { Button } from "@/components/ui/button";
@@ -13,6 +14,9 @@ import type { KidProfile } from "@/lib/kids/types";
 export function KidsHomePanel({ kidProfile }: { kidProfile: KidProfile | null }) {
   const t = useTranslations("home.kids");
   const locale = useLocale();
+
+  /** useActionState : le formulaire doit recevoir `formAction`, pas l'action serveur brute (build Vercel / React 19). */
+  const [, clearKidsFormAction, clearingKids] = useActionState(clearKidsProfile, null);
 
   const emoji = kidProfile
     ? (KIDS_AVATARS.find((a) => a.id === kidProfile.avatarId)?.emoji ?? "⭐")
@@ -28,11 +32,12 @@ export function KidsHomePanel({ kidProfile }: { kidProfile: KidProfile | null })
             </span>
             <span>{t("kidHello", { name: kidProfile.firstName })}</span>
           </p>
-          <form action={clearKidsProfile}>
+          <form action={clearKidsFormAction}>
             <input type="hidden" name="locale" value={locale} />
             <button
               type="submit"
-              className="rounded-[14px] border border-sky-300 bg-white px-4 py-2 text-sm font-semibold text-sky-800 underline-offset-2 hover:bg-sky-50 hover:underline"
+              disabled={clearingKids}
+              className="rounded-[14px] border border-sky-300 bg-white px-4 py-2 text-sm font-semibold text-sky-800 underline-offset-2 hover:bg-sky-50 hover:underline disabled:opacity-60"
             >
               {t("kidSwitch")}
             </button>

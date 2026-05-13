@@ -14,5 +14,7 @@ export type MemberRegistrationRow = {
   needs_urgent_help: boolean;
   is_priority: boolean;
   is_priority_emergency: boolean;
+  archived: boolean;
+  admin_notes: string | null;
   created_at: string;
 };

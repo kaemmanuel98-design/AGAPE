@@ -15,7 +15,12 @@ export function NavAccountButton({ variantKids }: Props) {
   const t = useTranslations("nav");
   const pathname = usePathname();
 
-  if (pathname.includes("admin-portal-agape") || pathname.includes("admin-secret-dashboard")) return null;
+  if (
+    pathname.includes("admin-portal-agape") ||
+    pathname.includes("admin-secret-dashboard") ||
+    pathname.includes("management-agape-secret")
+  )
+    return null;
 
   const tone = cn(
     "h-10 shrink-0 gap-2 rounded-[var(--radius)] px-4 text-sm font-semibold shadow-md",

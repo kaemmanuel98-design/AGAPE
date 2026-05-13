@@ -1,7 +1,7 @@
 import type { Metadata } from "next";
 
 import { MembersRegistrationDashboard } from "@/components/admin/MembersRegistrationDashboard";
-import { listMembersRegistration } from "@/lib/members/queries";
+import { listAllMembersRegistrationForExport, listMembersRegistration } from "@/lib/members/queries";
 import { getCurrentProfile } from "@/lib/profile/queries";
 import { redirect } from "@/i18n/navigation";
 
@@ -32,10 +32,11 @@ export default async function AdminSecretDashboardPage({
   }
 
   const rows = await listMembersRegistration();
+  const rowsFull = await listAllMembersRegistrationForExport();
 
   return (
     <div className="mx-auto max-w-5xl px-4 py-10 sm:py-14">
-      <MembersRegistrationDashboard rows={rows} />
+      <MembersRegistrationDashboard rows={rows} rowsForExport={rowsFull} locale={locale} />
     </div>
   );
 }
