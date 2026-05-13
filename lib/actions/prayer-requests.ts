@@ -39,7 +39,7 @@ export async function createPrayerRequest(formData: FormData) {
   }
 }
 
-const ASSISTANCE_TYPES = new Set([
+const ASSISTANCE_CATEGORIES = new Set([
   "urgence_vitale",
   "maladie",
   "deuil",
@@ -47,17 +47,17 @@ const ASSISTANCE_TYPES = new Set([
 ]);
 
 export async function createAssistanceRequest(formData: FormData) {
-  const assistanceType = normalizeText(formData.get("assistance_type"));
+  const category = normalizeText(formData.get("category"));
   const message = normalizeText(formData.get("message"));
-  const contact = normalizeText(formData.get("contact"));
+  const phoneContact = normalizeText(formData.get("phone_contact"));
   const locale = normalizeText(formData.get("locale")) || "fr";
 
   if (
-    !ASSISTANCE_TYPES.has(assistanceType) ||
+    !ASSISTANCE_CATEGORIES.has(category) ||
     !message ||
     message.length > 1200 ||
-    !contact ||
-    contact.length > 160
+    !phoneContact ||
+    phoneContact.length > 160
   ) {
     return { ok: false as const, message: "missing_fields" };
   }
@@ -80,6 +80,7 @@ export async function createAssistanceRequest(formData: FormData) {
 
     const senderName =
       [profile?.first_names, profile?.last_name].filter(Boolean).join(" ").trim() ||
+      user.phone ||
       user.email ||
       "Membre AGAPE";
 
@@ -88,8 +89,10 @@ export async function createAssistanceRequest(formData: FormData) {
       message,
       is_anonymous: false,
       requester_user_id: user.id,
-      assistance_type: assistanceType,
-      contact,
+      category,
+      phone_contact: phoneContact,
+      assistance_type: category,
+      contact: phoneContact,
       source: "assistance",
     });
 
@@ -99,7 +102,7 @@ export async function createAssistanceRequest(formData: FormData) {
 
     let criticalAlertSent = false;
 
-    if (assistanceType === "urgence_vitale") {
+    if (category === "urgence_vitale") {
       const siteUrl = process.env.NEXT_PUBLIC_SITE_URL;
       const dashboardUrl = siteUrl
         ? new URL(`/${locale}/admin/assistance`, siteUrl).toString()
@@ -107,7 +110,7 @@ export async function createAssistanceRequest(formData: FormData) {
 
       const emailResult = await sendCriticalAssistanceAlertEmail({
         requesterName: senderName,
-        assistanceType,
+        assistanceType: category,
         dashboardUrl,
       });
 
@@ -116,7 +119,7 @@ export async function createAssistanceRequest(formData: FormData) {
 
     return {
       ok: true as const,
-      severity: assistanceType === "urgence_vitale" ? ("critical" as const) : ("standard" as const),
+      severity: category === "urgence_vitale" ? ("critical" as const) : ("standard" as const),
       criticalAlertSent,
     };
   } catch {

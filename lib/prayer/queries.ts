@@ -3,10 +3,10 @@ import { createSupabaseServerClient } from "@/lib/supabase/server";
 import type { AdminAssistanceRequestRow, PrayerRequestRow } from "./types";
 
 const PRAYER_REQUEST_SELECT =
-  "id,sender_name,message,is_anonymous,requester_user_id,assistance_type,contact,assistance_status,internal_notes,source,created_at";
+  "id,sender_name,message,is_anonymous,requester_user_id,category,phone_contact,assistance_type,contact,assistance_status,internal_notes,source,created_at";
 
 const ADMIN_ASSISTANCE_SELECT =
-  "id,sender_name,message,is_anonymous,requester_user_id,assistance_type,contact,assistance_status,internal_notes,source,created_at,requester_profile:profiles!prayer_requests_requester_user_id_fkey(first_names,last_name)";
+  "id,sender_name,message,is_anonymous,requester_user_id,category,phone_contact,assistance_type,contact,assistance_status,internal_notes,source,created_at,requester_profile:profiles!prayer_requests_requester_user_id_fkey(first_names,last_name)";
 
 export async function listPrayerRequests(): Promise<PrayerRequestRow[]> {
   const supabase = await createSupabaseServerClient();
@@ -24,7 +24,7 @@ export async function listPrayerRequests(): Promise<PrayerRequestRow[]> {
 }
 
 function priorityWeight(value: AdminAssistanceRequestRow) {
-  if (value.assistance_type === "urgence_vitale") return 0;
+  if (value.category === "urgence_vitale") return 0;
   if (value.assistance_status === "en_attente") return 1;
   if (value.assistance_status === "en_cours") return 2;
   return 3;

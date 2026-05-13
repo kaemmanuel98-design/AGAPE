@@ -54,7 +54,7 @@ export function GlassSpaceNav() {
               label={t("brand")}
               className="h-8 max-w-full sm:h-9"
               iconClassName="h-full"
-              textClassName="text-[0.95rem] font-semibold tracking-[0.04em] sm:text-base"
+              textClassName="text-[0.95rem] font-semibold uppercase tracking-[0.12em] sm:text-base"
             />
           </Link>
           <div className="flex items-center gap-2">
@@ -87,7 +87,7 @@ export function GlassSpaceNav() {
             label={t("brand")}
             className="h-8 max-w-full sm:h-9"
             iconClassName="h-full"
-            textClassName="text-[0.95rem] font-semibold tracking-[0.04em] sm:text-base"
+            textClassName="text-[0.95rem] font-semibold uppercase tracking-[0.12em] sm:text-base"
           />
         </Link>
 

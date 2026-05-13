@@ -37,7 +37,7 @@ function formatCategory(value: string | null) {
     case "accompagnement":
       return "Accompagnement";
     default:
-      return "Priere";
+      return "Prière";
   }
 }
 
@@ -72,30 +72,31 @@ export async function AdminAssistance({ locale }: { locale: string }) {
             Tableau de bord d&apos;encadrement
           </h1>
           <p className="max-w-3xl text-sm leading-7 text-slate-600">
-            Les urgences vitales sont priorisees en tete de liste. Les notes internes et les
-            changements de statut sont visibles uniquement par l&apos;equipe d&apos;encadrement AGAPE.
+            Les urgences vitales sont priorisées en tête de liste. Les notes internes et les
+            changements de statut sont visibles uniquement par l&apos;équipe d&apos;encadrement AGAPE.
           </p>
         </div>
         <div className="rounded-[22px] border border-red-200 bg-red-50 px-4 py-3 text-sm text-red-800 shadow-sm">
           <div className="flex items-center gap-2 font-semibold">
             <ShieldAlert className="size-4" />
-            Priorite absolue
+            Priorité absolue
           </div>
           <p className="mt-1 max-w-xs leading-6">
-            Les demandes de type urgence vitale doivent etre traitees en premier.
+            Les demandes de type urgence vitale doivent être traitées en premier.
           </p>
         </div>
       </div>
 
       {requests.length === 0 ? (
         <div className="rounded-[26px] border border-dashed border-slate-200 bg-slate-50 px-6 py-12 text-center text-sm text-slate-500">
-          Aucune requete d&apos;accompagnement ni de priere pour le moment.
+          Aucune requête d&apos;accompagnement ni de prière pour le moment.
         </div>
       ) : (
         <div className="grid gap-4">
           {requests.map((request) => {
-            const isUrgent = request.assistance_type === "urgence_vitale";
-            const contact = request.contact;
+            const category = request.category ?? request.assistance_type;
+            const isUrgent = category === "urgence_vitale";
+            const contact = (request.phone_contact ?? request.contact)?.trim() || null;
             const kind = contactKind(contact);
 
             return (
@@ -117,7 +118,7 @@ export async function AdminAssistance({ locale }: { locale: string }) {
                         </span>
                       ) : (
                         <span className="rounded-full bg-white px-3 py-1 text-xs font-semibold uppercase tracking-[0.14em] text-slate-700">
-                          {formatCategory(request.assistance_type)}
+                          {formatCategory(category)}
                         </span>
                       )}
                       <span className="rounded-full bg-sky-100 px-3 py-1 text-xs font-medium text-sky-700">
@@ -153,7 +154,7 @@ export async function AdminAssistance({ locale }: { locale: string }) {
                 <div className="mt-5 grid gap-4 lg:grid-cols-[1.05fr,0.95fr]">
                   <div className="rounded-[24px] border border-slate-200 bg-white/90 p-4">
                     <p className="text-xs font-semibold uppercase tracking-[0.16em] text-slate-500">
-                      Message de detresse
+                      Message de détresse
                     </p>
                     <p className="mt-3 whitespace-pre-wrap text-sm leading-7 text-slate-700">
                       {request.message}

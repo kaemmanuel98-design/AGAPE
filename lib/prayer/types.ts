@@ -4,6 +4,8 @@ export type PrayerRequestRow = {
   message: string;
   is_anonymous: boolean;
   requester_user_id: string | null;
+  category: "urgence_vitale" | "maladie" | "deuil" | "accompagnement" | null;
+  phone_contact: string | null;
   assistance_type: "urgence_vitale" | "maladie" | "deuil" | "accompagnement" | null;
   contact: string | null;
   assistance_status: "en_attente" | "en_cours" | "accompagne";
