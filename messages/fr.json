@@ -15,6 +15,62 @@
     "logout": "Déconnexion",
     "profile": "Mon profil"
   },
+  "academy": {
+    "searchPlaceholder": "Rechercher un cours…",
+    "noResults": "Aucun cours ne correspond à ta recherche.",
+    "viewCourse": "Voir le cours",
+    "introTitle": "Academy AGAPE",
+    "introBody": "Parcours par niveaux et modules. Utilise la recherche pour filtrer les cours ; chaque carte mène au détail de la leçon (lecture, audio ou vidéo selon le contenu).",
+    "empty": "Aucun cours n'est encore publié. Ajoute la première leçon depuis l'administration.",
+    "catData": "Données",
+    "catTheory": "Théorie",
+    "catListen": "Écoute",
+    "catDefault": "Cours",
+    "kindLabel": {
+      "text": "Article",
+      "article": "Article",
+      "video": "Vidéo",
+      "audio": "Audio",
+      "livre": "Livre"
+    },
+    "filterAll": "Tous",
+    "filterVideos": "Vidéos",
+    "filterArticles": "Articles",
+    "filterBooks": "Livres",
+    "viewBook": "Voir la fiche",
+    "bookReadingSheet": "Fiche de lecture",
+    "bookAuthorLabel": "Auteur ·",
+    "bookSummaryHeading": "Résumé",
+    "bookDownloadPdf": "Télécharger le PDF",
+    "bookReadOnline": "Consulter en ligne",
+    "bookCoverAlt": "Couverture : {title}",
+    "bookCoverPlaceholder": "Ajoute une URL de couverture (HTTPS) dans l’admin.",
+    "backToAcademy": "Retour à l'Academy",
+    "lessonBrand": "AGAPE · Academy",
+    "videoHeading": "Vidéo",
+    "descriptionHeading": "Description",
+    "openVideo": "Ouvrir la vidéo",
+    "listenHeading": "Écouter la leçon",
+    "audioOpenPlayer": "Ouvrir le lecteur audio",
+    "audioTtsLabel": "Lire avec la synthèse vocale",
+    "listenOnlyHint": "Cette leçon est surtout pensée pour l'écoute ; tu peux utiliser le lecteur ci-dessous."
+  },
+  "bibleStrong": {
+    "title": "Bible Strong",
+    "subtitle": "Espace de lecture et de ressources pour approfondir les textes bibliques, seul ou en groupe.",
+    "videoHeading": "Médias",
+    "videoIntro": "Intégration vidéo (YouTube ou Vimeo) configurable côté projet pour les enseignements filmés.",
+    "videoIframeTitle": "Lecture vidéo Bible Strong",
+    "videoPlaceholder": "Aucune vidéo intégrée pour l'instant. Demande à l'équipe AGAPE d'ajouter la variable d'environnement NEXT_PUBLIC_BIBLE_STRONG_EMBED_URL (URL d'embed HTTPS).",
+    "articleHeading": "Comment utiliser cette page",
+    "articleP1": "Cette zone reprend un style article : marges confortables, texte lisible sur téléphone, et liens vers des ressources externes.",
+    "articleP2": "Tu peux t'appuyer sur le lexique en ligne pour les mots hébreux et grecs, ou suivre une série publiée par l'église.",
+    "articleLi1": "Lis à ton rythme ; la page reste accessible sans connexion.",
+    "articleLi2": "Sur petit écran, fais défiler doucement : les blocs s'adaptent à la largeur.",
+    "articleLi3": "La vidéo ci-dessus peut accueillir un cours ou un témoignage.",
+    "articleP3": "Les contenus éditoriaux pourront être branchés sur la base de données dès que les articles seront prêts.",
+    "openLexicon": "Ouvrir le lexique Blue Letter Bible"
+  },
   "home": {
     "adults": {
       "title": "Espace adultes",
@@ -241,7 +297,13 @@
     "congratsError": "Impossible d'envoyer la félicitation pour le moment.",
     "quickMessage1": "Joyeux anniversaire ! Que Dieu te comble de paix et de joie.",
     "quickMessage2": "Heureux anniversaire ! Merci pour ta présence dans la famille Agapé.",
-    "quickMessage3": "Belle nouvelle année de vie ! Que le Seigneur te fortifie et te garde."
+    "quickMessage3": "Belle nouvelle année de vie ! Que le Seigneur te fortifie et te garde.",
+    "eventsTitle": "Événements à venir",
+    "eventsSubtitle": "Vue liste chronologique — optimisée pour mobile (timeline).",
+    "timelineEmpty": "Aucun événement programmé pour le moment. Les réunions et cultes apparaîtront ici dès qu'ils seront publiés.",
+    "registerEvent": "S'inscrire",
+    "meetingLink": "Lien de réunion",
+    "eventDetailsSoon": "Détails à venir"
   },
   "admin": {
     "dashboard": {

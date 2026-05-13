@@ -15,6 +15,62 @@
     "logout": "Sign out",
     "profile": "My profile"
   },
+  "academy": {
+    "searchPlaceholder": "Search for a course…",
+    "noResults": "No courses match your search.",
+    "viewCourse": "View course",
+    "introTitle": "AGAPE Academy",
+    "introBody": "Journeys by level and module. Use search to filter courses; each card opens the lesson (read, audio, or video).",
+    "empty": "No courses are published yet. Add the first lesson from the admin area.",
+    "catData": "Data",
+    "catTheory": "Theory",
+    "catListen": "Listen",
+    "catDefault": "Course",
+    "kindLabel": {
+      "text": "Article",
+      "article": "Article",
+      "video": "Video",
+      "audio": "Audio",
+      "livre": "Book"
+    },
+    "filterAll": "All",
+    "filterVideos": "Videos",
+    "filterArticles": "Articles",
+    "filterBooks": "Books",
+    "viewBook": "Open sheet",
+    "bookReadingSheet": "Reading sheet",
+    "bookAuthorLabel": "Author ·",
+    "bookSummaryHeading": "Summary",
+    "bookDownloadPdf": "Download PDF",
+    "bookReadOnline": "Read online",
+    "bookCoverAlt": "Cover: {title}",
+    "bookCoverPlaceholder": "Add an HTTPS cover URL in the admin.",
+    "backToAcademy": "Back to Academy",
+    "lessonBrand": "AGAPE · Academy",
+    "videoHeading": "Video",
+    "descriptionHeading": "Description",
+    "openVideo": "Open video",
+    "listenHeading": "Listen to the lesson",
+    "audioOpenPlayer": "Open audio player",
+    "audioTtsLabel": "Read aloud with text-to-speech",
+    "listenOnlyHint": "This lesson is mainly for listening — use the player below."
+  },
+  "bibleStrong": {
+    "title": "Bible Strong",
+    "subtitle": "Reading space and resources to go deeper into Scripture, alone or in a group.",
+    "videoHeading": "Media",
+    "videoIntro": "Video embed (YouTube or Vimeo) can be configured via environment variables for recorded teaching.",
+    "videoIframeTitle": "Bible Strong video",
+    "videoPlaceholder": "No video is embedded yet. Ask the AGAPE team to set NEXT_PUBLIC_BIBLE_STRONG_EMBED_URL (HTTPS embed URL).",
+    "articleHeading": "How to use this page",
+    "articleP1": "This area uses an article layout: comfortable margins, readable text on phones, and links to external tools.",
+    "articleP2": "You can rely on the online lexicon for Hebrew and Greek words, or follow a series published by the church.",
+    "articleLi1": "Read at your own pace; the page stays open without login.",
+    "articleLi2": "On small screens, scroll gently — blocks adapt to the width.",
+    "articleLi3": "The video above can host a lesson or a testimony.",
+    "articleP3": "Editorial content can be wired to the database when articles are ready.",
+    "openLexicon": "Open the Blue Letter Bible lexicon"
+  },
   "home": {
     "adults": {
       "title": "Adults space",
@@ -241,7 +297,13 @@
     "congratsError": "Could not send the congratulations right now.",
     "quickMessage1": "Happy birthday! May God fill your day with peace and joy.",
     "quickMessage2": "Blessed birthday! Thank you for being part of the Agape family.",
-    "quickMessage3": "Happy new year of life! May the Lord strengthen and keep you."
+    "quickMessage3": "Happy new year of life! May the Lord strengthen and keep you.",
+    "eventsTitle": "Upcoming events",
+    "eventsSubtitle": "Chronological list view — mobile-friendly timeline.",
+    "timelineEmpty": "No events are scheduled yet. Meetings and services will appear here once they are published.",
+    "registerEvent": "Register",
+    "meetingLink": "Meeting link",
+    "eventDetailsSoon": "Details coming soon"
   },
   "admin": {
     "dashboard": {

@@ -15,6 +15,62 @@
     "logout": "Afmelden",
     "profile": "Mijn profiel"
   },
+  "academy": {
+    "searchPlaceholder": "Zoek een cursus…",
+    "noResults": "Geen cursussen komen overeen met je zoekopdracht.",
+    "viewCourse": "Cursus bekijken",
+    "introTitle": "AGAPE Academy",
+    "introBody": "Trajecten per niveau en module. Gebruik de zoekbalk om te filteren; elke kaart opent de les (tekst, audio of video).",
+    "empty": "Er zijn nog geen cursussen gepubliceerd. Voeg de eerste les toe via het beheer.",
+    "catData": "Data",
+    "catTheory": "Theorie",
+    "catListen": "Luisteren",
+    "catDefault": "Cursus",
+    "kindLabel": {
+      "text": "Artikel",
+      "article": "Artikel",
+      "video": "Video",
+      "audio": "Audio",
+      "livre": "Boek"
+    },
+    "filterAll": "Alles",
+    "filterVideos": "Video’s",
+    "filterArticles": "Artikelen",
+    "filterBooks": "Boeken",
+    "viewBook": "Fiche bekijken",
+    "bookReadingSheet": "Leesfiche",
+    "bookAuthorLabel": "Auteur ·",
+    "bookSummaryHeading": "Samenvatting",
+    "bookDownloadPdf": "PDF downloaden",
+    "bookReadOnline": "Online lezen",
+    "bookCoverAlt": "Omslag: {title}",
+    "bookCoverPlaceholder": "Voeg in het beheer een HTTPS-URL voor de omslag toe.",
+    "backToAcademy": "Terug naar Academy",
+    "lessonBrand": "AGAPE · Academy",
+    "videoHeading": "Video",
+    "descriptionHeading": "Beschrijving",
+    "openVideo": "Video openen",
+    "listenHeading": "Naar de les luisteren",
+    "audioOpenPlayer": "Audiospeler openen",
+    "audioTtsLabel": "Voorlezen met spraaksynthese",
+    "listenOnlyHint": "Deze les is vooral om naar te luisteren — gebruik de speler hieronder."
+  },
+  "bibleStrong": {
+    "title": "Bible Strong",
+    "subtitle": "Leesruimte en bronnen om Schrifttexten te verdiepen, alleen of in een groep.",
+    "videoHeading": "Media",
+    "videoIntro": "Video-inbedding (YouTube of Vimeo) kan via omgevingsvariabelen worden geconfigureerd.",
+    "videoIframeTitle": "Bible Strong-video",
+    "videoPlaceholder": "Nog geen video ingesloten. Vraag het AGAPE-team om NEXT_PUBLIC_BIBLE_STRONG_EMBED_URL (HTTPS embed-URL) in te stellen.",
+    "articleHeading": "Hoe deze pagina te gebruiken",
+    "articleP1": "Dit gebied gebruikt een artikelopmaak: comfortabele marges, leesbare tekst op telefoons en links naar externe hulpmiddelen.",
+    "articleP2": "Je kunt het online lexicon gebruiken voor Hebreeuws en Grieks, of een reeks van de kerk volgen.",
+    "articleLi1": "Lees in je eigen tempo; de pagina blijft open zonder inloggen.",
+    "articleLi2": "Op kleine schermen rustig scrollen — blokken passen zich aan de breedte aan.",
+    "articleLi3": "De video hierboven kan een les of een getuigenis bevatten.",
+    "articleP3": "Redactionele inhoud kan worden gekoppeld aan de database wanneer artikelen klaar zijn.",
+    "openLexicon": "Open het Blue Letter Bible-lexicon"
+  },
   "home": {
     "adults": {
       "title": "Ruimte voor volwassenen",
@@ -241,7 +297,13 @@
     "congratsError": "De felicitatie kon nu niet worden verzonden.",
     "quickMessage1": "Gelukkige verjaardag! Moge God je dag vullen met vrede en vreugde.",
     "quickMessage2": "Gezegende verjaardag! Dank je dat je deel uitmaakt van de Agape-familie.",
-    "quickMessage3": "Een mooi nieuw levensjaar! Moge de Heer je sterken en bewaren."
+    "quickMessage3": "Een mooi nieuw levensjaar! Moge de Heer je sterken en bewaren.",
+    "eventsTitle": "Komende evenementen",
+    "eventsSubtitle": "Chronologische lijst — mobielvriendelijke tijdlijn.",
+    "timelineEmpty": "Nog geen evenementen gepland. Vergaderingen en diensten verschijnen hier zodra ze zijn gepubliceerd.",
+    "registerEvent": "Inschrijven",
+    "meetingLink": "Vergaderlink",
+    "eventDetailsSoon": "Details volgen"
   },
   "admin": {
     "dashboard": {

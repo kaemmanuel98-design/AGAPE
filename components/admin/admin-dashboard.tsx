@@ -425,9 +425,11 @@ export function AdminDashboard({
                     defaultValue="text"
                     className="h-12 rounded-2xl border border-slate-200 bg-white px-4 text-slate-900 outline-none ring-slate-400/30 focus:ring-2"
                   >
-                    <option value="text">Texte</option>
+                    <option value="text">Texte (article)</option>
+                    <option value="article">Article</option>
                     <option value="video">Vidéo</option>
                     <option value="audio">Audio</option>
+                    <option value="livre">Livre (bibliothèque)</option>
                   </select>
                 </Field>
                 <Field label="Ordre" htmlFor="lesson-order">
@@ -441,12 +443,57 @@ export function AdminDashboard({
                 </Field>
               </div>
 
+              <div className="rounded-2xl border border-dashed border-amber-300/60 bg-amber-50/80 p-4 dark:border-amber-500/30 dark:bg-amber-950/20">
+                <p className="mb-3 text-xs font-semibold uppercase tracking-wide text-amber-900 dark:text-amber-200">
+                  Champs livre (si type = Livre)
+                </p>
+                <div className="grid gap-4 sm:grid-cols-2">
+                  <Field label="Auteur" htmlFor="lesson-author">
+                    <input
+                      id="lesson-author"
+                      name="author"
+                      placeholder="Nom de l'auteur affiché sous le titre"
+                      className="h-12 rounded-2xl border border-slate-200 bg-white px-4 text-slate-900 outline-none ring-slate-400/30 focus:ring-2"
+                    />
+                  </Field>
+                  <Field label="URL couverture (HTTPS)" htmlFor="lesson-cover">
+                    <input
+                      id="lesson-cover"
+                      name="cover_image"
+                      type="url"
+                      placeholder="https://…/ma-couverture.jpg — image hébergée (Storage, CDN…)"
+                      className="h-12 rounded-2xl border border-slate-200 bg-white px-4 text-slate-900 outline-none ring-slate-400/30 focus:ring-2"
+                    />
+                  </Field>
+                </div>
+                <div className="mt-4 grid gap-4 sm:grid-cols-2">
+                  <Field label="URL du PDF (téléchargement)" htmlFor="lesson-pdf">
+                    <input
+                      id="lesson-pdf"
+                      name="download_url"
+                      type="url"
+                      placeholder="https://…/mon-livre.pdf — lien direct vers le fichier"
+                      className="h-12 rounded-2xl border border-slate-200 bg-white px-4 text-slate-900 outline-none ring-slate-400/30 focus:ring-2"
+                    />
+                  </Field>
+                  <Field label="Lien consultation en ligne" htmlFor="lesson-external">
+                    <input
+                      id="lesson-external"
+                      name="external_link"
+                      type="url"
+                      placeholder="https://… — liseuse, boutique, site éditeur…"
+                      className="h-12 rounded-2xl border border-slate-200 bg-white px-4 text-slate-900 outline-none ring-slate-400/30 focus:ring-2"
+                    />
+                  </Field>
+                </div>
+              </div>
+
               <Field label="Texte de la leçon" htmlFor="lesson-text">
                 <textarea
                   id="lesson-text"
                   name="text_content"
                   rows={7}
-                  placeholder="Le bouton Lire affichera ce contenu et le bouton Écouter utilisera la synthèse vocale si aucun audio n'est chargé."
+                  placeholder="Article / audio : corps ou transcription. Vidéo : description sous le lecteur. Livre : résumé (4e de couverture)."
                   className="rounded-2xl border border-slate-200 bg-white px-4 py-3 text-slate-900 outline-none ring-slate-400/30 focus:ring-2"
                 />
               </Field>

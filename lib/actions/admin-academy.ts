@@ -19,6 +19,10 @@ export async function createLesson(formData: FormData) {
   const textContent = normalizeText(formData.get("text_content")) || null;
   const videoUrl = normalizeText(formData.get("video_url")) || null;
   const audioUrl = normalizeText(formData.get("audio_url")) || null;
+  const author = normalizeText(formData.get("author")) || null;
+  const coverImage = normalizeText(formData.get("cover_image")) || null;
+  const downloadUrl = normalizeText(formData.get("download_url")) || null;
+  const externalLink = normalizeText(formData.get("external_link")) || null;
   const sortOrder = Number.parseInt(normalizeText(formData.get("sort_order")) || "0", 10) || 0;
   const audioFile = formData.get("audio_file");
 
@@ -26,12 +30,27 @@ export async function createLesson(formData: FormData) {
     return { ok: false as const, message: "Niveau, module et titre sont requis." };
   }
 
-  if (!["text", "video", "audio"].includes(contentKind)) {
+  if (!["text", "article", "video", "audio", "livre"].includes(contentKind)) {
     return { ok: false as const, message: "Type de leçon invalide." };
   }
 
-  if (contentKind === "text" && !textContent) {
+  if ((contentKind === "text" || contentKind === "article") && !textContent) {
     return { ok: false as const, message: "Ajoutez le texte de la leçon." };
+  }
+
+  if (contentKind === "livre") {
+    if (!author) {
+      return { ok: false as const, message: "Indiquez l'auteur du livre." };
+    }
+    if (!coverImage || !isHttpsUrl(coverImage)) {
+      return { ok: false as const, message: "Ajoutez une URL HTTPS valide pour la couverture (cover_image)." };
+    }
+    if (downloadUrl && !isHttpsUrl(downloadUrl)) {
+      return { ok: false as const, message: "L'URL du PDF doit être en HTTPS." };
+    }
+    if (externalLink && !isHttpsUrl(externalLink)) {
+      return { ok: false as const, message: "Le lien en ligne doit être en HTTPS." };
+    }
   }
 
   if (contentKind === "video" && (!videoUrl || !isHttpsUrl(videoUrl))) {
@@ -61,6 +80,11 @@ export async function createLesson(formData: FormData) {
     return { ok: false as const, message: "Ajoutez un fichier audio ou une URL audio." };
   }
 
+  const bookAuthor = contentKind === "livre" ? author : null;
+  const bookCover = contentKind === "livre" ? coverImage : null;
+  const bookPdf = contentKind === "livre" && downloadUrl ? downloadUrl : null;
+  const bookWeb = contentKind === "livre" && externalLink ? externalLink : null;
+
   const { error } = await auth.supabase.from("lessons").insert({
     level,
     module_title: moduleTitle,
@@ -69,6 +93,10 @@ export async function createLesson(formData: FormData) {
     text_content: textContent,
     video_url: videoUrl,
     audio_url: resolvedAudioUrl,
+    author: bookAuthor,
+    cover_image: bookCover,
+    download_url: bookPdf,
+    external_link: bookWeb,
     sort_order: sortOrder,
   });
 

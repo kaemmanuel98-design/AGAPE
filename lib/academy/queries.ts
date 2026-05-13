@@ -3,7 +3,7 @@ import { createSupabaseServerClient } from "@/lib/supabase/server";
 import type { LessonRow } from "./types";
 
 const LESSON_SELECT =
-  "id,level,module_title,title,content_kind,text_content,video_url,audio_url,sort_order,created_at";
+  "id,level,module_title,title,content_kind,text_content,video_url,audio_url,author,cover_image,download_url,external_link,sort_order,created_at";
 
 export async function listAllLessons(): Promise<LessonRow[]> {
   const supabase = await createSupabaseServerClient();

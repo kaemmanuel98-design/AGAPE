@@ -8,9 +8,6 @@ import { Button } from "@/components/ui/button";
 import { Logo } from "@/components/ui/Logo";
 import { Link } from "@/i18n/navigation";
 
-const STRONG_LEXICON_URL =
-  "https://www.blueletterbible.org/search/search.cfm?criteria=&tab=lexicon";
-
 type NewsItem = { title: string; date: string; body: string };
 
 export function AdultsHomeHero() {
@@ -65,10 +62,10 @@ export function AdultsHomeHero() {
         </Button>
 
         <Button variant="outline" size="lg" type="button" asChild className="rounded-[var(--radius)] border-white/14 bg-white/5 text-slate-100 hover:bg-white/10">
-          <a href={STRONG_LEXICON_URL} target="_blank" rel="noopener noreferrer">
+          <Link href="/bible-strong">
             <BookOpen className="size-5" aria-hidden />
             {t("strongCtaShort")}
-          </a>
+          </Link>
         </Button>
       </div>
     </div>
@@ -109,10 +106,10 @@ export function AdultsNewsSection() {
 
       <div className="pt-2">
         <Button size="lg" type="button" variant="brand" asChild className="gap-2 rounded-[var(--radius)]">
-          <a href={STRONG_LEXICON_URL} target="_blank" rel="noopener noreferrer">
+          <Link href="/bible-strong">
             <BookOpen className="size-5" aria-hidden />
             {t("strongCta")}
-          </a>
+          </Link>
         </Button>
       </div>
     </motion.section>
