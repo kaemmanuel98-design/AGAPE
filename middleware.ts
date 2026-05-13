@@ -10,9 +10,9 @@ export async function middleware(request: NextRequest) {
   let response = intlMiddleware(request);
 
   const pathname = request.nextUrl.pathname;
-  const adminMatch = pathname.match(/^\/(fr|en|nl)\/admin(?:\/|$)/);
-  const profileMatch = pathname.match(/^\/(fr|en|nl)\/profile(?:\/|$)/);
-  const secretManagementMatch = pathname.match(/^\/(fr|en|nl)\/management-agape-secret(?:\/|$)/);
+  const adminSecretMatch = pathname.match(/^\/(fr|en|nl)\/admin-secret-dashboard(?:\/|$)/);
+  const legacyPortalMatch = pathname.match(/^\/(fr|en|nl)\/admin-portal-agape(?:\/|$)/);
+  const legacyManagementMatch = pathname.match(/^\/(fr|en|nl)\/management-agape-secret(?:\/|$)/);
 
   const url = process.env.NEXT_PUBLIC_SUPABASE_URL;
   const anon = process.env.NEXT_PUBLIC_SUPABASE_ANON_KEY;
@@ -44,8 +44,16 @@ export async function middleware(request: NextRequest) {
     });
   }
 
-  if (secretManagementMatch) {
-    const locale = secretManagementMatch[1] as string;
+  if (legacyPortalMatch || legacyManagementMatch) {
+    const locale = (legacyPortalMatch?.[1] ?? legacyManagementMatch?.[1]) as string;
+    const origin = request.nextUrl.origin;
+    const next = NextResponse.redirect(new URL(`/${locale}/admin-secret-dashboard`, origin));
+    mergeCookies(response, next);
+    return next;
+  }
+
+  if (adminSecretMatch) {
+    const locale = adminSecretMatch[1] as string;
     const origin = request.nextUrl.origin;
 
     if (user) {
@@ -63,31 +71,6 @@ export async function middleware(request: NextRequest) {
     }
 
     return response;
-  }
-
-  if (adminMatch || profileMatch) {
-    const locale = (adminMatch?.[1] ?? profileMatch?.[1]) as string;
-    const origin = request.nextUrl.origin;
-    if (!user && profileMatch) return response;
-    if (!user && adminMatch) {
-      const home = NextResponse.redirect(new URL(`/${locale}`, origin));
-      mergeCookies(response, home);
-      return home;
-    }
-
-    if (adminMatch) {
-      const { data: profile } = await supabase
-        .from("profiles")
-        .select("role")
-        .eq("id", user.id)
-        .maybeSingle();
-
-      if (profile?.role !== "super-admin") {
-        const home = NextResponse.redirect(new URL(`/${locale}`, origin));
-        mergeCookies(response, home);
-        return home;
-      }
-    }
   }
 
   return response;

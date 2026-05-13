@@ -12,7 +12,7 @@ export async function saveKidsProfile(formData: FormData) {
   const avatarIdRaw = String(formData.get("avatarId") ?? "");
 
   if (!firstName || !isKidsAvatarId(avatarIdRaw)) {
-    redirect({ href: "/kids/login", locale });
+    redirect({ href: "/kids", locale });
   }
 
   const avatarId = avatarIdRaw;

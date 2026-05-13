@@ -1,7 +1,7 @@
 "use client";
 
 import { motion } from "framer-motion";
-import { BookOpen, BookOpenText, CalendarDays, ChevronDown, HeartHandshake, Newspaper, UserPlus } from "lucide-react";
+import { BookOpen, BookOpenText, CalendarDays, ChevronDown, Newspaper } from "lucide-react";
 import { useTranslations } from "next-intl";
 
 import { Button } from "@/components/ui/button";
@@ -32,27 +32,6 @@ export function AdultsHomeHero() {
           {t("title")}
         </h1>
         <p className="max-w-xl text-lg text-slate-300">{t("subtitle")}</p>
-      </div>
-
-      <div className="flex flex-col gap-2 sm:flex-row sm:flex-wrap sm:items-center">
-        <Button size="lg" type="button" variant="brand" asChild className="rounded-[var(--radius)]">
-          <Link href="/#member-form" prefetch={false}>
-            <UserPlus className="size-5" aria-hidden />
-            {t("signupAgape")}
-          </Link>
-        </Button>
-        <Button
-          size="lg"
-          type="button"
-          variant="outline"
-          asChild
-          className="rounded-[var(--radius)] border-white/20 bg-white/5 text-slate-100 hover:bg-white/10"
-        >
-          <Link href="/#member-form-urgent" prefetch={false}>
-            <HeartHandshake className="size-5" aria-hidden />
-            {t("needHelp")}
-          </Link>
-        </Button>
       </div>
 
       <div className="flex flex-col gap-3 sm:flex-row sm:flex-wrap">

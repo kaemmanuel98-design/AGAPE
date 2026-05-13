@@ -1,11 +1,18 @@
 export type MemberRegistrationRow = {
   id: string;
+  first_name: string | null;
+  last_name: string | null;
   full_name: string | null;
   phone: string;
   city: string | null;
+  preferred_language: string | null;
+  talents: unknown;
+  accompaniment_need: string | null;
   situation: string | null;
   category: string | null;
   support_message: string | null;
   needs_urgent_help: boolean;
+  is_priority: boolean;
+  is_priority_emergency: boolean;
   created_at: string;
 };

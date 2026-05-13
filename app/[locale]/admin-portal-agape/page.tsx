@@ -1,6 +1,6 @@
 import { redirect } from "@/i18n/navigation";
 
-export default async function ManagementSecretLegacyRedirect({
+export default async function AdminPortalLegacyRedirect({
   params,
 }: {
   params: Promise<{ locale: string }>;

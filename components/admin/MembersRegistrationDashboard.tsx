@@ -14,10 +14,19 @@ type Props = {
 
 function isCriticalRow(row: MemberRegistrationRow) {
   return (
+    row.is_priority_emergency ||
+    row.is_priority ||
     row.needs_urgent_help ||
+    row.accompaniment_need === "urgence" ||
+    row.category === "urgence" ||
     row.category === "urgence_vitale" ||
     row.category === "danger_immediat"
   );
+}
+
+function formatTalents(raw: unknown) {
+  if (Array.isArray(raw)) return raw.join(", ");
+  return "-";
 }
 
 function formatDate(value: string) {
@@ -39,23 +48,37 @@ function toCsvValue(value: unknown) {
 function buildCsv(rows: MemberRegistrationRow[]) {
   const header = [
     "date_inscription",
+    "prenom",
+    "nom",
     "nom_complet",
     "telephone",
     "ville",
-    "situation",
+    "langue",
+    "talents",
+    "besoin_accompagnement",
     "categorie",
-    "besoin_urgent",
+    "urgence_flag",
+    "priorite_legacy",
+    "priorite_emergency",
+    "situation",
     "message_accompagnement",
   ];
   const lines = rows.map((row) =>
     [
       row.created_at,
+      row.first_name ?? "",
+      row.last_name ?? "",
       row.full_name ?? "",
       row.phone,
       row.city ?? "",
-      row.situation ?? "",
+      row.preferred_language ?? "",
+      formatTalents(row.talents),
+      row.accompaniment_need ?? "",
       row.category ?? "",
       row.needs_urgent_help ? "oui" : "non",
+      row.is_priority ? "oui" : "non",
+      row.is_priority_emergency ? "oui" : "non",
+      row.situation ?? "",
       row.support_message ?? "",
     ]
       .map(toCsvValue)
@@ -170,12 +193,18 @@ export function MembersRegistrationDashboard({ rows }: Props) {
               >
                 <div className="flex flex-wrap items-start justify-between gap-2">
                   <div>
-                    <p className="text-sm font-semibold text-slate-900">{row.full_name || "Membre AGAPE"}</p>
+                    <p className="text-sm font-semibold text-slate-900">
+                      {row.first_name || row.last_name
+                        ? `${row.first_name ?? ""} ${row.last_name ?? ""}`.trim()
+                        : row.full_name || "Membre AGAPE"}
+                    </p>
                     <p className="text-xs text-slate-500">{formatDate(row.created_at)}</p>
                   </div>
                   <div className="flex flex-wrap items-center gap-2">
-                    {row.category ? (
-                      <span className="rounded-full bg-white px-3 py-1 text-xs font-medium text-slate-700">{row.category}</span>
+                    {row.accompaniment_need || row.category ? (
+                      <span className="rounded-full bg-white px-3 py-1 text-xs font-medium text-slate-700">
+                        {row.accompaniment_need ?? row.category}
+                      </span>
                     ) : null}
                     {isCritical ? (
                       <span className="inline-flex items-center gap-1 rounded-full bg-red-600 px-3 py-1 text-xs font-semibold text-white">
@@ -196,8 +225,20 @@ export function MembersRegistrationDashboard({ rows }: Props) {
                     <dd>{row.city || "-"}</dd>
                   </div>
                   <div>
-                    <dt className="text-xs uppercase tracking-wide text-slate-500">Situation</dt>
-                    <dd>{row.situation || "-"}</dd>
+                    <dt className="text-xs uppercase tracking-wide text-slate-500">Langue</dt>
+                    <dd>{row.preferred_language || "-"}</dd>
+                  </div>
+                  <div>
+                    <dt className="text-xs uppercase tracking-wide text-slate-500">Talents</dt>
+                    <dd className="break-words">{formatTalents(row.talents)}</dd>
+                  </div>
+                  <div className="sm:col-span-2">
+                    <dt className="text-xs uppercase tracking-wide text-slate-500">Résumé</dt>
+                    <dd className="break-words">{row.situation || "-"}</dd>
+                  </div>
+                  <div>
+                    <dt className="text-xs uppercase tracking-wide text-slate-500">Urgence (flag)</dt>
+                    <dd>{row.is_priority_emergency ? "Oui" : "Non"}</dd>
                   </div>
                   <div>
                     <dt className="text-xs uppercase tracking-wide text-slate-500">Aide urgente</dt>

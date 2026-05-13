@@ -43,7 +43,7 @@ export function SecretAdminLogin() {
           Accès discret AGAPE
         </p>
         <h1 className="text-2xl font-semibold tracking-tight text-slate-900">AGAPE — Administration</h1>
-        <p className="text-sm text-slate-600">Connexion réservée à l’équipe d’encadrement AGAPE.</p>
+        <p className="text-sm text-slate-600">Authentification réservée à l’équipe d’encadrement AGAPE.</p>
       </div>
 
       <form className="grid gap-4" onSubmit={(event) => void onSubmit(event)}>
@@ -76,7 +76,7 @@ export function SecretAdminLogin() {
 
         <Button type="submit" disabled={pending} className="h-12 rounded-2xl text-base font-semibold">
           {pending ? <Loader2 className="size-4 animate-spin" aria-hidden /> : null}
-          Se connecter
+          Entrer
         </Button>
       </form>
     </section>
