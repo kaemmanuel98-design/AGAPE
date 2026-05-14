@@ -1,10 +1,10 @@
-# Simulation locale proche de la production (Next.js + variables Supabase).
-# 1) Copier `.env.docker.example` vers `.env.docker` et renseigner les clés.
+# Environnement local type production (Next.js sur le port 3000).
+# 1) Copier `.env.docker.example` vers `.env.docker` et renseigner Supabase.
 # 2) `docker compose up --build`
 # 3) (Optionnel) Agrégation des logs : `docker compose --profile logs up -d`
 
 services:
-  web:
+  agape-web:
     build:
       context: .
       dockerfile: Dockerfile
@@ -12,7 +12,7 @@ services:
         NEXT_PUBLIC_SUPABASE_URL: ${NEXT_PUBLIC_SUPABASE_URL:-}
         NEXT_PUBLIC_SUPABASE_ANON_KEY: ${NEXT_PUBLIC_SUPABASE_ANON_KEY:-}
         NEXT_PUBLIC_SITE_URL: ${NEXT_PUBLIC_SITE_URL:-}
-    image: agape:local
+    image: agape-app:local
     container_name: agape-web
     ports:
       - "3000:3000"
@@ -23,10 +23,15 @@ services:
       NEXT_PUBLIC_SUPABASE_URL: ${NEXT_PUBLIC_SUPABASE_URL:-}
       NEXT_PUBLIC_SUPABASE_ANON_KEY: ${NEXT_PUBLIC_SUPABASE_ANON_KEY:-}
       NEXT_PUBLIC_SITE_URL: ${NEXT_PUBLIC_SITE_URL:-}
-      # Sous-domaines (comme en prod K8s) : tester avec des entrées /etc/hosts locales.
       AGAPE_SUBDOMAIN_ROUTING: ${AGAPE_SUBDOMAIN_ROUTING:-false}
       AGAPE_BIBLE_HOST: ${AGAPE_BIBLE_HOST:-bible.agape.com}
       AGAPE_ACADEMY_HOST: ${AGAPE_ACADEMY_HOST:-academy.agape.com}
+    healthcheck:
+      test: ["CMD", "curl", "-fsS", "http://127.0.0.1:3000/api/health"]
+      interval: 15s
+      timeout: 5s
+      retries: 5
+      start_period: 60s
     logging:
       driver: json-file
       options:
@@ -46,7 +51,8 @@ services:
     command: ["--config", "/etc/vector/vector.yaml"]
     restart: unless-stopped
     depends_on:
-      - web
+      agape-web:
+        condition: service_healthy
 
 volumes:
   agape_log_archive:
