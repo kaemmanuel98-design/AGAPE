@@ -112,5 +112,31 @@ export async function registerMember(formData: FormData) {
   }
 }
 
+/** État sérialisable renvoyé au client par `useActionState` (pas de JSON plein écran : React consomme cet objet). */
+export type MemberRegistrationUiState =
+  | { type: "idle" }
+  | { type: "success"; severity: "critical" | "standard" }
+  | { type: "error"; code: string; detail?: string };
+
+/**
+ * Enveloppe pour `useActionState` : signature `(étatPrécédent, FormData) => Promise<état>`.
+ * React appelle cette fonction après `formAction(formData)` côté client — la réponse reste
+ * dans l’état du composant au lieu de remplacer toute la page par du JSON.
+ */
+export async function submitMemberRegistrationForm(
+  _prev: MemberRegistrationUiState,
+  formData: FormData,
+): Promise<MemberRegistrationUiState> {
+  const result = await registerMember(formData);
+  if (!result.ok) {
+    const msg = result.message;
+    if (msg === "invalid_phone" || msg === "invalid_fields" || msg === "unexpected_error") {
+      return { type: "error", code: msg };
+    }
+    return { type: "error", code: "server", detail: String(msg) };
+  }
+  return { type: "success", severity: result.severity };
+}
+
 /** @deprecated Utiliser `registerMember` — alias conservé pour compatibilité. */
 export const createMemberRegistration = registerMember;

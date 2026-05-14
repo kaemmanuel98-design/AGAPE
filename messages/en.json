@@ -172,7 +172,9 @@
     "errorPhone": "Please enter a valid phone number.",
     "errorFields": "Please complete the fields in this step.",
     "errorTalents": "Please select at least one talent.",
-    "errorGeneric": "We could not send right now. Please try again later."
+    "errorGeneric": "We could not send right now. Please try again later.",
+    "successRegistered": "Thank you for signing up! Your place in the AGAPE community is saved. We look forward to seeing you soon.",
+    "backToHome": "Back to home"
   },
   "discover": {
     "heading": "Discover",

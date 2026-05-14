@@ -172,7 +172,9 @@
     "errorPhone": "Vul een geldig telefoonnummer in.",
     "errorFields": "Vul de velden van deze stap in.",
     "errorTalents": "Kies minstens één talent.",
-    "errorGeneric": "Verzenden lukt nu even niet. Probeer het later opnieuw."
+    "errorGeneric": "Verzenden lukt nu even niet. Probeer het later opnieuw.",
+    "successRegistered": "Bedankt voor je inschrijving! Je plek in de gemeenschap AGAPE is geregistreerd. We kijken ernaar uit je te zien.",
+    "backToHome": "Terug naar de startpagina"
   },
   "discover": {
     "heading": "Ontdekken",

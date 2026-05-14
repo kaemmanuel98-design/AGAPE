@@ -1,23 +1,56 @@
 "use client";
 
 import type { FormEvent } from "react";
-import { CheckCircle2, ChevronLeft, ChevronRight, HeartHandshake, Loader2, Sparkles, UserRound } from "lucide-react";
-import { useMemo, useState, useTransition } from "react";
+import { useActionState, useMemo, useState } from "react";
+import {
+  ChevronLeft,
+  ChevronRight,
+  CircleCheck,
+  HeartHandshake,
+  Loader2,
+  Sparkles,
+  UserRound,
+} from "lucide-react";
+import { motion } from "framer-motion";
 import { useLocale, useTranslations } from "next-intl";
 
 import { Button } from "@/components/ui/button";
-import { registerMember } from "@/lib/actions/member-registration";
+import {
+  submitMemberRegistrationForm,
+  type MemberRegistrationUiState,
+} from "@/lib/actions/member-registration";
+import { Link } from "@/i18n/navigation";
 import { cn } from "@/lib/utils";
 
 const TALENT_KEYS = ["musique_piano", "academie", "technique_it", "organisation", "ecoute_benevole"] as const;
 const ACCOMP_KEYS = ["soutien_moral", "deuil", "maladie", "urgence"] as const;
 
+/** État initial de `useActionState` : aucun résultat serveur encore reçu. */
+const initialActionState: MemberRegistrationUiState = { type: "idle" };
+
+/**
+ * Traduit les codes d’erreur renvoyés par `submitMemberRegistrationForm` (lui-même alimenté par `registerMember`).
+ */
+function messageForActionError(code: string, t: ReturnType<typeof useTranslations<"memberRegistration">>) {
+  if (code === "invalid_phone") return t("errorPhone");
+  if (code === "invalid_fields") return t("errorFields");
+  if (code === "unexpected_error" || code === "server") return t("errorGeneric");
+  return t("errorGeneric");
+}
+
 export function MemberRegistrationForm() {
   const t = useTranslations("memberRegistration");
   const locale = useLocale();
   const [step, setStep] = useState(0);
-  const [pending, startTransition] = useTransition();
-  const [status, setStatus] = useState<{ tone: "success" | "error"; text: string } | null>(null);
+  /** Erreurs purement locales (étapes incomplètes) — ne passent pas par le serveur. */
+  const [stepError, setStepError] = useState<string | null>(null);
+
+  /**
+   * `useActionState` branche le formulaire sur une Server Action sans rechargement :
+   * on appelle `formAction(formData)` depuis `onSubmit`, React sérialise la réponse dans `state`
+   * au lieu de laisser le navigateur afficher le JSON brut renvoyé par l’action.
+   */
+  const [actionState, formAction, isPending] = useActionState(submitMemberRegistrationForm, initialActionState);
 
   const [lastName, setLastName] = useState("");
   const [firstName, setFirstName] = useState("");
@@ -82,20 +115,20 @@ export function MemberRegistrationForm() {
   }
 
   function goNext() {
-    setStatus(null);
+    setStepError(null);
     if (step === 0 && !validateStep0()) {
-      setStatus({ tone: "error", text: t("errorFields") });
+      setStepError(t("errorFields"));
       return;
     }
     if (step === 1 && !validateStep1()) {
-      setStatus({ tone: "error", text: t("errorTalents") });
+      setStepError(t("errorTalents"));
       return;
     }
     setStep((s) => Math.min(s + 1, 2));
   }
 
   function goPrev() {
-    setStatus(null);
+    setStepError(null);
     setStep((s) => Math.max(s - 1, 0));
   }
 
@@ -115,44 +148,67 @@ export function MemberRegistrationForm() {
     return fd;
   }
 
-  async function onSubmit(event: FormEvent<HTMLFormElement>) {
+  /**
+   * Soumission finale : validation locale puis `formAction(FormData)`.
+   * C’est `useActionState` qui invoque la Server Action en RSC/RPC : pas de navigation « document JSON ».
+   */
+  function handleSubmit(event: FormEvent<HTMLFormElement>) {
     event.preventDefault();
-    setStatus(null);
+    setStepError(null);
     if (!validateStep2()) {
-      setStatus({ tone: "error", text: t("errorFields") });
+      setStepError(t("errorFields"));
       return;
     }
-
-    startTransition(async () => {
-      const result = await registerMember(buildFormData());
-      if (!result.ok) {
-        setStatus({
-          tone: "error",
-          text:
-            result.message === "invalid_phone"
-              ? t("errorPhone")
-              : result.message === "invalid_fields"
-                ? t("errorFields")
-                : t("errorGeneric"),
-        });
-        return;
-      }
-
-      const warm = t("successWarm");
-      const text =
-        result.severity === "critical" ? `${warm} ${t("successUrgentAddon")}` : warm;
-      setStatus({ tone: "success", text });
-      setStep(0);
-      setLastName("");
-      setFirstName("");
-      setPhone("");
-      setCity("");
-      setPreferredLanguage("fr");
-      setTalentPick(Object.fromEntries(TALENT_KEYS.map((k) => [k, false])));
-      setAccompanimentNeed("");
-      setSupportMessage("");
-    });
+    formAction(buildFormData());
   }
+
+  /* --- Vue succès : on remplace entièrement le formulaire par un message de confirmation --- */
+  if (actionState.type === "success") {
+    return (
+      <section
+        id="member-registration"
+        className="scroll-mt-28 overflow-hidden rounded-[28px] border border-emerald-200/80 bg-gradient-to-br from-emerald-50/90 via-white to-sky-50/40 p-1 shadow-[0_20px_50px_rgba(16,185,129,0.12)] sm:p-1.5"
+      >
+        <motion.div
+          className="rounded-[24px] bg-white/85 px-6 py-12 text-center backdrop-blur-sm sm:px-10 sm:py-14"
+          initial={{ opacity: 0, y: 16 }}
+          animate={{ opacity: 1, y: 0 }}
+          transition={{ duration: 0.4, ease: [0.22, 1, 0.36, 1] }}
+        >
+          <div className="mx-auto flex size-24 items-center justify-center rounded-full bg-emerald-100 text-emerald-600 shadow-inner ring-4 ring-emerald-200/60">
+            <motion.div
+              initial={{ scale: 0.6, opacity: 0 }}
+              animate={{ scale: 1, opacity: 1 }}
+              transition={{ type: "spring", stiffness: 320, damping: 18, delay: 0.08 }}
+              aria-hidden
+            >
+              <CircleCheck className="size-14" strokeWidth={1.75} />
+            </motion.div>
+          </div>
+
+          <p className="mx-auto mt-8 max-w-lg text-lg font-medium leading-relaxed text-sky-950 sm:text-xl">
+            {t("successRegistered")}
+          </p>
+
+          {actionState.severity === "critical" ? (
+            <p className="mx-auto mt-4 max-w-lg text-sm leading-relaxed text-rose-800/90">{t("successUrgentAddon")}</p>
+          ) : null}
+
+          <div className="mt-10 flex flex-wrap items-center justify-center gap-3">
+            <Button asChild size="lg" className="h-12 rounded-2xl bg-sky-700 px-8 text-white hover:bg-sky-800">
+              <Link href="/">{t("backToHome")}</Link>
+            </Button>
+          </div>
+        </motion.div>
+      </section>
+    );
+  }
+
+  const serverErrorMessage =
+    actionState.type === "error" && step === 2 ? messageForActionError(actionState.code, t) : null;
+
+  /** Message rouge unique au-dessus des boutons (client ou retour serveur). */
+  const errorBanner = step === 2 ? stepError ?? serverErrorMessage : stepError;
 
   return (
     <section
@@ -197,7 +253,7 @@ export function MemberRegistrationForm() {
           <p className="mx-auto mt-2 max-w-md text-sm leading-relaxed text-sky-800/90">{t("subtitle")}</p>
         </div>
 
-        <form className="mt-8 space-y-6" onSubmit={(event) => void onSubmit(event)}>
+        <form className="mt-8 space-y-6" onSubmit={handleSubmit}>
           {step === 0 ? (
             <div className="grid gap-4 rounded-2xl border border-sky-100/90 bg-gradient-to-b from-white to-sky-50/40 p-4 shadow-inner sm:grid-cols-2 sm:p-6">
               <label className="grid gap-2 sm:col-span-1">
@@ -341,12 +397,21 @@ export function MemberRegistrationForm() {
             </div>
           ) : null}
 
+          {errorBanner ? (
+            <div
+              role="alert"
+              className="rounded-2xl border border-red-200 bg-red-50 px-4 py-3 text-sm font-medium text-red-900 shadow-sm"
+            >
+              {errorBanner}
+            </div>
+          ) : null}
+
           <div className="flex flex-col gap-3 sm:flex-row sm:items-center sm:justify-between">
             <Button
               type="button"
               variant="outline"
               onClick={goPrev}
-              disabled={pending || step === 0}
+              disabled={isPending || step === 0}
               className="h-12 w-full rounded-2xl border-sky-200 bg-white/95 text-sky-900 hover:bg-sky-50 sm:w-auto"
             >
               <ChevronLeft className="size-4" aria-hidden />
@@ -365,10 +430,10 @@ export function MemberRegistrationForm() {
             ) : (
               <Button
                 type="submit"
-                disabled={pending}
+                disabled={isPending}
                 className="h-14 w-full min-h-[52px] rounded-2xl bg-gradient-to-r from-sky-700 to-sky-600 text-base font-semibold text-white shadow-lg hover:from-sky-800 hover:to-sky-700 sm:ml-auto sm:min-w-[280px]"
               >
-                {pending ? (
+                {isPending ? (
                   <Loader2 className="size-5 animate-spin" aria-hidden />
                 ) : (
                   <HeartHandshake className="size-5" aria-hidden />
@@ -377,24 +442,6 @@ export function MemberRegistrationForm() {
               </Button>
             )}
           </div>
-
-          {status ? (
-            <div
-              className={cn(
-                "rounded-2xl border px-4 py-4 text-sm leading-relaxed shadow-sm",
-                status.tone === "success" &&
-                  "border-sky-200 bg-gradient-to-br from-sky-50 via-white to-sky-50/80 text-sky-950",
-                status.tone === "error" && "border-amber-200 bg-amber-50 text-amber-950",
-              )}
-            >
-              <p className="inline-flex items-start gap-2">
-                {status.tone === "success" ? (
-                  <CheckCircle2 className="mt-0.5 size-5 shrink-0 text-sky-600" aria-hidden />
-                ) : null}
-                {status.text}
-              </p>
-            </div>
-          ) : null}
         </form>
       </div>
     </section>

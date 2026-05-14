@@ -172,7 +172,9 @@
     "errorPhone": "Merci de renseigner un numéro de téléphone valide.",
     "errorFields": "Merci de compléter les champs de cette étape.",
     "errorTalents": "Choisis au moins un talent.",
-    "errorGeneric": "Envoi impossible pour le moment. Réessaie plus tard."
+    "errorGeneric": "Envoi impossible pour le moment. Réessaie plus tard.",
+    "successRegistered": "Merci pour votre inscription ! Votre place au sein de la communauté AGAPE est enregistrée. Nous avons hâte de vous retrouver.",
+    "backToHome": "Retour à l'accueil"
   },
   "discover": {
     "heading": "Découvrir",
