@@ -53,6 +53,9 @@ function normalizeTalents(raw: unknown): string[] {
   return raw.filter((x): x is string => typeof x === "string" && isTalentKey(x));
 }
 
+/**
+ * Page profil membre : données lues depuis `public.profiles` (remplies par le trigger à l’inscription).
+ */
 export default async function MemberPublicProfilePage({ params }: Props) {
   const { id } = await params;
   const profile = await getMemberPublicProfileById(id);
@@ -62,6 +65,10 @@ export default async function MemberPublicProfilePage({ params }: Props) {
   const tReg = await getTranslations({ locale: routing.defaultLocale, namespace: "memberRegistration" });
 
   const displayName = displayNameFromProfile(profile, t("anonymousMember"));
+  const firstForWelcome =
+    profile.first_name?.trim() ||
+    profile.full_name?.trim().split(/\s+/)[0] ||
+    displayName;
   const first = profile.first_name?.trim() || "";
   const last = profile.last_name?.trim() || "";
   const initials =
@@ -117,7 +124,7 @@ export default async function MemberPublicProfilePage({ params }: Props) {
             <div>
               <p className="text-[11px] font-semibold uppercase tracking-[0.2em] text-neutral-400">{t("badgeMember")}</p>
               <h1 className="mt-2 text-[1.75rem] font-semibold leading-tight tracking-tight text-neutral-950 md:text-3xl">
-                {displayName}
+                {profile.full_name?.trim() || displayName}
               </h1>
             </div>
 
@@ -134,7 +141,7 @@ export default async function MemberPublicProfilePage({ params }: Props) {
             ) : null}
 
             <p className="text-lg leading-relaxed text-neutral-600">
-              {t("welcomeMessage", { firstName: first || displayName })}
+              {t("welcomeMessage", { firstName: firstForWelcome })}
             </p>
 
             {talentLabels.length > 0 ? (

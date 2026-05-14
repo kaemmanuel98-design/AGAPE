@@ -202,6 +202,8 @@
     "profilePhotoHint": "Optional — JPEG, PNG or WebP, max 8 MB. Cropped and compressed to WebP on the server before upload to Supabase.",
     "profilePhotoChoose": "Choose image",
     "redirectingToProfile": "Opening your member space…",
+    "verifyEmailProfile": "Check your email to confirm your profile.",
+    "verifyEmailHint": "Open the link in the email to activate your account, then you can sign in.",
     "sendingJoin": "Sending…",
     "errorPhoto": "Please choose a valid image (JPEG, PNG or WebP, reasonable size).",
     "errorServerConfig": "Uploading the photo requires server configuration (Supabase service key). Try again without a photo or contact the team."

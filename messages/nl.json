@@ -202,6 +202,8 @@
     "profilePhotoHint": "Optioneel — JPEG, PNG of WebP, max. 8 MB. Op de server bijgesneden en gecomprimeerd naar WebP vóór upload naar Supabase.",
     "profilePhotoChoose": "Kies een afbeelding",
     "redirectingToProfile": "Je ledenruimte openen…",
+    "verifyEmailProfile": "Controleer je e-mail om je profiel te bevestigen.",
+    "verifyEmailHint": "Open de link in de e-mail om je account te activeren; daarna kun je inloggen.",
     "sendingJoin": "Bezig met verzenden…",
     "errorPhoto": "Kies een geldige afbeelding (JPEG, PNG of WebP, redelijke grootte).",
     "errorServerConfig": "Het versturen van de foto vereist serverconfiguratie (Supabase service key). Probeer opnieuw zonder foto of neem contact op met het team."

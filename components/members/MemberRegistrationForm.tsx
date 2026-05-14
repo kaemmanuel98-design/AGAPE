@@ -11,6 +11,7 @@ import {
   Sparkles,
   UserRound,
 } from "lucide-react";
+import NextLink from "next/link";
 import { useLocale, useTranslations } from "next-intl";
 import { useRouter } from "next/navigation";
 import { useFormStatus } from "react-dom";
@@ -159,7 +160,24 @@ export function MemberRegistrationForm() {
 
   const serverActionError = state.status === "error" ? messageForRegisterError(state.message, t) : null;
 
-  if (state.status === "success") {
+  if (state.status === "success" && state.pendingEmailVerification) {
+    return (
+      <section
+        id="member-registration"
+        className="scroll-mt-28 overflow-hidden rounded-[28px] border border-sky-100/80 bg-white/90 p-10 text-center shadow-inner sm:p-14"
+        aria-live="polite"
+      >
+        <Sparkles className="mx-auto size-10 text-sky-600" aria-hidden />
+        <p className="mt-6 text-lg font-semibold tracking-tight text-sky-950">{t("verifyEmailProfile")}</p>
+        <p className="mx-auto mt-3 max-w-md text-sm leading-relaxed text-sky-800/90">{t("verifyEmailHint")}</p>
+        <Button asChild className="mt-8 h-12 rounded-2xl px-8">
+          <NextLink href={`/${locale}`}>{t("backToHome")}</NextLink>
+        </Button>
+      </section>
+    );
+  }
+
+  if (state.status === "success" && !state.pendingEmailVerification) {
     return (
       <section
         id="member-registration"

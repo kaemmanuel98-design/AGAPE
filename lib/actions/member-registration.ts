@@ -2,10 +2,12 @@
 
 import { randomBytes, randomUUID } from "node:crypto";
 
-import { uploadRegistrationAvatarJpeg } from "@/lib/actions/upload-registration-avatar";
+import {
+  deleteSignupPendingAvatarPath,
+  uploadPendingSignupAvatarJpeg,
+} from "@/lib/actions/upload-registration-avatar";
 import { sendCriticalAssistanceAlertEmail } from "@/lib/notifications/critical-assistance";
 import { createSupabaseServerClient } from "@/lib/supabase/server";
-import { createSupabaseServiceRoleClient } from "@/lib/supabase/service-role";
 
 const ALLOWED_LANGUAGES = new Set(["fr", "en", "nl", "autre"]);
 const ALLOWED_TALENTS = new Set([
@@ -24,7 +26,13 @@ function clean(value: FormDataEntryValue | null) {
 /** État initial et retours de `registerMemberFormAction` (avec `useActionState`). */
 export type MemberRegistrationFormState =
   | { status: "idle" }
-  | { status: "success"; severity: "critical" | "standard"; memberId: string }
+  | {
+      status: "success";
+      severity: "critical" | "standard";
+      memberId: string;
+      /** `true` si aucune session après signUp (ex. confirmation e-mail activée côté Supabase). */
+      pendingEmailVerification: boolean;
+    }
   | { status: "error"; message: string };
 
 type ProcessOk = {
@@ -32,12 +40,16 @@ type ProcessOk = {
   severity: "critical" | "standard";
   criticalAlertSent: boolean;
   memberId: string;
+  pendingEmailVerification: boolean;
 };
 type ProcessErr = { ok: false; message: string };
 
 /**
- * Inscription : crée un utilisateur Auth (donc une ligne `profiles` via trigger), ouvre la session,
- * upload éventuel de l’avatar, puis enregistre `members_registration` + met à jour `profiles`.
+ * Inscription `/rejoindre` :
+ * 1) Upload éventuel de la photo dans `avatars` **avant** `signUp` (échec → arrêt, pas de compte créé).
+ * 2) `supabase.auth.signUp` avec `options.data` **strictement** au format attendu par `handle_new_user` :
+ *    `full_name`, `avatar_url`, `current_need`, `city` (photo uploadée avant via **service_role**).
+ * 3) Aucune écriture manuelle dans `public.profiles` : le trigger remplit la ligne.
  */
 async function processMemberRegistration(formData: FormData): Promise<ProcessOk | ProcessErr> {
   const lastName = clean(formData.get("last_name"));
@@ -86,74 +98,55 @@ async function processMemberRegistration(formData: FormData): Promise<ProcessOk 
   const fullName = `${firstName} ${lastName}`.trim();
   const isPriorityEmergency = accompanimentNeed === "urgence";
 
-  let userId: string | null = null;
-  const admin = createSupabaseServiceRoleClient();
+  const pendingUpload = await uploadPendingSignupAvatarJpeg(photoFile);
+  if (!pendingUpload.ok) {
+    return pendingUpload;
+  }
+
+  let pendingStoragePath = pendingUpload.storagePath;
 
   try {
     const email = `m-${randomUUID()}@members.agape`;
     const password = `${randomBytes(28).toString("base64url")}Aa1!`;
 
-    const { data: created, error: cErr } = await admin.auth.admin.createUser({
+    const supabase = await createSupabaseServerClient();
+    const { data: signData, error: signErr } = await supabase.auth.signUp({
       email,
       password,
-      email_confirm: true,
-      app_metadata: { agape_rejoindre: true },
+      options: {
+        data: {
+          full_name: fullName,
+          avatar_url: pendingUpload.avatarUrl ?? "",
+          current_need: accompanimentNeed,
+          city,
+        },
+      },
     });
 
-    if (cErr || !created.user) {
-      console.error("[AGAPE Inscription] Création du compte Auth refusée :", cErr?.message ?? "utilisateur absent");
+    if (signErr) {
+      console.error("[AGAPE Inscription] signUp refusé :", signErr.message);
+      await deleteSignupPendingAvatarPath(pendingStoragePath);
+      pendingStoragePath = null;
       return { ok: false, message: "db_error" };
     }
 
-    userId = created.user.id;
-    console.log("[AGAPE Inscription] Compte Auth créé, identifiant profil :", userId);
-
-    const supabase = await createSupabaseServerClient();
-    const { error: sErr } = await supabase.auth.signInWithPassword({ email, password });
-    if (sErr) {
-      console.error("[AGAPE Inscription] Connexion automatique échouée :", sErr.message);
-      await admin.auth.admin.deleteUser(userId);
-      userId = null;
-      return { ok: false, message: "db_error" };
-    }
-    console.log("[AGAPE Inscription] Session ouverte pour le nouveau membre.");
-
-    const photoResult = await uploadRegistrationAvatarJpeg(supabase, userId, photoFile);
-    if (!photoResult.ok) {
-      await admin.auth.admin.deleteUser(userId);
-      userId = null;
-      return photoResult;
-    }
-
-    /**
-     * Données membre : tout est persisté dans `public.profiles` (URL photo = bucket `avatars` public).
-     * La table `members_registration` est optionnelle selon les déploiements ; on ne dépend plus d’elle pour l’inscription.
-     */
-    const { error: upErr } = await supabase
-      .from("profiles")
-      .update({
-        first_names: firstName,
-        last_name: lastName,
-        full_name: fullName,
-        phone,
-        avatar_url: photoResult.avatarUrl,
-        talents,
-        member_talents: talents,
-        current_need: accompanimentNeed,
-        message: supportMessage,
-        city,
-        preferred_language: preferredLanguage,
-      })
-      .eq("id", userId);
-
-    if (upErr) {
-      console.error("[AGAPE Inscription] Échec mise à jour du profil :", upErr.message);
-      await admin.auth.admin.deleteUser(userId);
-      userId = null;
+    const userId = signData.user?.id;
+    if (!userId) {
+      console.error("[AGAPE Inscription] signUp sans identifiant utilisateur.");
+      await deleteSignupPendingAvatarPath(pendingStoragePath);
+      pendingStoragePath = null;
       return { ok: false, message: "db_error" };
     }
 
-    console.log("[AGAPE Inscription] Profil enregistré dans `profiles` (photo, besoin, talents).");
+    console.log(
+      "[AGAPE Inscription] signUp réussi ; profil créé par le trigger (metadata : full_name, avatar_url, …). id =",
+      userId,
+    );
+
+    pendingStoragePath = null;
+
+    /** Session absente mais utilisateur créé → en général confirmation e-mail requise. */
+    const pendingEmailVerification = Boolean(signData.user && !signData.session);
 
     let criticalAlertSent = false;
     if (isPriorityEmergency) {
@@ -174,23 +167,17 @@ async function processMemberRegistration(formData: FormData): Promise<ProcessOk 
       severity: isPriorityEmergency ? "critical" : "standard",
       criticalAlertSent,
       memberId: userId,
+      pendingEmailVerification,
     };
   } catch (e) {
     console.error("[AGAPE Inscription] Erreur inattendue :", e);
-    if (userId) {
-      try {
-        await admin.auth.admin.deleteUser(userId);
-        console.warn("[AGAPE Inscription] Compte Auth supprimé après erreur (rollback).");
-      } catch (delErr) {
-        console.error("[AGAPE Inscription] Échec rollback Auth :", delErr);
-      }
-    }
+    await deleteSignupPendingAvatarPath(pendingStoragePath);
     return { ok: false, message: "unexpected_error" };
   }
 }
 
 /**
- * Action serveur pour `useActionState` : le client redirige vers `/profile/[id]` (`id` = `auth.users` / `profiles`).
+ * Action serveur pour `useActionState` : redirection client vers `/profile/[id]` après succès.
  */
 export async function registerMemberFormAction(
   _prev: MemberRegistrationFormState,
@@ -200,7 +187,12 @@ export async function registerMemberFormAction(
   if (!result.ok) {
     return { status: "error", message: result.message };
   }
-  return { status: "success", severity: result.severity, memberId: result.memberId };
+  return {
+    status: "success",
+    severity: result.severity,
+    memberId: result.memberId,
+    pendingEmailVerification: result.pendingEmailVerification,
+  };
 }
 
 export async function registerMember(formData: FormData) {

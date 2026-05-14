@@ -202,6 +202,8 @@
     "profilePhotoHint": "Optionnel — JPEG, PNG ou WebP, max. 8 Mo. Recadrage et compression en JPEG côté serveur avant envoi vers le bucket « avatars ».",
     "profilePhotoChoose": "Choisir une image",
     "redirectingToProfile": "Ouverture de ton espace membre…",
+    "verifyEmailProfile": "Vérifiez vos emails pour valider votre profil.",
+    "verifyEmailHint": "Ouvre le lien reçu par e-mail pour activer ton compte, puis tu pourras te connecter.",
     "sendingJoin": "Envoi en cours…",
     "errorPhoto": "Merci de choisir une image valide (JPEG, PNG ou WebP, taille raisonnable).",
     "errorServerConfig": "L’envoi de la photo nécessite la configuration serveur (clé service Supabase). Réessaie sans photo ou contacte l’équipe."
