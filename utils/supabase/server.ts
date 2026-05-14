@@ -7,5 +7,10 @@ import { createSupabaseServerClient } from "@/lib/supabase/server";
  * `auth.getUser()` et ne sont pas bloquées par le middleware pour les routes publiques.
  */
 export async function createClient() {
-  return createSupabaseServerClient();
+  try {
+    return await createSupabaseServerClient();
+  } catch (e) {
+    console.error("[AGAPE Supabase] createClient() : impossible d'obtenir le client serveur.", e);
+    throw e;
+  }
 }

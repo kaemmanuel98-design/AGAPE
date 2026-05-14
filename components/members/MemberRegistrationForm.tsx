@@ -1,11 +1,12 @@
 "use client";
 
 import type { FormEvent } from "react";
-import { useMemo, useState, useTransition } from "react";
+import { useActionState, useMemo, useState } from "react";
 import {
   ChevronLeft,
   ChevronRight,
   CircleCheck,
+  GraduationCap,
   HeartHandshake,
   Loader2,
   Sparkles,
@@ -13,24 +14,44 @@ import {
 } from "lucide-react";
 import { motion } from "framer-motion";
 import { useLocale, useTranslations } from "next-intl";
+import { useFormStatus } from "react-dom";
 
 import { Button } from "@/components/ui/button";
-import { registerMember } from "@/lib/actions/member-registration";
+import {
+  registerMemberFormAction,
+  type MemberRegistrationFormState,
+} from "@/lib/actions/member-registration";
 import { Link } from "@/i18n/navigation";
 import { cn } from "@/lib/utils";
 
 const TALENT_KEYS = ["musique_piano", "academie", "technique_it", "organisation", "ecoute_benevole"] as const;
 const ACCOMP_KEYS = ["soutien_moral", "deuil", "maladie", "urgence"] as const;
 
-/** Traduit la valeur `message` renvoyée par `registerMember` lorsque `ok` est faux. */
+const initialFormState: MemberRegistrationFormState = { status: "idle" };
+
+/** Traduit la valeur `message` renvoyée par l’action lorsque `status === "error"`. */
 function messageForRegisterError(
   message: string,
   t: ReturnType<typeof useTranslations<"memberRegistration">>,
 ) {
   if (message === "invalid_phone") return t("errorPhone");
   if (message === "invalid_fields") return t("errorFields");
-  if (message === "unexpected_error") return t("errorGeneric");
   return t("errorGeneric");
+}
+
+/** Bouton d’envoi : `useFormStatus` pour l’état « en cours » (intégration formulaire natif + Server Action). */
+function MemberJoinSubmitButton({ label }: { label: string }) {
+  const { pending } = useFormStatus();
+  return (
+    <Button
+      type="submit"
+      disabled={pending}
+      className="h-14 w-full min-h-[52px] rounded-2xl bg-gradient-to-r from-sky-700 to-sky-600 text-base font-semibold text-white shadow-lg hover:from-sky-800 hover:to-sky-700 sm:ml-auto sm:min-w-[280px]"
+    >
+      {pending ? <Loader2 className="size-5 animate-spin" aria-hidden /> : <HeartHandshake className="size-5" aria-hidden />}
+      {label}
+    </Button>
+  );
 }
 
 export function MemberRegistrationForm() {
@@ -39,14 +60,7 @@ export function MemberRegistrationForm() {
   const [step, setStep] = useState(0);
   const [stepError, setStepError] = useState<string | null>(null);
 
-  /**
-   * Réponse de la Server Action interceptée ici (pas par le navigateur) :
-   * on stocke le résultat dans `useState` pour afficher soit le succès stylisé,
-   * soit une erreur — jamais le JSON brut `{ ok: true, ... }` comme page entière.
-   */
-  const [submitSuccess, setSubmitSuccess] = useState<null | { severity: "critical" | "standard" }>(null);
-  const [serverError, setServerError] = useState<string | null>(null);
-  const [isSubmitting, startTransition] = useTransition();
+  const [state, formAction, isPending] = useActionState(registerMemberFormAction, initialFormState);
 
   const [lastName, setLastName] = useState("");
   const [firstName, setFirstName] = useState("");
@@ -128,44 +142,11 @@ export function MemberRegistrationForm() {
     setStep((s) => Math.max(s - 1, 0));
   }
 
-  function buildFormData() {
-    const fd = new FormData();
-    fd.set("locale", locale);
-    fd.set("last_name", lastName.trim());
-    fd.set("first_name", firstName.trim());
-    fd.set("phone", phone.trim());
-    fd.set("city", city.trim());
-    fd.set("preferred_language", preferredLanguage);
-    fd.set("accompaniment_need", accompanimentNeed);
-    fd.set("support_message", supportMessage.trim());
-    TALENT_KEYS.forEach((key) => {
-      if (talentPick[key]) fd.append("talents", key);
-    });
-    return fd;
-  }
+  const serverActionError = state.status === "error" ? messageForRegisterError(state.message, t) : null;
+  /** Succès explicite (évite toute confusion avec une réponse JSON brute côté navigateur). */
+  const isSuccess = state.status === "success";
 
-  function handleSubmit(event: FormEvent<HTMLFormElement>) {
-    event.preventDefault();
-    setStepError(null);
-    setServerError(null);
-    if (!validateStep2()) {
-      setStepError(t("errorFields"));
-      return;
-    }
-
-    startTransition(async () => {
-      const result = await registerMember(buildFormData());
-      if (!result.ok) {
-        setSubmitSuccess(null);
-        setServerError(messageForRegisterError(String(result.message), t));
-        return;
-      }
-      setServerError(null);
-      setSubmitSuccess({ severity: result.severity });
-    });
-  }
-
-  if (submitSuccess) {
+  if (isSuccess) {
     return (
       <section
         id="member-registration"
@@ -188,17 +169,24 @@ export function MemberRegistrationForm() {
             </motion.div>
           </div>
 
-          <p className="mx-auto mt-8 max-w-lg text-lg font-medium leading-relaxed text-sky-950 sm:text-xl">
-            {t("successRegistered")}
+          <p className="mx-auto mt-8 max-w-lg text-2xl font-semibold tracking-tight text-emerald-900 sm:text-3xl">
+            {t("successThankYou")}
           </p>
+          <p className="mx-auto mt-4 max-w-lg text-base font-medium leading-relaxed text-sky-950 sm:text-lg">{t("successRegistered")}</p>
 
-          {submitSuccess.severity === "critical" ? (
+          {state.severity === "critical" ? (
             <p className="mx-auto mt-4 max-w-lg text-sm leading-relaxed text-rose-800/90">{t("successUrgentAddon")}</p>
           ) : null}
 
-          <div className="mt-10 flex flex-wrap items-center justify-center gap-3">
-            <Button asChild size="lg" className="h-12 rounded-2xl bg-sky-700 px-8 text-white hover:bg-sky-800">
+          <div className="mt-10 flex flex-col flex-wrap items-stretch justify-center gap-3 sm:flex-row sm:items-center">
+            <Button asChild size="lg" variant="outline" className="h-12 rounded-2xl border-sky-200 bg-white px-8 text-sky-900 hover:bg-sky-50">
               <Link href="/">{t("backToHome")}</Link>
+            </Button>
+            <Button asChild size="lg" className="h-12 rounded-2xl bg-sky-700 px-8 text-white hover:bg-sky-800">
+              <Link href="/academy" className="inline-flex items-center justify-center gap-2">
+                <GraduationCap className="size-5 shrink-0" aria-hidden />
+                {t("exploreAcademy")}
+              </Link>
             </Button>
           </div>
         </motion.div>
@@ -206,7 +194,7 @@ export function MemberRegistrationForm() {
     );
   }
 
-  const errorBanner = step === 2 ? stepError ?? serverError : stepError;
+  const errorBanner = step === 2 ? stepError ?? serverActionError : stepError;
 
   return (
     <section
@@ -251,7 +239,33 @@ export function MemberRegistrationForm() {
           <p className="mx-auto mt-2 max-w-md text-sm leading-relaxed text-sky-800/90">{t("subtitle")}</p>
         </div>
 
-        <form className="mt-8 space-y-6" onSubmit={handleSubmit}>
+        <form
+          className="mt-8 space-y-6"
+          action={formAction}
+          onSubmit={(e: FormEvent<HTMLFormElement>) => {
+            if (step < 2) {
+              e.preventDefault();
+              return;
+            }
+            if (!validateStep2()) {
+              e.preventDefault();
+              setStepError(t("errorFields"));
+            }
+          }}
+        >
+          {/* Données postées vers la Server Action (évite une navigation « page JSON »). */}
+          <input type="hidden" name="locale" value={locale} />
+          <input type="hidden" name="last_name" value={lastName} />
+          <input type="hidden" name="first_name" value={firstName} />
+          <input type="hidden" name="phone" value={phone} />
+          <input type="hidden" name="city" value={city} />
+          <input type="hidden" name="preferred_language" value={preferredLanguage} />
+          <input type="hidden" name="accompaniment_need" value={accompanimentNeed} />
+          <input type="hidden" name="support_message" value={supportMessage} />
+          {TALENT_KEYS.filter((k) => talentPick[k]).map((k) => (
+            <input key={k} type="hidden" name="talents" value={k} />
+          ))}
+
           {step === 0 ? (
             <div className="grid gap-4 rounded-2xl border border-sky-100/90 bg-gradient-to-b from-white to-sky-50/40 p-4 shadow-inner sm:grid-cols-2 sm:p-6">
               <label className="grid gap-2 sm:col-span-1">
@@ -409,7 +423,7 @@ export function MemberRegistrationForm() {
               type="button"
               variant="outline"
               onClick={goPrev}
-              disabled={isSubmitting || step === 0}
+              disabled={isPending || step === 0}
               className="h-12 w-full rounded-2xl border-sky-200 bg-white/95 text-sky-900 hover:bg-sky-50 sm:w-auto"
             >
               <ChevronLeft className="size-4" aria-hidden />
@@ -420,24 +434,14 @@ export function MemberRegistrationForm() {
               <Button
                 type="button"
                 onClick={goNext}
+                disabled={isPending}
                 className="h-12 w-full rounded-2xl bg-gradient-to-r from-sky-600 to-sky-500 px-6 text-white shadow-md hover:from-sky-700 hover:to-sky-600 sm:w-auto sm:min-w-[10rem]"
               >
                 {t("next")}
                 <ChevronRight className="size-4" aria-hidden />
               </Button>
             ) : (
-              <Button
-                type="submit"
-                disabled={isSubmitting}
-                className="h-14 w-full min-h-[52px] rounded-2xl bg-gradient-to-r from-sky-700 to-sky-600 text-base font-semibold text-white shadow-lg hover:from-sky-800 hover:to-sky-700 sm:ml-auto sm:min-w-[280px]"
-              >
-                {isSubmitting ? (
-                  <Loader2 className="size-5 animate-spin" aria-hidden />
-                ) : (
-                  <HeartHandshake className="size-5" aria-hidden />
-                )}
-                {t("submitJoinCommunity")}
-              </Button>
+              <MemberJoinSubmitButton label={t("submitJoinCommunity")} />
             )}
           </div>
         </form>

@@ -17,11 +17,20 @@ function clean(value: FormDataEntryValue | null) {
   return String(value ?? "").trim();
 }
 
+/** État initial et retours de `registerMemberFormAction` (avec `useActionState`). */
+export type MemberRegistrationFormState =
+  | { status: "idle" }
+  | { status: "success"; severity: "critical" | "standard" }
+  | { status: "error"; message: string };
+
+type ProcessOk = { ok: true; severity: "critical" | "standard"; criticalAlertSent: boolean };
+type ProcessErr = { ok: false; message: string };
+
 /**
  * Inscription membre : validation, puis insertion dans `members_registration`.
  * Les talents sont envoyés en **tableau** (colonne JSONB côté Supabase).
  */
-export async function registerMember(formData: FormData) {
+async function processMemberRegistration(formData: FormData): Promise<ProcessOk | ProcessErr> {
   const lastName = clean(formData.get("last_name"));
   const firstName = clean(formData.get("first_name"));
   const phone = clean(formData.get("phone"));
@@ -35,31 +44,31 @@ export async function registerMember(formData: FormData) {
   const talents = [...new Set(talentEntries)].filter((t) => ALLOWED_TALENTS.has(t));
 
   if (!lastName || lastName.length > 120 || !firstName || firstName.length > 120) {
-    return { ok: false as const, message: "invalid_fields" as const };
+    return { ok: false, message: "invalid_fields" };
   }
 
   if (!city || city.length > 160) {
-    return { ok: false as const, message: "invalid_fields" as const };
+    return { ok: false, message: "invalid_fields" };
   }
 
   if (!phone || phone.length < 5 || phone.length > 160) {
-    return { ok: false as const, message: "invalid_phone" as const };
+    return { ok: false, message: "invalid_phone" };
   }
 
   if (!preferredLanguage || !ALLOWED_LANGUAGES.has(preferredLanguage)) {
-    return { ok: false as const, message: "invalid_fields" as const };
+    return { ok: false, message: "invalid_fields" };
   }
 
   if (talents.length === 0) {
-    return { ok: false as const, message: "invalid_fields" as const };
+    return { ok: false, message: "invalid_fields" };
   }
 
   if (!accompanimentNeed || !ALLOWED_ACCOMPANIMENT.has(accompanimentNeed)) {
-    return { ok: false as const, message: "invalid_fields" as const };
+    return { ok: false, message: "invalid_fields" };
   }
 
   if (supportMessage && supportMessage.length > 2000) {
-    return { ok: false as const, message: "invalid_fields" as const };
+    return { ok: false, message: "invalid_fields" };
   }
 
   const fullName = `${firstName} ${lastName}`.trim();
@@ -86,7 +95,10 @@ export async function registerMember(formData: FormData) {
       is_priority_emergency: isPriorityEmergency,
     });
 
-    if (error) return { ok: false as const, message: error.message };
+    if (error) {
+      console.error("[AGAPE Inscription membre] Échec insertion Supabase :", error.message, error);
+      return { ok: false, message: error.message };
+    }
 
     let criticalAlertSent = false;
     if (isPriorityEmergency) {
@@ -103,13 +115,34 @@ export async function registerMember(formData: FormData) {
     }
 
     return {
-      ok: true as const,
-      severity: isPriorityEmergency ? ("critical" as const) : ("standard" as const),
+      ok: true,
+      severity: isPriorityEmergency ? "critical" : "standard",
       criticalAlertSent,
     };
-  } catch {
-    return { ok: false as const, message: "unexpected_error" as const };
+  } catch (e) {
+    console.error("[AGAPE Inscription membre] Erreur inattendue :", e);
+    return { ok: false, message: "unexpected_error" };
   }
+}
+
+/**
+ * Action serveur pour `useActionState` : pas de navigation vers une réponse JSON brute —
+ * Next renvoie le nouvel état à la même page et le client affiche succès ou erreur.
+ */
+export async function registerMemberFormAction(
+  _prev: MemberRegistrationFormState,
+  formData: FormData,
+): Promise<MemberRegistrationFormState> {
+  const result = await processMemberRegistration(formData);
+  if (!result.ok) {
+    return { status: "error", message: result.message };
+  }
+  return { status: "success", severity: result.severity };
+}
+
+/** Appel programmatique (tests, scripts) — même logique que le formulaire. */
+export async function registerMember(formData: FormData) {
+  return processMemberRegistration(formData);
 }
 
 /** @deprecated Utiliser `registerMember` — alias conservé pour compatibilité. */

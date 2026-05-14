@@ -29,7 +29,7 @@ export async function fetchAcademyCourses(supabase: SupabaseClient): Promise<{
     .order("created_at", { ascending: false });
 
   if (error) {
-    console.error("fetchAcademyCourses (academy_courses)", error);
+    console.error("[AGAPE Academy] Échec du catalogue `academy_courses` :", error.message, error);
     return { lessons: [], error: error.message };
   }
 
@@ -62,7 +62,12 @@ export async function getLessonById(id: string): Promise<LessonRow | null> {
     .maybeSingle();
 
   if (error) {
-    console.error("getLessonById (academy_courses)", error);
+    console.error(
+      "[AGAPE Academy] Échec de lecture du cours par id sur `academy_courses` :",
+      error.message,
+      "| id =",
+      id,
+    );
     return null;
   }
 
