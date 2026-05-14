@@ -25,10 +25,8 @@ export async function generateMetadata({
  * (client `@/utils/supabase/server`, voir `lib/academy/queries.ts`). Tout le contenu affiché
  * (`text_content`, `video_url`, `audio_url`, métadonnées livre, etc.) provient de cette ligne.
  *
- * --- Mise en page « Manuscrit » (GYNOSKO) ---
- * Si `content_kind === "livre"` et que le titre correspond au livre GYNOSKO (`isGynoskoLesson`),
- * on délègue à `BookReader` : fond crème `#FDFBF7`, Playfair + Merriweather, colonne type livre ouvert.
- * Les autres livres utilisent `AcademyBookReadingSheet`.
+ * --- Livres ---
+ * Les entrées `content_kind === "livre"` utilisent la fiche de lecture standard (`AcademyBookReadingSheet`).
  */
 export default async function LessonPage({
   params,

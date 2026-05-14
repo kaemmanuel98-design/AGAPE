@@ -3,12 +3,10 @@ import { Merriweather } from "next/font/google";
 import { getTranslations } from "next-intl/server";
 
 import { AcademyBookReadingSheet } from "@/components/academy/academy-book-reading-sheet";
-import { BookReader } from "@/components/academy/BookReader";
 import { MarkdownLessonBody } from "@/components/academy/markdown-lesson-body";
 import { AccessibleAudioPlayer } from "@/components/audio/accessible-audio-player";
 import { Button } from "@/components/ui/button";
 import { Link } from "@/i18n/navigation";
-import { isGynoskoLesson } from "@/lib/academy/gynosko";
 import type { LessonKind, LessonRow } from "@/lib/academy/types";
 import { getLessonVideoEmbedUrl } from "@/lib/academy/video";
 
@@ -32,15 +30,14 @@ type Props = {
 
 /**
  * Corps de page partagé entre `/[locale]/academy/[lessonId]` et `/academy/[id]`.
- * — Livres GYNOSKO : `BookReader` (fond crème, serif).
- * — Autres livres : `AcademyBookReadingSheet`.
- * — Texte principal : champ Supabase `text_content` (contenu éditorial / « content » métier), rendu en Markdown.
+ * — Livres (`content_kind === "livre"`) : fiche de lecture standard `AcademyBookReadingSheet`.
+ * — Autres types : vidéo, article, audio avec `text_content` rendu en Markdown.
  */
 export async function AcademyLessonDocument({ lesson }: Props) {
   const t = await getTranslations("academy");
 
   if (lesson.content_kind === "livre") {
-    return isGynoskoLesson(lesson) ? <BookReader lesson={lesson} /> : <AcademyBookReadingSheet lesson={lesson} />;
+    return <AcademyBookReadingSheet lesson={lesson} />;
   }
 
   const embedUrl = getLessonVideoEmbedUrl(lesson.video_url);

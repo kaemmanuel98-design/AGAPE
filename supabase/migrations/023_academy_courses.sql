@@ -1,5 +1,5 @@
 -- Cours Academy : table dédiée (remplace l’usage public de `lessons` pour le catalogue / la lecture).
--- `is_featured` : affichage prioritaire sur la page d’accueil Academy (ex. GYNOSKO).
+-- `is_featured` : affichage prioritaire sur la page d’accueil Academy (bloc « À la une »).
 
 create table if not exists public.academy_courses (
   id uuid primary key default gen_random_uuid(),

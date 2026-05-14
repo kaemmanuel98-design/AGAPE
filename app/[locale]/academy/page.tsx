@@ -1,7 +1,8 @@
 import { getTranslations } from "next-intl/server";
 
 import CourseCard from "@/components/CourseCard";
-import { sortAcademyCoursesForCatalog } from "@/lib/academy/gynosko";
+import { AcademyFeatured } from "@/components/academy/AcademyFeatured";
+import { sortAcademyCoursesForCatalog } from "@/lib/academy/catalog-sort";
 import type { LessonRow } from "@/lib/academy/types";
 import { createClient } from "@/utils/supabase/server";
 
@@ -19,9 +20,8 @@ export default async function AcademyPage() {
   /**
    * --- Appel SQL ---
    * `SELECT *` sur `public.academy_courses`
-   * `ORDER BY is_featured DESC` pour remonter les contenus mis en avant (ex. GYNOSKO coché en admin).
-   * Le tri final côté application (`sortAcademyCoursesForCatalog`) place ensuite GYNOSKO en tête
-   * parmi les non-featured si besoin.
+   * `ORDER BY is_featured DESC` pour remonter les contenus mis en avant en admin.
+   * Le tri côté application (`sortAcademyCoursesForCatalog`) stabilise l’ordre du catalogue.
    */
   const { data: courses, error } = await supabase
     .from("academy_courses")
@@ -38,6 +38,8 @@ export default async function AcademyPage() {
   }
 
   const rows = sortAcademyCoursesForCatalog((courses ?? []) as LessonRow[]);
+  const featuredLesson = rows.find((r) => r.is_featured === true) ?? null;
+  const gridRows = featuredLesson ? rows.filter((r) => r.id !== featuredLesson.id) : rows;
 
   return (
     <main className="min-h-screen bg-slate-50 p-6 md:p-12 dark:bg-slate-950">
@@ -46,8 +48,14 @@ export default async function AcademyPage() {
         <p className="mt-2 text-slate-600 dark:text-slate-400">{t("pageTagline")}</p>
       </header>
 
+      {featuredLesson ? (
+        <div className="mb-12">
+          <AcademyFeatured lesson={featuredLesson} />
+        </div>
+      ) : null}
+
       <div className="grid grid-cols-1 gap-8 md:grid-cols-2 lg:grid-cols-3">
-        {rows.map((course) => (
+        {gridRows.map((course) => (
           <CourseCard key={course.id} course={course} />
         ))}
       </div>

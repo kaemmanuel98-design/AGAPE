@@ -49,7 +49,7 @@ export async function generateMetadata({
 /**
  * Page dynamique `/academy/[id]` : contenu issu de Supabase (`academy_courses`).
  * — Requête : `from('academy_courses').select().eq('id', id).single()`.
- * — Livre GYNOSKO : mise en page « manuscrit » (#FDFBF7, serif) via `AcademyLessonDocument` → `BookReader`.
+ * — Rendu : `AcademyLessonDocument` (livres = fiche de lecture standard, comme les autres cours).
  */
 export default async function AcademyLessonByIdPage({ params }: { params: Promise<{ id: string }> }) {
   const { id } = await params;

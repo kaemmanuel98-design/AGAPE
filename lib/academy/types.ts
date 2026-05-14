@@ -19,6 +19,6 @@ export type LessonRow = {
   external_link: string | null;
   sort_order: number;
   created_at: string;
-  /** Si vrai, la carte est mise en avant en tête de l’Academy (`AcademyFeatured`). */
+  /** Si vrai, affichage en tête du catalogue Academy (`AcademyFeatured`). */
   is_featured?: boolean | null;
 };

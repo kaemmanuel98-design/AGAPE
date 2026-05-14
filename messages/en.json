@@ -61,15 +61,9 @@
     "audioTtsLabel": "Read aloud with text-to-speech",
     "listenOnlyHint": "This lesson is mainly for listening — use the player below.",
     "featuredSectionTitle": "Featured",
-    "featuredBadge": "Revelation",
-    "featuredGynoskoSubtitle": "Knowing God beyond the letter — an immersive reading experience.",
-    "featuredRevelationLead": "Discover the new revelation by Ange Emmanuel KOUAME.",
-    "featuredCta": "Open reading",
-    "readerProgressLabel": "Reading progress",
-    "readerShareButton": "Share this reading",
-    "readerShareCopied": "Link copied — paste it into your message.",
-    "readerShareTitle": "GYNOSKO — AGAPE Academy",
-    "readerShareBody": "I'm sharing the GYNOSKO reading with you on AGAPE."
+    "featuredBadge": "Highlight",
+    "featuredSpotLead": "A team-selected course, book, or resource to grow together.",
+    "featuredCta": "Open reading"
   },
   "bibleStrong": {
     "title": "Bible Strong",

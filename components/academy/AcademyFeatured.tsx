@@ -6,17 +6,12 @@ import { Link } from "@/i18n/navigation";
 import type { LessonRow } from "@/lib/academy/types";
 
 type Props = {
-  /** Fiche « livre » GYNOSKO (détectée sur la page Academy via `isGynoskoLesson`). */
+  /** Entrée `academy_courses` avec `is_featured` (mise en avant configurable en admin). */
   lesson: LessonRow;
 };
 
 /**
- * Section « À la une » — carte mise en avant en tête de l’Academy.
- *
- * Pour modifier le texte d’accroche ou les couleurs du dégradé :
- * - Textes : clés i18n `academy.featured*` dans `messages/fr.json` (et en / nl).
- * - Dégradé : classes Tailwind `bg-gradient-to-*` et stops `from-*` / `via-*` / `to-*` ci-dessous.
- * Le lien `/academy/[id]` utilise l’UUID `lesson.id` fourni par Supabase.
+ * Bloc « À la une » en tête du catalogue Academy : titre et métadonnées issus de Supabase.
  */
 export async function AcademyFeatured({ lesson }: Props) {
   const t = await getTranslations("academy");
@@ -26,7 +21,6 @@ export async function AcademyFeatured({ lesson }: Props) {
       aria-labelledby="academy-featured-kicker academy-featured-heading"
       className="relative overflow-hidden rounded-[var(--radius)] border border-white/10 shadow-[0_24px_80px_rgba(15,23,42,0.45)] ring-1 ring-amber-400/15"
     >
-      {/* Fond : dégradé doux bleu nuit → indigo → doré (ambiance « révélation » AGAPE). */}
       <div
         className="absolute inset-0 bg-gradient-to-br from-[#0a1628] via-[#152238] to-[#3a2f14] dark:from-[#050d18] dark:via-[#0f172a] dark:to-[#2a1f0a]"
         aria-hidden
@@ -41,7 +35,6 @@ export async function AcademyFeatured({ lesson }: Props) {
       />
 
       <div className="relative flex flex-col gap-8 p-7 sm:flex-row sm:items-stretch sm:gap-10 sm:p-10 lg:p-12">
-        {/* Colonne texte : accroche + titre GYNOSKO + bouton — garde cette structure si tu ajoutes un second livre à la une plus tard. */}
         <div className="flex min-w-0 flex-1 flex-col justify-center space-y-5">
           <p
             id="academy-featured-kicker"
@@ -50,16 +43,17 @@ export async function AcademyFeatured({ lesson }: Props) {
             {t("featuredSectionTitle")}
           </p>
 
+          <p className="text-sm font-semibold uppercase tracking-[0.2em] text-amber-100/80">{lesson.module_title}</p>
+
           <h2
             id="academy-featured-heading"
             className="font-serif text-4xl font-bold tracking-tight text-[#FDFBF7] drop-shadow-sm sm:text-5xl lg:text-6xl"
           >
-            GYNOSKO
+            {lesson.title}
           </h2>
 
-          {/* Phrase d’accroche principale (éditable dans les fichiers messages). */}
           <p className="max-w-xl text-[18px] font-medium leading-relaxed text-slate-100/95 sm:text-xl lg:text-2xl">
-            {t("featuredRevelationLead")}
+            {t("featuredSpotLead")}
           </p>
 
           <div className="flex flex-wrap items-center gap-3 pt-1">
@@ -83,7 +77,6 @@ export async function AcademyFeatured({ lesson }: Props) {
           </div>
         </div>
 
-        {/* Colonne visuelle : jaquette large (carte « premium »). URL = `lesson.cover_image` en base. */}
         <div className="flex shrink-0 items-center justify-center sm:w-[min(100%,20rem)] lg:w-[22rem]">
           {lesson.cover_image?.trim() ? (
             <div className="w-full max-w-[14rem] overflow-hidden rounded-2xl border border-white/15 shadow-[0_20px_50px_rgba(0,0,0,0.35)] ring-1 ring-amber-200/20 sm:max-w-none">
@@ -100,8 +93,7 @@ export async function AcademyFeatured({ lesson }: Props) {
               className="flex aspect-[2/3] w-full max-w-[14rem] flex-col items-center justify-center rounded-2xl border border-dashed border-white/20 bg-white/5 p-6 text-center text-sm text-slate-300 sm:max-w-none"
               aria-hidden
             >
-              {/* Placeholder si aucune couverture : ajoute `cover_image` dans l’admin pour remplir cette zone. */}
-              Couverture à venir
+              {t("bookCoverPlaceholder")}
             </div>
           )}
         </div>
