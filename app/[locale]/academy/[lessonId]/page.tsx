@@ -1,6 +1,7 @@
 import { ArrowLeft, BookMarked, BookOpenText, ExternalLink, Headphones, PlayCircle } from "lucide-react";
 import { Merriweather } from "next/font/google";
 import { getTranslations } from "next-intl/server";
+import type { Metadata } from "next";
 import { notFound } from "next/navigation";
 
 import { AcademyBookReadingSheet } from "@/components/academy/academy-book-reading-sheet";
@@ -44,10 +45,34 @@ function VideoDescriptionBody({ text }: { text: string }) {
   );
 }
 
+export async function generateMetadata({
+  params,
+}: {
+  params: Promise<{ locale: string; lessonId: string }>;
+}): Promise<Metadata> {
+  const { lessonId } = await params;
+  const lesson = await getLessonById(lessonId);
+  if (!lesson) return { title: "Academy" };
+  return { title: `${lesson.title} · Academy AGAPE` };
+}
+
+/**
+ * Page dynamique d’une leçon Academy (`/[locale]/academy/[lessonId]`).
+ *
+ * --- Données Supabase ---
+ * `getLessonById(lessonId)` exécute un `SELECT` sur `public.academy_courses` avec `WHERE id = :lessonId`
+ * (client `@/utils/supabase/server`, voir `lib/academy/queries.ts`). Tout le contenu affiché
+ * (`text_content`, `video_url`, `audio_url`, métadonnées livre, etc.) provient de cette ligne.
+ *
+ * --- Mise en page « Manuscrit » (GYNOSKO) ---
+ * Si `content_kind === "livre"` et que le titre correspond au livre GYNOSKO (`isGynoskoLesson`),
+ * on délègue à `BookReader` : fond crème `#FDFBF7`, Playfair + Merriweather, colonne type livre ouvert.
+ * Les autres livres utilisent `AcademyBookReadingSheet`.
+ */
 export default async function LessonPage({
   params,
 }: {
-  params: Promise<{ lessonId: string }>;
+  params: Promise<{ locale: string; lessonId: string }>;
 }) {
   const { lessonId } = await params;
   const lesson = await getLessonById(lessonId);

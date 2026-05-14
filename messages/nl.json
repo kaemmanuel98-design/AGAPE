@@ -325,12 +325,14 @@
     "fraternalComingSoonBadge": "Binnenkort",
     "fraternalComingSoonTitle": "De broederlijke kalender synchroniseert",
     "fraternalComingSoonBody": "Gemeenschapsevenementen zijn nog niet beschikbaar vanaf de server, of de tabel wordt nog uitgerold. Probeer het later opnieuw.",
-    "fraternalComingSoonHint": "Blijf verbonden: zodra de gegevens online zijn, verschijnt de tijdlijn automatisch hier."
+    "fraternalComingSoonHint": "Blijf verbonden: zodra de gegevens online zijn, verschijnt de tijdlijn automatisch hier.",
+    "communityAppointmentsSoon": "De volgende afspraken van de AGAPE-gemeenschap verschijnen hier zeer binnenkort."
   },
   "planning": {
     "slotOpen": "Vrij slot — neem contact op met het team om je in te schrijven.",
     "empty": "Nog geen erediensten gepland, of de database is tijdelijk niet beschikbaar. Probeer het later opnieuw.",
-    "intro": "Komende diensten en rollen die ingevuld zijn of nog vrij zijn."
+    "intro": "Komende diensten en rollen die ingevuld zijn of nog vrij zijn.",
+    "communityAppointmentsSoon": "De volgende afspraken van de AGAPE-gemeenschap verschijnen hier zeer binnenkort."
   },
   "admin": {
     "dashboard": {

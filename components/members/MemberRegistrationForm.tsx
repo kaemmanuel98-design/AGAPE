@@ -1,7 +1,7 @@
 "use client";
 
 import type { FormEvent } from "react";
-import { useActionState, useMemo, useState } from "react";
+import { useMemo, useState, useTransition } from "react";
 import {
   ChevronLeft,
   ChevronRight,
@@ -15,26 +15,21 @@ import { motion } from "framer-motion";
 import { useLocale, useTranslations } from "next-intl";
 
 import { Button } from "@/components/ui/button";
-import {
-  submitMemberRegistrationForm,
-  type MemberRegistrationUiState,
-} from "@/lib/actions/member-registration";
+import { registerMember } from "@/lib/actions/member-registration";
 import { Link } from "@/i18n/navigation";
 import { cn } from "@/lib/utils";
 
 const TALENT_KEYS = ["musique_piano", "academie", "technique_it", "organisation", "ecoute_benevole"] as const;
 const ACCOMP_KEYS = ["soutien_moral", "deuil", "maladie", "urgence"] as const;
 
-/** État initial de `useActionState` : aucun résultat serveur encore reçu. */
-const initialActionState: MemberRegistrationUiState = { type: "idle" };
-
-/**
- * Traduit les codes d’erreur renvoyés par `submitMemberRegistrationForm` (lui-même alimenté par `registerMember`).
- */
-function messageForActionError(code: string, t: ReturnType<typeof useTranslations<"memberRegistration">>) {
-  if (code === "invalid_phone") return t("errorPhone");
-  if (code === "invalid_fields") return t("errorFields");
-  if (code === "unexpected_error" || code === "server") return t("errorGeneric");
+/** Traduit la valeur `message` renvoyée par `registerMember` lorsque `ok` est faux. */
+function messageForRegisterError(
+  message: string,
+  t: ReturnType<typeof useTranslations<"memberRegistration">>,
+) {
+  if (message === "invalid_phone") return t("errorPhone");
+  if (message === "invalid_fields") return t("errorFields");
+  if (message === "unexpected_error") return t("errorGeneric");
   return t("errorGeneric");
 }
 
@@ -42,15 +37,16 @@ export function MemberRegistrationForm() {
   const t = useTranslations("memberRegistration");
   const locale = useLocale();
   const [step, setStep] = useState(0);
-  /** Erreurs purement locales (étapes incomplètes) — ne passent pas par le serveur. */
   const [stepError, setStepError] = useState<string | null>(null);
 
   /**
-   * `useActionState` branche le formulaire sur une Server Action sans rechargement :
-   * on appelle `formAction(formData)` depuis `onSubmit`, React sérialise la réponse dans `state`
-   * au lieu de laisser le navigateur afficher le JSON brut renvoyé par l’action.
+   * Réponse de la Server Action interceptée ici (pas par le navigateur) :
+   * on stocke le résultat dans `useState` pour afficher soit le succès stylisé,
+   * soit une erreur — jamais le JSON brut `{ ok: true, ... }` comme page entière.
    */
-  const [actionState, formAction, isPending] = useActionState(submitMemberRegistrationForm, initialActionState);
+  const [submitSuccess, setSubmitSuccess] = useState<null | { severity: "critical" | "standard" }>(null);
+  const [serverError, setServerError] = useState<string | null>(null);
+  const [isSubmitting, startTransition] = useTransition();
 
   const [lastName, setLastName] = useState("");
   const [firstName, setFirstName] = useState("");
@@ -148,22 +144,28 @@ export function MemberRegistrationForm() {
     return fd;
   }
 
-  /**
-   * Soumission finale : validation locale puis `formAction(FormData)`.
-   * C’est `useActionState` qui invoque la Server Action en RSC/RPC : pas de navigation « document JSON ».
-   */
   function handleSubmit(event: FormEvent<HTMLFormElement>) {
     event.preventDefault();
     setStepError(null);
+    setServerError(null);
     if (!validateStep2()) {
       setStepError(t("errorFields"));
       return;
     }
-    formAction(buildFormData());
+
+    startTransition(async () => {
+      const result = await registerMember(buildFormData());
+      if (!result.ok) {
+        setSubmitSuccess(null);
+        setServerError(messageForRegisterError(String(result.message), t));
+        return;
+      }
+      setServerError(null);
+      setSubmitSuccess({ severity: result.severity });
+    });
   }
 
-  /* --- Vue succès : on remplace entièrement le formulaire par un message de confirmation --- */
-  if (actionState.type === "success") {
+  if (submitSuccess) {
     return (
       <section
         id="member-registration"
@@ -190,7 +192,7 @@ export function MemberRegistrationForm() {
             {t("successRegistered")}
           </p>
 
-          {actionState.severity === "critical" ? (
+          {submitSuccess.severity === "critical" ? (
             <p className="mx-auto mt-4 max-w-lg text-sm leading-relaxed text-rose-800/90">{t("successUrgentAddon")}</p>
           ) : null}
 
@@ -204,11 +206,7 @@ export function MemberRegistrationForm() {
     );
   }
 
-  const serverErrorMessage =
-    actionState.type === "error" && step === 2 ? messageForActionError(actionState.code, t) : null;
-
-  /** Message rouge unique au-dessus des boutons (client ou retour serveur). */
-  const errorBanner = step === 2 ? stepError ?? serverErrorMessage : stepError;
+  const errorBanner = step === 2 ? stepError ?? serverError : stepError;
 
   return (
     <section
@@ -411,7 +409,7 @@ export function MemberRegistrationForm() {
               type="button"
               variant="outline"
               onClick={goPrev}
-              disabled={isPending || step === 0}
+              disabled={isSubmitting || step === 0}
               className="h-12 w-full rounded-2xl border-sky-200 bg-white/95 text-sky-900 hover:bg-sky-50 sm:w-auto"
             >
               <ChevronLeft className="size-4" aria-hidden />
@@ -430,10 +428,10 @@ export function MemberRegistrationForm() {
             ) : (
               <Button
                 type="submit"
-                disabled={isPending}
+                disabled={isSubmitting}
                 className="h-14 w-full min-h-[52px] rounded-2xl bg-gradient-to-r from-sky-700 to-sky-600 text-base font-semibold text-white shadow-lg hover:from-sky-800 hover:to-sky-700 sm:ml-auto sm:min-w-[280px]"
               >
-                {isPending ? (
+                {isSubmitting ? (
                   <Loader2 className="size-5 animate-spin" aria-hidden />
                 ) : (
                   <HeartHandshake className="size-5" aria-hidden />

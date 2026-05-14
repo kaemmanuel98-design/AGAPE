@@ -325,12 +325,14 @@
     "fraternalComingSoonBadge": "Coming soon",
     "fraternalComingSoonTitle": "The fraternal calendar is syncing",
     "fraternalComingSoonBody": "Community events are not available from the server yet, or the table is still being deployed. Please check back shortly.",
-    "fraternalComingSoonHint": "Stay tuned — once data is live, the timeline will appear here automatically."
+    "fraternalComingSoonHint": "Stay tuned — once data is live, the timeline will appear here automatically.",
+    "communityAppointmentsSoon": "The next AGAPE community gatherings will appear here very soon."
   },
   "planning": {
     "slotOpen": "Open slot — contact the team to sign up.",
     "empty": "No services are scheduled yet, or the database is temporarily unavailable. Please try again later.",
-    "intro": "Upcoming services and roles that are filled or still open."
+    "intro": "Upcoming services and roles that are filled or still open.",
+    "communityAppointmentsSoon": "The next AGAPE community gatherings will appear here very soon."
   },
   "admin": {
     "dashboard": {

@@ -55,7 +55,7 @@ export async function BookReader({ lesson }: Props) {
     heading1Class: `${titleFont} mt-6 text-center text-3xl font-bold tracking-tight text-stone-900 dark:text-[#FDFBF7] sm:text-4xl`,
     heading2Class: `${titleFont} mt-10 text-center text-2xl font-semibold tracking-tight text-stone-900 dark:text-[#F4EFE8] sm:text-3xl`,
     heading3Class: `${titleFont} mt-8 text-left text-lg font-semibold tracking-tight text-stone-800 dark:text-stone-200 sm:text-xl`,
-    verseBlockClass: `${bodyFont} mx-auto max-w-2xl border-l-[3px] border-amber-600/55 py-1 pl-5 text-center text-[18px] italic leading-relaxed text-stone-700 dark:border-amber-400/50 dark:text-stone-200 sm:text-[1.05rem]`,
+    verseBlockClass: `${bodyFont} verse-scripture-shell mx-auto max-w-2xl border-l-4 border-amber-700/70 py-3 pl-5 pr-4 text-center text-[18px] italic leading-relaxed text-stone-800 shadow-sm dark:border-amber-400/60 dark:text-stone-100 sm:py-4 sm:pl-6 sm:pr-5 sm:text-[1.05rem]`,
   };
 
   return (

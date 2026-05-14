@@ -14,7 +14,8 @@ import { cn } from "@/lib/utils";
  * 3) Versets bibliques : chaque ligne commence par `>` (comme une citation Markdown). Exemple :
  *    > Car Dieu a tant aimé le monde…
  *    > (Jean 3:16)
- *    Une ligne vide termine le bloc de versets.
+ *    Une ligne vide termine le bloc. Les lignes qui ressemblent à une référence `(Livre chapitre:versets)`
+ *    reçoivent la classe `verse-scripture-ref` (mise en avant typographique, voir `globals.css`).
  *
  * 4) Pause « Méditation » manuelle : une ligne contenant seulement `***` ou `---` ou `* * *`.
  *
@@ -30,6 +31,16 @@ function isIntroductionHeading(title: string): boolean {
 /** Ligne réservée au séparateur de méditation (en complément des pauses auto entre chapitres `##`). */
 function isExplicitMeditationLine(trimmed: string): boolean {
   return trimmed === "***" || trimmed === "---" || trimmed === "* * *" || trimmed === "· · ·";
+}
+
+/**
+ * Référence biblique typique en fin de bloc de versets, ex. `(Jean 3:16)` ou `(1 Corinthiens 13:4-7)`.
+ * Permet d’appliquer une classe dédiée pour la mettre en valeur visuellement.
+ */
+function isVerseReferenceLine(line: string): boolean {
+  const t = line.trim();
+  if (t.length > 140) return false;
+  return /^\([^)]*\d+\s*:\s*[\d–\-,\s]+[^)]*\)$/.test(t);
 }
 
 /**
@@ -152,7 +163,13 @@ function parseGynoskoManuscript(raw: string, c: BookReaderBlockClasses): ReactNo
         className={cn(c.verseBlockClass, "verse-scripture-block")}
       >
         {verseLines.map((vl, idx) => (
-          <p key={idx} className="whitespace-pre-wrap">
+          <p
+            key={idx}
+            className={cn(
+              "whitespace-pre-wrap",
+              isVerseReferenceLine(vl) ? "verse-scripture-ref not-italic" : "verse-scripture-verse",
+            )}
+          >
             {vl}
           </p>
         ))}

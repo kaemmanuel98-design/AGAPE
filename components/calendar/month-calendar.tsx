@@ -1,7 +1,7 @@
 import { CalendarDays, Cake, Gift } from "lucide-react";
 import { getLocale, getTranslations } from "next-intl/server";
 
-import { CalendarEventsTimeline } from "@/components/calendar/calendar-events-timeline";
+import { SimpleFraternalEventsList } from "@/components/calendar/simple-fraternal-events-list";
 import { CongratulateMemberButton } from "@/components/calendar/congratulate-member-button";
 import { formatBirthdayMemberName, listCurrentMonthBirthdays } from "@/lib/calendar/queries";
 
@@ -51,7 +51,7 @@ export async function MonthCalendar() {
             <p className="text-sm text-slate-300">{t("eventsSubtitle")}</p>
           </div>
         </div>
-        <CalendarEventsTimeline />
+        <SimpleFraternalEventsList />
       </section>
 
       {/* Section anniversaires : cartes en grille ; ici on boucle sur les membres du mois courant */}

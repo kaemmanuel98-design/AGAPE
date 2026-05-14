@@ -325,12 +325,14 @@
     "fraternalComingSoonBadge": "Bientôt",
     "fraternalComingSoonTitle": "Le calendrier fraternel se synchronise",
     "fraternalComingSoonBody": "Les événements communautaires ne sont pas encore disponibles depuis le serveur, ou la table est en cours de déploiement. Merci de réessayer un peu plus tard.",
-    "fraternalComingSoonHint": "Reste connecté : dès que les données seront en ligne, la timeline s’affichera automatiquement ici."
+    "fraternalComingSoonHint": "Reste connecté : dès que les données seront en ligne, la timeline s’affichera automatiquement ici.",
+    "communityAppointmentsSoon": "Les prochains rendez-vous de la communauté AGAPE seront affichés ici très bientôt."
   },
   "planning": {
     "slotOpen": "Créneau libre — contacte l'équipe pour t'inscrire.",
     "empty": "Aucun culte n'est encore planifié, ou la base est momentanément indisponible. Réessaie plus tard.",
-    "intro": "Les services à venir et les postes pourvus ou encore disponibles."
+    "intro": "Les services à venir et les postes pourvus ou encore disponibles.",
+    "communityAppointmentsSoon": "Les prochains rendez-vous de la communauté AGAPE seront affichés ici très bientôt."
   },
   "admin": {
     "dashboard": {
