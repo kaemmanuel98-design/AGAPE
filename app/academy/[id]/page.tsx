@@ -1,8 +1,8 @@
 import type { Metadata } from "next";
 import { setRequestLocale } from "next-intl/server";
-import { notFound } from "next/navigation";
 
 import { AcademyLessonDocument } from "@/components/academy/academy-lesson-document";
+import { SourcePendingNotice } from "@/components/academy/source-pending-notice";
 import { routing } from "@/i18n/routing";
 import type { LessonRow } from "@/lib/academy/types";
 import { createClient } from "@/utils/supabase/server";
@@ -10,7 +10,7 @@ import { createClient } from "@/utils/supabase/server";
 export const dynamic = "force-dynamic";
 
 /**
- * Ici on charge une ligne précise `academy_courses` pour afficher le détail d’un cours ou livre.
+ * Ici on charge une ligne précise `academy_courses` pour afficher le détail d’un cours.
  */
 async function loadAcademyCourseById(id: string): Promise<LessonRow | null> {
   try {
@@ -46,20 +46,23 @@ export async function generateMetadata({
 }): Promise<Metadata> {
   const { id } = await params;
   const lesson = await loadAcademyCourseById(id);
-  if (!lesson) return { title: "Academy" };
+  if (!lesson) return { title: "Academy · AGAPE" };
   return { title: `${lesson.title} · Academy AGAPE` };
 }
 
 /** Détail d’un cours — route `/academy/[id]`. */
 export default async function AcademyLessonByIdPage({ params }: { params: Promise<{ id: string }> }) {
   const { id } = await params;
-
   setRequestLocale(routing.defaultLocale);
 
   const lesson = await loadAcademyCourseById(id);
 
   if (!lesson) {
-    notFound();
+    return (
+      <div className="py-12">
+        <SourcePendingNotice context={`id : ${id}`} />
+      </div>
+    );
   }
 
   return <AcademyLessonDocument lesson={lesson} />;

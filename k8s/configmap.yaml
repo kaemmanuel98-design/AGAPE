@@ -1,0 +1,11 @@
+apiVersion: v1
+kind: ConfigMap
+metadata:
+  name: agape-config
+  namespace: agape
+  labels:
+    app.kubernetes.io/name: agape
+data:
+  # URL publique du site (non secrète) — remplacer par ton domaine (ex. https://agape.com).
+  NEXT_PUBLIC_SITE_URL: "https://agape.example.com"
+  NODE_ENV: "production"

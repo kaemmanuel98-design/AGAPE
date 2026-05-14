@@ -1,0 +1,28 @@
+apiVersion: networking.k8s.io/v1
+kind: Ingress
+metadata:
+  name: agape-ingress
+  namespace: agape
+  labels:
+    app.kubernetes.io/name: agape
+  annotations:
+    # cert-manager : crée le certificat TLS (nécessite un ClusterIssuer `letsencrypt-prod`).
+    cert-manager.io/cluster-issuer: "letsencrypt-prod"
+    nginx.ingress.kubernetes.io/ssl-redirect: "true"
+spec:
+  ingressClassName: nginx
+  tls:
+    - hosts:
+        - agape.example.com
+      secretName: agape-tls
+  rules:
+    - host: agape.example.com
+      http:
+        paths:
+          - path: /
+            pathType: Prefix
+            backend:
+              service:
+                name: agape-web
+                port:
+                  number: 80

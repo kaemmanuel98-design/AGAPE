@@ -1,0 +1,19 @@
+# Vector — collecte des logs du conteneur Next.js (source docker_logs) vers fichiers sur volume.
+# Pour Better Stack en production : remplacer le sink `file` par un sink `http` pointant vers l’URL d’ingestion.
+
+data_dir: /var/lib/vector
+
+sources:
+  agape_web:
+    type: docker_logs
+    include_containers:
+      - agape-web
+
+sinks:
+  archive_ndjson:
+    type: file
+    inputs:
+      - agape_web
+    path: "/archive/agape-web-%Y-%m-%d.ndjson"
+    encoding:
+      codec: json

@@ -1,12 +1,12 @@
 "use client";
 
+import NextLink from "next/link";
 import { motion } from "framer-motion";
 import { BookOpen, BookOpenText, CalendarDays, ChevronDown, Newspaper } from "lucide-react";
 import { useTranslations } from "next-intl";
 
 import { Button } from "@/components/ui/button";
 import { Logo } from "@/components/ui/Logo";
-import { Link } from "@/i18n/navigation";
 
 type NewsItem = { title: string; date: string; body: string };
 
@@ -41,31 +41,31 @@ export function AdultsHomeHero() {
         </Button>
 
         <Button variant="secondary" size="lg" type="button" asChild className="rounded-[var(--radius)] border border-white/10 bg-white/10 text-slate-50 hover:bg-white/15">
-          <Link href="/academy">
+          <NextLink href="/academy">
             <BookOpenText className="size-5" aria-hidden />
             {t("academyLink")}
-          </Link>
+          </NextLink>
         </Button>
 
         <Button variant="secondary" size="lg" type="button" asChild className="rounded-[var(--radius)] border border-white/10 bg-white/10 text-slate-50 hover:bg-white/15">
-          <Link href="/calendar">
+          <NextLink href="/calendar">
             <CalendarDays className="size-5" aria-hidden />
             {t("calendarLink")}
-          </Link>
+          </NextLink>
         </Button>
 
         <Button variant="outline" size="lg" type="button" asChild className="rounded-[var(--radius)] border-white/14 bg-white/5 text-slate-100 hover:bg-white/10">
-          <Link href="/planning">
+          <NextLink href="/planning">
             <CalendarDays className="size-5" aria-hidden />
             {t("planningLink")}
-          </Link>
+          </NextLink>
         </Button>
 
         <Button variant="outline" size="lg" type="button" asChild className="rounded-[var(--radius)] border-white/14 bg-white/5 text-slate-100 hover:bg-white/10">
-          <Link href="/bible-strong">
+          <NextLink href="/bible-strong">
             <BookOpen className="size-5" aria-hidden />
             {t("strongCtaShort")}
-          </Link>
+          </NextLink>
         </Button>
       </div>
     </div>
@@ -106,10 +106,10 @@ export function AdultsNewsSection() {
 
       <div className="pt-2">
         <Button size="lg" type="button" variant="brand" asChild className="gap-2 rounded-[var(--radius)]">
-          <Link href="/bible-strong">
+          <NextLink href="/bible-strong">
             <BookOpen className="size-5" aria-hidden />
             {t("strongCta")}
-          </Link>
+          </NextLink>
         </Button>
       </div>
     </motion.section>

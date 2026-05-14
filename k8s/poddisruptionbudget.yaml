@@ -1,0 +1,12 @@
+apiVersion: policy/v1
+kind: PodDisruptionBudget
+metadata:
+  name: agape-web-pdb
+  namespace: agape
+  labels:
+    app.kubernetes.io/name: agape
+spec:
+  minAvailable: 1
+  selector:
+    matchLabels:
+      app: agape-web

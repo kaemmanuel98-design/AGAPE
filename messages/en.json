@@ -15,6 +15,15 @@
     "logout": "Sign out",
     "profile": "My profile"
   },
+  "hub": {
+    "ariaLabel": "Main AGAPE navigation",
+    "navHome": "Home",
+    "navBible": "Bible Strong",
+    "navAcademy": "Academy",
+    "navCalendar": "Calendar",
+    "navPlanning": "Planning",
+    "navJoin": "Join us"
+  },
   "academy": {
     "searchPlaceholder": "Search for a course…",
     "noResults": "No courses match your search.",
@@ -64,11 +73,25 @@
     "featuredSectionTitle": "Featured",
     "featuredBadge": "Highlight",
     "featuredSpotLead": "A team-selected course, book, or resource to grow together.",
-    "featuredCta": "Open reading"
+    "featuredCta": "Open reading",
+    "sourceLoading": "Source is still loading…",
+    "sourceLoadingHint": "Add or complete the matching row in Supabase — it will appear here without redeploying code.",
+    "noResultsCategory": "No courses in this category yet."
   },
   "bibleStrong": {
     "title": "Bible Strong",
     "subtitle": "Reading space and resources to go deeper into Scripture, alone or in a group.",
+    "readerTitle": "Bible Strong — reading",
+    "readerSubtitle": "Scripture text only. Strong numbers as (G123) or (H456) in the text open the lexicon.",
+    "versionsHeading": "Translation or edition",
+    "versesHeading": "Verses",
+    "emptyVersesTitle": "No published text yet",
+    "emptyVersesBody": "Create at least one row in `bible_versions` then verses in `bible_verses` (Supabase). They will list here automatically.",
+    "noVersesInVersion": "This edition has no verses stored yet.",
+    "backToIndex": "Back to list",
+    "strongHint": "Tap an underlined Strong number to open the Greek or Hebrew lexicon.",
+    "sourceLoading": "Source is still loading…",
+    "sourceLoadingHint": "Check that the verse id exists in the `bible_verses` table.",
     "videoHeading": "Media",
     "videoIntro": "Video embed (YouTube or Vimeo) can be configured via environment variables for recorded teaching.",
     "videoIframeTitle": "Bible Strong video",
@@ -171,6 +194,8 @@
     "successRegistered": "Thank you for signing up! Your place in the AGAPE community is saved. We look forward to seeing you soon.",
     "successThankYou": "Thank you for your trust.",
     "successJoinedAgape": "Thank you for joining AGAPE",
+    "openBible": "Open the Bible",
+    "openAcademy": "Open the Academy",
     "exploreAcademy": "Explore the Academy",
     "backToHome": "Back to home"
   },

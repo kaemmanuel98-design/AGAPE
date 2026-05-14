@@ -1,0 +1,28 @@
+# Dépendances et caches locaux
+node_modules
+.next
+out
+.turbo
+
+# Git & IDE
+.git
+.gitignore
+.cursor
+*.md
+!README.md
+
+# Environnements (injectés au build / runtime)
+.env
+.env.*
+!.env.docker.example
+
+# Tests & CI locaux
+coverage
+.nyc_output
+
+# Logs Docker / archives locales
+logs
+archive
+
+# Kubernetes & infra générés
+k8s/*.local.yaml

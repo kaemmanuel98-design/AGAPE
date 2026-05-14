@@ -15,6 +15,15 @@
     "logout": "Déconnexion",
     "profile": "Mon profil"
   },
+  "hub": {
+    "ariaLabel": "Navigation principale AGAPE",
+    "navHome": "Accueil",
+    "navBible": "Bible Strong",
+    "navAcademy": "Academy",
+    "navCalendar": "Calendrier",
+    "navPlanning": "Planning",
+    "navJoin": "Rejoindre"
+  },
   "academy": {
     "searchPlaceholder": "Rechercher un cours…",
     "noResults": "Aucun cours ne correspond à ta recherche.",
@@ -64,11 +73,25 @@
     "featuredSectionTitle": "À la une",
     "featuredBadge": "Sélection",
     "featuredSpotLead": "Un contenu mis en avant par l’équipe : cours, livre ou ressource pour avancer ensemble.",
-    "featuredCta": "Ouvrir le contenu"
+    "featuredCta": "Ouvrir le contenu",
+    "sourceLoading": "Source en cours de chargement…",
+    "sourceLoadingHint": "Ajoute ou complète la ligne correspondante dans Supabase : elle apparaîtra ici sans redéploiement du code.",
+    "noResultsCategory": "Aucun cours dans cette catégorie pour le moment."
   },
   "bibleStrong": {
     "title": "Bible Strong",
     "subtitle": "Espace de lecture et de ressources pour approfondir les textes bibliques, seul ou en groupe.",
+    "readerTitle": "Bible Strong — lecture",
+    "readerSubtitle": "Texte biblique uniquement. Les numéros Strong au format (G123) ou (H456) dans le texte ouvrent le lexique.",
+    "versionsHeading": "Traduction ou édition",
+    "versesHeading": "Versets",
+    "emptyVersesTitle": "Aucun texte publié pour l’instant",
+    "emptyVersesBody": "Crée au moins une ligne dans `bible_versions` puis des versets dans `bible_verses` (Supabase). Ils seront listés ici automatiquement.",
+    "noVersesInVersion": "Cette version n’a pas encore de versets enregistrés.",
+    "backToIndex": "Retour à la liste",
+    "strongHint": "Clique sur un numéro Strong souligné pour ouvrir le lexique grec ou hébreu.",
+    "sourceLoading": "Source en cours de chargement…",
+    "sourceLoadingHint": "Vérifie que l’identifiant du verset existe bien dans la table `bible_verses`.",
     "videoHeading": "Médias",
     "videoIntro": "Intégration vidéo (YouTube ou Vimeo) configurable côté projet pour les enseignements filmés.",
     "videoIframeTitle": "Lecture vidéo Bible Strong",
@@ -172,6 +195,8 @@
     "successThankYou": "Merci pour votre confiance.",
     "successJoinedAgape": "Merci d'avoir rejoint AGAPE",
     "exploreAcademy": "Explorer l'Academy",
+    "openBible": "Accéder à la Bible",
+    "openAcademy": "Accéder à l'Academy",
     "backToHome": "Retour à l'accueil"
   },
   "discover": {

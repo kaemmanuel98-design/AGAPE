@@ -15,6 +15,15 @@
     "logout": "Afmelden",
     "profile": "Mijn profiel"
   },
+  "hub": {
+    "ariaLabel": "Hoofdnavigatie AGAPE",
+    "navHome": "Start",
+    "navBible": "Bible Strong",
+    "navAcademy": "Academy",
+    "navCalendar": "Kalender",
+    "navPlanning": "Planning",
+    "navJoin": "Lid worden"
+  },
   "academy": {
     "searchPlaceholder": "Zoek een cursus…",
     "noResults": "Geen cursussen komen overeen met je zoekopdracht.",
@@ -64,11 +73,25 @@
     "featuredSectionTitle": "In de kijker",
     "featuredBadge": "Selectie",
     "featuredSpotLead": "Door het team uitgelichte inhoud: cursus, boek of hulpbron om samen te groeien.",
-    "featuredCta": "Lezing openen"
+    "featuredCta": "Lezing openen",
+    "sourceLoading": "Bron wordt nog geladen…",
+    "sourceLoadingHint": "Voeg de rij toe of vul ze aan in Supabase — ze verschijnt hier zonder code opnieuw te deployen.",
+    "noResultsCategory": "Nog geen cursussen in deze categorie."
   },
   "bibleStrong": {
     "title": "Bible Strong",
     "subtitle": "Leesruimte en bronnen om Schrifttexten te verdiepen, alleen of in een groep.",
+    "readerTitle": "Bible Strong — lezen",
+    "readerSubtitle": "Alleen bijbeltekst. Strong-nummers als (G123) of (H456) in de tekst openen het lexicon.",
+    "versionsHeading": "Vertaling of editie",
+    "versesHeading": "Verzen",
+    "emptyVersesTitle": "Nog geen gepubliceerde tekst",
+    "emptyVersesBody": "Maak minstens één rij in `bible_versions` en verzen in `bible_verses` (Supabase). Ze verschijnen hier automatisch.",
+    "noVersesInVersion": "Deze editie heeft nog geen opgeslagen verzen.",
+    "backToIndex": "Terug naar de lijst",
+    "strongHint": "Tik op een onderstreept Strong-nummer om het Griekse of Hebreeuwse lexicon te openen.",
+    "sourceLoading": "Bron wordt nog geladen…",
+    "sourceLoadingHint": "Controleer of het vers-id bestaat in de tabel `bible_verses`.",
     "videoHeading": "Media",
     "videoIntro": "Video-inbedding (YouTube of Vimeo) kan via omgevingsvariabelen worden geconfigureerd.",
     "videoIframeTitle": "Bible Strong-video",
@@ -171,6 +194,8 @@
     "successRegistered": "Bedankt voor je inschrijving! Je plek in de gemeenschap AGAPE is geregistreerd. We kijken ernaar uit je te zien.",
     "successThankYou": "Dank je voor je vertrouwen.",
     "successJoinedAgape": "Bedankt dat je bij AGAPE bent gekomen",
+    "openBible": "Ga naar de Bijbel",
+    "openAcademy": "Ga naar de Academy",
     "exploreAcademy": "Ontdek de Academy",
     "backToHome": "Terug naar de startpagina"
   },

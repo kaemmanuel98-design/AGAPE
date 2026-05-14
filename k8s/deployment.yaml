@@ -1,0 +1,62 @@
+apiVersion: apps/v1
+kind: Deployment
+metadata:
+  name: agape-web
+  namespace: agape
+  labels:
+    app.kubernetes.io/name: agape
+    app.kubernetes.io/component: web
+spec:
+  replicas: 2
+  strategy:
+    type: RollingUpdate
+    rollingUpdate:
+      maxSurge: 1
+      maxUnavailable: 0
+  selector:
+    matchLabels:
+      app: agape-web
+  template:
+    metadata:
+      labels:
+        app: agape-web
+        app.kubernetes.io/name: agape
+    spec:
+      securityContext:
+        fsGroup: 1001
+      containers:
+        - name: web
+          # Remplace l’image par celle publiée par le workflow GitHub Actions (GHCR).
+          image: ghcr.io/CHANGE_ME_OWNER/agape:latest
+          imagePullPolicy: Always
+          ports:
+            - name: http
+              containerPort: 3000
+          envFrom:
+            - configMapRef:
+                name: agape-config
+            - secretRef:
+                name: agape-secrets
+          livenessProbe:
+            httpGet:
+              path: /api/health
+              port: http
+            initialDelaySeconds: 20
+            periodSeconds: 30
+            timeoutSeconds: 5
+            failureThreshold: 3
+          readinessProbe:
+            httpGet:
+              path: /api/ready
+              port: http
+            initialDelaySeconds: 10
+            periodSeconds: 15
+            timeoutSeconds: 5
+            failureThreshold: 3
+          resources:
+            requests:
+              cpu: 100m
+              memory: 256Mi
+            limits:
+              cpu: "1"
+              memory: 1Gi

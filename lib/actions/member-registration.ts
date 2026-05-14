@@ -97,7 +97,7 @@ async function processMemberRegistration(formData: FormData): Promise<ProcessOk 
 
     if (error) {
       console.error("[AGAPE Inscription membre] Échec insertion Supabase :", error.message, error);
-      return { ok: false, message: error.message };
+      return { ok: false, message: "db_error" };
     }
 
     let criticalAlertSent = false;

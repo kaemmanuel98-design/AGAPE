@@ -1,9 +1,9 @@
+import NextLink from "next/link";
 import { ArrowLeft, BookMarked, Download, ExternalLink } from "lucide-react";
 import { getTranslations } from "next-intl/server";
 
 import { MarkdownLessonBody } from "@/components/academy/markdown-lesson-body";
 import { Button } from "@/components/ui/button";
-import { Link } from "@/i18n/navigation";
 import type { LessonRow } from "@/lib/academy/types";
 
 type Props = {
@@ -25,20 +25,22 @@ export async function AcademyBookReadingSheet({ lesson }: Props) {
   return (
     <div className="space-y-8 pb-16">
       <div className="flex flex-col gap-4 sm:flex-row sm:items-center sm:justify-between">
-        <Button variant="outline" asChild className="w-fit rounded-full">
-          <Link href="/academy" className="gap-2">
+        <Button variant="outline" asChild className="w-fit rounded-full border-slate-300 bg-white text-slate-900 hover:bg-slate-50">
+          <NextLink href="/academy" className="gap-2">
             <ArrowLeft className="size-4 shrink-0" aria-hidden />
             {t("backToAcademy")}
-          </Link>
+          </NextLink>
         </Button>
         <div className="flex flex-wrap items-center gap-3">
-          <span className="text-xs font-semibold uppercase tracking-[0.28em] text-primary">{t("lessonBrand")}</span>
-          <span className="rounded-full bg-primary/10 px-4 py-1.5 text-xs font-medium uppercase tracking-[0.2em] text-primary">{lesson.level}</span>
+          <span className="text-xs font-semibold uppercase tracking-[0.28em] text-sky-700">{t("lessonBrand")}</span>
+          <span className="rounded-full bg-sky-50 px-4 py-1.5 text-xs font-medium uppercase tracking-[0.2em] text-sky-800">
+            {lesson.level}
+          </span>
         </div>
       </div>
 
-      <section className="rounded-[var(--radius)] border border-border bg-card/50 p-6 shadow-lg backdrop-blur-md sm:p-8">
-        <p className="mb-6 inline-flex items-center gap-2 text-xs font-semibold uppercase tracking-[0.2em] text-primary">
+      <section className="rounded-[var(--radius)] border border-slate-200 bg-white p-6 shadow-sm sm:p-8">
+        <p className="mb-6 inline-flex items-center gap-2 text-xs font-semibold uppercase tracking-[0.2em] text-sky-700">
           <BookMarked className="size-4" aria-hidden />
           {t("bookReadingSheet")}
         </p>
@@ -47,7 +49,7 @@ export async function AcademyBookReadingSheet({ lesson }: Props) {
           {/* Colonne gauche : image — colle ici l’URL publique de la jaquette (`cover_image` en base). */}
           <div className="mx-auto w-full max-w-[16rem] md:mx-0">
             <div
-              className="relative aspect-[2/3] w-full overflow-hidden rounded-2xl border border-border bg-muted shadow-[0_20px_50px_rgba(15,23,42,0.35)]"
+              className="relative aspect-[2/3] w-full overflow-hidden rounded-2xl border border-slate-200 bg-slate-100 shadow-md"
               style={{ perspective: "800px" }}
             >
               {hasCover ? (
@@ -69,18 +71,18 @@ export async function AcademyBookReadingSheet({ lesson }: Props) {
 
           <div className="min-w-0 space-y-6">
             <header className="space-y-2">
-              <p className="text-xs font-semibold uppercase tracking-[0.2em] text-muted-foreground">{lesson.module_title}</p>
-              <h1 className="text-3xl font-semibold tracking-tight text-foreground md:text-4xl">{lesson.title}</h1>
+              <p className="text-xs font-semibold uppercase tracking-[0.2em] text-slate-500">{lesson.module_title}</p>
+              <h1 className="text-3xl font-semibold tracking-tight text-slate-900 md:text-4xl">{lesson.title}</h1>
               {lesson.author?.trim() ? (
-                <p className="text-base text-muted-foreground">
-                  <span className="font-medium text-foreground">{t("bookAuthorLabel")}</span> {lesson.author}
+                <p className="text-base text-slate-600">
+                  <span className="font-medium text-slate-900">{t("bookAuthorLabel")}</span> {lesson.author}
                 </p>
               ) : null}
             </header>
 
             {summary ? (
-              <div className="space-y-3 rounded-2xl border border-border bg-background/60 p-5">
-                <h2 className="text-sm font-semibold uppercase tracking-wide text-foreground">{t("bookSummaryHeading")}</h2>
+              <div className="space-y-3 rounded-2xl border border-slate-200 bg-slate-50 p-5">
+                <h2 className="text-sm font-semibold uppercase tracking-wide text-slate-900">{t("bookSummaryHeading")}</h2>
                 <MarkdownLessonBody markdown={summary} variant="muted" className="text-sm sm:text-base" />
               </div>
             ) : null}

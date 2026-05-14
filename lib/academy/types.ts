@@ -21,4 +21,6 @@ export type LessonRow = {
   created_at: string;
   /** Si vrai, affichage en tête du catalogue Academy (`AcademyFeatured`). */
   is_featured?: boolean | null;
+  /** Catégorie catalogue (filtres) — valeur éditable dans Supabase. */
+  catalog_category?: string | null;
 };

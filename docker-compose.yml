@@ -1,0 +1,52 @@
+# AGAPE — stack locale : application Next.js + agrégation des logs Docker vers un volume.
+# 1) Copier `.env.docker.example` vers `.env.docker` et renseigner Supabase.
+# 2) `docker compose up --build`
+# 3) (Optionnel) Agrégateur de logs Vector : `docker compose --profile logs up -d`
+#    → écrit les logs du conteneur `agape-web` en NDJSON dans le volume `agape_log_archive`.
+#    En production, un agent Better Stack / Datadog remplace souvent ce service.
+
+services:
+  web:
+    build:
+      context: .
+      dockerfile: Dockerfile
+      args:
+        NEXT_PUBLIC_SUPABASE_URL: ${NEXT_PUBLIC_SUPABASE_URL:-}
+        NEXT_PUBLIC_SUPABASE_ANON_KEY: ${NEXT_PUBLIC_SUPABASE_ANON_KEY:-}
+        NEXT_PUBLIC_SITE_URL: ${NEXT_PUBLIC_SITE_URL:-}
+    image: agape:local
+    container_name: agape-web
+    ports:
+      - "3000:3000"
+    env_file:
+      - .env.docker
+    environment:
+      NODE_ENV: production
+      # Doublon runtime (serveur / readiness) — les clés publiques sont aussi passées au build.
+      NEXT_PUBLIC_SUPABASE_URL: ${NEXT_PUBLIC_SUPABASE_URL:-}
+      NEXT_PUBLIC_SUPABASE_ANON_KEY: ${NEXT_PUBLIC_SUPABASE_ANON_KEY:-}
+      NEXT_PUBLIC_SITE_URL: ${NEXT_PUBLIC_SITE_URL:-}
+    logging:
+      driver: json-file
+      options:
+        max-size: "20m"
+        max-file: "5"
+    restart: unless-stopped
+
+  vector:
+    image: timberio/vector:0.41.1-debian
+    container_name: agape-vector
+    profiles:
+      - logs
+    volumes:
+      - /var/run/docker.sock:/var/run/docker.sock:ro
+      - ./infra/vector/vector.yaml:/etc/vector/vector.yaml:ro
+      - agape_log_archive:/archive
+    command: ["--config", "/etc/vector/vector.yaml"]
+    restart: unless-stopped
+    depends_on:
+      - web
+
+volumes:
+  agape_log_archive:
+    driver: local

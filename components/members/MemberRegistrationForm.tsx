@@ -4,6 +4,7 @@ import NextLink from "next/link";
 import type { FormEvent } from "react";
 import { useActionState, useMemo, useState } from "react";
 import {
+  BookOpen,
   ChevronLeft,
   ChevronRight,
   CircleCheck,
@@ -37,6 +38,7 @@ function messageForRegisterError(
 ) {
   if (message === "invalid_phone") return t("errorPhone");
   if (message === "invalid_fields") return t("errorFields");
+  if (message === "db_error" || message === "unexpected_error") return t("errorGeneric");
   return t("errorGeneric");
 }
 
@@ -181,14 +183,20 @@ export function MemberRegistrationForm() {
           ) : null}
 
           <div className="mt-10 flex flex-col flex-wrap items-stretch justify-center gap-3 sm:flex-row sm:items-center">
-            <Button asChild size="lg" variant="outline" className="h-12 rounded-2xl border-sky-200 bg-white px-8 text-sky-900 hover:bg-sky-50">
-              <NextLink href={`/${routing.defaultLocale}`}>{t("backToHome")}</NextLink>
+            <Button asChild size="lg" className="h-12 rounded-2xl bg-amber-800 px-8 text-white hover:bg-amber-900">
+              <NextLink href="/bible-strong" className="inline-flex items-center justify-center gap-2">
+                <BookOpen className="size-5 shrink-0" aria-hidden />
+                {t("openBible")}
+              </NextLink>
             </Button>
             <Button asChild size="lg" className="h-12 rounded-2xl bg-sky-700 px-8 text-white hover:bg-sky-800">
               <NextLink href="/academy" className="inline-flex items-center justify-center gap-2">
                 <GraduationCap className="size-5 shrink-0" aria-hidden />
-                {t("exploreAcademy")}
+                {t("openAcademy")}
               </NextLink>
+            </Button>
+            <Button asChild size="lg" variant="outline" className="h-12 rounded-2xl border-slate-300 bg-white px-8 text-slate-900 hover:bg-slate-50">
+              <NextLink href={`/${routing.defaultLocale}`}>{t("backToHome")}</NextLink>
             </Button>
           </div>
         </motion.div>
