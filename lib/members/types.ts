@@ -14,6 +14,8 @@ export type MemberRegistrationRow = {
   needs_urgent_help: boolean;
   is_priority: boolean;
   is_priority_emergency: boolean;
+  /** URL publique Storage (`avatars`), voir commentaire dans `lib/actions/member-registration.ts`. */
+  avatar_url: string | null;
   archived: boolean;
   admin_notes: string | null;
   created_at: string;

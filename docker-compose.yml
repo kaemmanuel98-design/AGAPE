@@ -26,6 +26,7 @@ services:
       AGAPE_SUBDOMAIN_ROUTING: ${AGAPE_SUBDOMAIN_ROUTING:-false}
       AGAPE_BIBLE_HOST: ${AGAPE_BIBLE_HOST:-bible.agape.com}
       AGAPE_ACADEMY_HOST: ${AGAPE_ACADEMY_HOST:-academy.agape.com}
+      SUPABASE_SERVICE_ROLE_KEY: ${SUPABASE_SERVICE_ROLE_KEY:-}
     healthcheck:
       test: ["CMD", "curl", "-fsS", "http://127.0.0.1:3000/api/health"]
       interval: 15s

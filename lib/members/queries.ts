@@ -3,7 +3,7 @@ import { createSupabaseServerClient } from "@/lib/supabase/server";
 import type { MemberRegistrationRow } from "./types";
 
 const MEMBERS_REGISTRATION_SELECT =
-  "id,first_name,last_name,full_name,phone,city,preferred_language,talents,accompaniment_need,situation,category,support_message,needs_urgent_help,is_priority,is_priority_emergency,archived,admin_notes,created_at";
+  "id,first_name,last_name,full_name,phone,city,preferred_language,talents,accompaniment_need,situation,category,support_message,needs_urgent_help,is_priority,is_priority_emergency,avatar_url,archived,admin_notes,created_at";
 
 export async function listMembersRegistration(): Promise<MemberRegistrationRow[]> {
   const supabase = await createSupabaseServerClient();

@@ -197,7 +197,28 @@
     "openBible": "Open the Bible",
     "openAcademy": "Open the Academy",
     "exploreAcademy": "Explore the Academy",
-    "backToHome": "Back to home"
+    "backToHome": "Back to home",
+    "profilePhoto": "Profile photo",
+    "profilePhotoHint": "Optional — JPEG, PNG or WebP, max 8 MB. Cropped and compressed to WebP on the server before upload to Supabase.",
+    "profilePhotoChoose": "Choose image",
+    "redirectingToProfile": "Opening your member space…",
+    "errorPhoto": "Please choose a valid image (JPEG, PNG or WebP, reasonable size).",
+    "errorServerConfig": "Uploading the photo requires server configuration (Supabase service key). Try again without a photo or contact the team."
+  },
+  "memberProfile": {
+    "metaNotFoundTitle": "Profile · AGAPE",
+    "metaFallbackName": "Member",
+    "metaDescription": "Your AGAPE member space.",
+    "anonymousMember": "Member",
+    "badgeMember": "Member space",
+    "welcomeMessage": "Welcome, {firstName}. We are glad you are here.",
+    "talentsHeading": "Your talents",
+    "avatarAlt": "Profile photo of {name}",
+    "editProfile": "Edit my profile",
+    "openAcademy": "Go to the Academy",
+    "editTitle": "Edit profile",
+    "editStubBody": "Self-service editing is coming soon. For urgent changes, contact the AGAPE team.",
+    "backToProfile": "Back to profile"
   },
   "discover": {
     "heading": "Discover",

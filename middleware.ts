@@ -8,7 +8,7 @@ const intlMiddleware = createMiddleware(routing);
 
 /** Routes publiques sans préfixe de langue dans l’URL (pages dans `app/(public)/…`). */
 function isLocalelessPublicPath(pathname: string): boolean {
-  return /^\/(academy|bible-strong|calendar|planning|rejoindre)(\/|$)/.test(pathname);
+  return /^\/(academy|bible-strong|calendar|planning|rejoindre|profile)(\/|$)/.test(pathname);
 }
 
 /**

@@ -1,21 +1,18 @@
 "use client";
 
-import NextLink from "next/link";
 import type { FormEvent } from "react";
-import { useActionState, useMemo, useState } from "react";
+import { useActionState, useEffect, useMemo, useState } from "react";
 import {
-  BookOpen,
   ChevronLeft,
   ChevronRight,
-  CircleCheck,
-  GraduationCap,
   HeartHandshake,
+  ImagePlus,
   Loader2,
   Sparkles,
   UserRound,
 } from "lucide-react";
-import { motion } from "framer-motion";
 import { useLocale, useTranslations } from "next-intl";
+import { useRouter } from "next/navigation";
 import { useFormStatus } from "react-dom";
 
 import { Button } from "@/components/ui/button";
@@ -23,7 +20,6 @@ import {
   registerMemberFormAction,
   type MemberRegistrationFormState,
 } from "@/lib/actions/member-registration";
-import { routing } from "@/i18n/routing";
 import { cn } from "@/lib/utils";
 
 const TALENT_KEYS = ["musique_piano", "academie", "technique_it", "organisation", "ecoute_benevole"] as const;
@@ -38,6 +34,8 @@ function messageForRegisterError(
 ) {
   if (message === "invalid_phone") return t("errorPhone");
   if (message === "invalid_fields") return t("errorFields");
+  if (message === "invalid_photo") return t("errorPhoto");
+  if (message === "server_config") return t("errorServerConfig");
   if (message === "db_error" || message === "unexpected_error") return t("errorGeneric");
   return t("errorGeneric");
 }
@@ -60,10 +58,24 @@ function MemberJoinSubmitButton({ label }: { label: string }) {
 export function MemberRegistrationForm() {
   const t = useTranslations("memberRegistration");
   const locale = useLocale();
+  const router = useRouter();
   const [step, setStep] = useState(0);
   const [stepError, setStepError] = useState<string | null>(null);
+  const [photoPreview, setPhotoPreview] = useState<string | null>(null);
 
   const [state, formAction, isPending] = useActionState(registerMemberFormAction, initialFormState);
+
+  useEffect(() => {
+    if (state.status === "success" && state.memberId) {
+      router.push(`/profile/${state.memberId}`);
+    }
+  }, [router, state]);
+
+  useEffect(() => {
+    return () => {
+      if (photoPreview) URL.revokeObjectURL(photoPreview);
+    };
+  }, [photoPreview]);
 
   const [lastName, setLastName] = useState("");
   const [firstName, setFirstName] = useState("");
@@ -146,60 +158,16 @@ export function MemberRegistrationForm() {
   }
 
   const serverActionError = state.status === "error" ? messageForRegisterError(state.message, t) : null;
-  /** Succès explicite (évite toute confusion avec une réponse JSON brute côté navigateur). */
-  const isSuccess = state.status === "success";
 
-  if (isSuccess) {
+  if (state.status === "success") {
     return (
       <section
         id="member-registration"
-        className="scroll-mt-28 overflow-hidden rounded-[28px] border border-emerald-200/80 bg-gradient-to-br from-emerald-50/90 via-white to-sky-50/40 p-1 shadow-[0_20px_50px_rgba(16,185,129,0.12)] sm:p-1.5"
+        className="scroll-mt-28 overflow-hidden rounded-[28px] border border-sky-100/80 bg-white/90 p-10 text-center shadow-inner sm:p-14"
+        aria-live="polite"
       >
-        <motion.div
-          className="rounded-[24px] bg-white/85 px-6 py-12 text-center backdrop-blur-sm sm:px-10 sm:py-14"
-          initial={{ opacity: 0, y: 16 }}
-          animate={{ opacity: 1, y: 0 }}
-          transition={{ duration: 0.4, ease: [0.22, 1, 0.36, 1] }}
-        >
-          <div className="mx-auto flex size-24 items-center justify-center rounded-full bg-emerald-100 text-emerald-600 shadow-inner ring-4 ring-emerald-200/60">
-            <motion.div
-              initial={{ scale: 0.6, opacity: 0 }}
-              animate={{ scale: 1, opacity: 1 }}
-              transition={{ type: "spring", stiffness: 320, damping: 18, delay: 0.08 }}
-              aria-hidden
-            >
-              <CircleCheck className="size-14" strokeWidth={1.75} />
-            </motion.div>
-          </div>
-
-          <p className="mx-auto mt-8 max-w-lg text-2xl font-semibold tracking-tight text-emerald-900 sm:text-3xl">
-            {t("successJoinedAgape")}
-          </p>
-          <p className="mx-auto mt-3 max-w-lg text-base font-medium text-emerald-800/90 sm:text-lg">{t("successThankYou")}</p>
-          <p className="mx-auto mt-4 max-w-lg text-sm leading-relaxed text-sky-900/90 sm:text-base">{t("successRegistered")}</p>
-
-          {state.severity === "critical" ? (
-            <p className="mx-auto mt-4 max-w-lg text-sm leading-relaxed text-rose-800/90">{t("successUrgentAddon")}</p>
-          ) : null}
-
-          <div className="mt-10 flex flex-col flex-wrap items-stretch justify-center gap-3 sm:flex-row sm:items-center">
-            <Button asChild size="lg" className="h-12 rounded-2xl bg-amber-800 px-8 text-white hover:bg-amber-900">
-              <NextLink href="/bible-strong" className="inline-flex items-center justify-center gap-2">
-                <BookOpen className="size-5 shrink-0" aria-hidden />
-                {t("openBible")}
-              </NextLink>
-            </Button>
-            <Button asChild size="lg" className="h-12 rounded-2xl bg-sky-700 px-8 text-white hover:bg-sky-800">
-              <NextLink href="/academy" className="inline-flex items-center justify-center gap-2">
-                <GraduationCap className="size-5 shrink-0" aria-hidden />
-                {t("openAcademy")}
-              </NextLink>
-            </Button>
-            <Button asChild size="lg" variant="outline" className="h-12 rounded-2xl border-slate-300 bg-white px-8 text-slate-900 hover:bg-slate-50">
-              <NextLink href={`/${routing.defaultLocale}`}>{t("backToHome")}</NextLink>
-            </Button>
-          </div>
-        </motion.div>
+        <Loader2 className="mx-auto size-10 animate-spin text-sky-600" aria-hidden />
+        <p className="mt-6 text-lg font-medium text-sky-950">{t("redirectingToProfile")}</p>
       </section>
     );
   }
@@ -252,6 +220,7 @@ export function MemberRegistrationForm() {
         <form
           className="mt-8 space-y-6"
           action={formAction}
+          encType="multipart/form-data"
           onSubmit={(e: FormEvent<HTMLFormElement>) => {
             if (step < 2) {
               e.preventDefault();
@@ -333,6 +302,39 @@ export function MemberRegistrationForm() {
                   <option value="autre">{t("langAutre")}</option>
                 </select>
               </label>
+
+              <div className="grid gap-3 sm:col-span-2">
+                <span className="text-sm font-medium text-sky-950">{t("profilePhoto")}</span>
+                <p className="text-xs leading-relaxed text-sky-800/80">{t("profilePhotoHint")}</p>
+                <div className="flex flex-col items-center gap-4 rounded-2xl border border-dashed border-sky-200 bg-white/80 px-4 py-6 sm:flex-row sm:items-start sm:justify-center">
+                  <div className="flex size-24 shrink-0 items-center justify-center overflow-hidden rounded-full bg-sky-50 ring-2 ring-sky-100">
+                    {photoPreview ? (
+                      // eslint-disable-next-line @next/next/no-img-element -- aperçu blob: local uniquement
+                      <img src={photoPreview} alt="" className="size-full object-cover" />
+                    ) : (
+                      <ImagePlus className="size-10 text-sky-300" aria-hidden />
+                    )}
+                  </div>
+                  <label className="flex w-full max-w-xs cursor-pointer flex-col items-center gap-2 text-center sm:items-start sm:text-left">
+                    <span className="rounded-full bg-sky-600 px-4 py-2 text-sm font-semibold text-white hover:bg-sky-700">
+                      {t("profilePhotoChoose")}
+                    </span>
+                    <input
+                      type="file"
+                      name="profile_photo"
+                      accept="image/jpeg,image/png,image/webp"
+                      className="sr-only"
+                      onChange={(e) => {
+                        const f = e.target.files?.[0];
+                        setPhotoPreview((prev) => {
+                          if (prev) URL.revokeObjectURL(prev);
+                          return f ? URL.createObjectURL(f) : null;
+                        });
+                      }}
+                    />
+                  </label>
+                </div>
+              </div>
             </div>
           ) : null}
 

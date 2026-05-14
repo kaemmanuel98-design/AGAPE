@@ -13,6 +13,15 @@ const withPWA = withPWAInit({
 const nextConfig: NextConfig = {
   /** Image Docker optimisée : trace les dépendances serveur dans `.next/standalone`. */
   output: "standalone",
+  images: {
+    remotePatterns: [
+      {
+        protocol: "https",
+        hostname: "**.supabase.co",
+        pathname: "/storage/v1/object/public/**",
+      },
+    ],
+  },
   /**
    * Séparation cache / dynamique (complément des Ingress) :
    * — Bible : cache public long côté CDN / navigateur (contenu majoritairement statique).

@@ -197,7 +197,28 @@
     "openBible": "Ga naar de Bijbel",
     "openAcademy": "Ga naar de Academy",
     "exploreAcademy": "Ontdek de Academy",
-    "backToHome": "Terug naar de startpagina"
+    "backToHome": "Terug naar de startpagina",
+    "profilePhoto": "Profielfoto",
+    "profilePhotoHint": "Optioneel — JPEG, PNG of WebP, max. 8 MB. Op de server bijgesneden en gecomprimeerd naar WebP vóór upload naar Supabase.",
+    "profilePhotoChoose": "Kies een afbeelding",
+    "redirectingToProfile": "Je ledenruimte openen…",
+    "errorPhoto": "Kies een geldige afbeelding (JPEG, PNG of WebP, redelijke grootte).",
+    "errorServerConfig": "Het versturen van de foto vereist serverconfiguratie (Supabase service key). Probeer opnieuw zonder foto of neem contact op met het team."
+  },
+  "memberProfile": {
+    "metaNotFoundTitle": "Profiel · AGAPE",
+    "metaFallbackName": "Lid",
+    "metaDescription": "Je AGAPE-ledenruimte.",
+    "anonymousMember": "Lid",
+    "badgeMember": "Ledenruimte",
+    "welcomeMessage": "Welkom, {firstName}. We zijn blij dat je er bent.",
+    "talentsHeading": "Jouw talenten",
+    "avatarAlt": "Profielfoto van {name}",
+    "editProfile": "Mijn profiel bewerken",
+    "openAcademy": "Naar de Academy",
+    "editTitle": "Profiel bewerken",
+    "editStubBody": "Zelf bewerken komt binnenkort. Voor dringende wijzigingen: neem contact op met het AGAPE-team.",
+    "backToProfile": "Terug naar profiel"
   },
   "discover": {
     "heading": "Ontdekken",

@@ -32,7 +32,7 @@ docker run --rm -p 3000:3000 \
 
 ## 2. Lancer l’application avec Docker Compose
 
-1. Copier **`.env.docker.example`** vers **`.env.docker`** et remplir au minimum `NEXT_PUBLIC_SUPABASE_URL`, `NEXT_PUBLIC_SUPABASE_ANON_KEY`, `NEXT_PUBLIC_SITE_URL`.
+1. Copier **`.env.docker.example`** vers **`.env.docker`** et remplir au minimum `NEXT_PUBLIC_SUPABASE_URL`, `NEXT_PUBLIC_SUPABASE_ANON_KEY`, `NEXT_PUBLIC_SITE_URL`, et **`SUPABASE_SERVICE_ROLE_KEY`** si tu utilises l’inscription avec photo ou les pages **`/profile/[id]`** (voir migration `020_member_avatars.sql`).
 2. Depuis la racine du projet :
 
 ```bash
@@ -97,6 +97,7 @@ Ces chemins sont prévus **sans** préfixe de langue dans l’URL (middleware Ne
 | `/academy` et `/academy/[id]` | `app/academy/page.tsx`, `app/academy/[id]/page.tsx` |
 | `/bible-strong` | `app/bible-strong/page.tsx` (+ `app/bible-strong/[verseId]/page.tsx` pour un verset) |
 | `/rejoindre` | `app/rejoindre/page.tsx` (redirection depuis `app/[locale]/rejoindre` vers `/rejoindre`) |
+| `/profile/[id]` | `app/profile/[id]/page.tsx` (espace membre après inscription ; requiert `SUPABASE_SERVICE_ROLE_KEY` côté serveur) |
 
 ---
 
