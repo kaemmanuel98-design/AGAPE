@@ -7,7 +7,7 @@ import {
   uploadPendingSignupAvatarJpeg,
 } from "@/lib/actions/upload-registration-avatar";
 import { sendCriticalAssistanceAlertEmail } from "@/lib/notifications/critical-assistance";
-import { createSupabaseServerClient } from "@/lib/supabase/server";
+import { createSupabaseAdminClient } from "@/lib/supabaseAdmin";
 
 const ALLOWED_LANGUAGES = new Set(["fr", "en", "nl", "autre"]);
 const ALLOWED_TALENTS = new Set([
@@ -47,8 +47,8 @@ type ProcessErr = { ok: false; message: string };
 /**
  * Inscription `/rejoindre` :
  * 1) Upload éventuel de la photo dans `avatars` **avant** `signUp` (échec → arrêt, pas de compte créé).
- * 2) `supabase.auth.signUp` avec `options.data` **strictement** au format attendu par `handle_new_user` :
- *    `full_name`, `avatar_url`, `current_need`, `city` (photo uploadée avant via **service_role**).
+ * 2) `auth.admin.createUser` (client **service_role** / `lib/supabaseAdmin.ts`) avec `user_metadata` au format
+ *    attendu par `handle_new_user` : `full_name`, `avatar_url`, `current_need`, `city`.
  * 3) Aucune écriture manuelle dans `public.profiles` : le trigger remplit la ligne.
  */
 async function processMemberRegistration(formData: FormData): Promise<ProcessOk | ProcessErr> {
@@ -109,22 +109,20 @@ async function processMemberRegistration(formData: FormData): Promise<ProcessOk 
     const email = `m-${randomUUID()}@members.agape`;
     const password = `${randomBytes(28).toString("base64url")}Aa1!`;
 
-    const supabase = await createSupabaseServerClient();
-    const { data: signData, error: signErr } = await supabase.auth.signUp({
+    const admin = createSupabaseAdminClient();
+    const { data: signData, error: signErr } = await admin.auth.admin.createUser({
       email,
       password,
-      options: {
-        data: {
-          full_name: fullName,
-          avatar_url: pendingUpload.avatarUrl ?? "",
-          current_need: accompanimentNeed,
-          city,
-        },
+      user_metadata: {
+        full_name: fullName,
+        avatar_url: pendingUpload.avatarUrl ?? "",
+        current_need: accompanimentNeed,
+        city,
       },
     });
 
     if (signErr) {
-      console.error("[AGAPE Inscription] signUp refusé :", signErr.message);
+      console.error("[AGAPE Inscription] createUser refusé :", signErr.message, signErr);
       await deleteSignupPendingAvatarPath(pendingStoragePath);
       pendingStoragePath = null;
       return { ok: false, message: "db_error" };
@@ -132,21 +130,21 @@ async function processMemberRegistration(formData: FormData): Promise<ProcessOk 
 
     const userId = signData.user?.id;
     if (!userId) {
-      console.error("[AGAPE Inscription] signUp sans identifiant utilisateur.");
+      console.error("[AGAPE Inscription] createUser sans identifiant utilisateur.");
       await deleteSignupPendingAvatarPath(pendingStoragePath);
       pendingStoragePath = null;
       return { ok: false, message: "db_error" };
     }
 
     console.log(
-      "[AGAPE Inscription] signUp réussi ; profil créé par le trigger (metadata : full_name, avatar_url, …). id =",
+      "[AGAPE Inscription] Compte créé (service role) ; profil par trigger (metadata). id =",
       userId,
     );
 
     pendingStoragePath = null;
 
-    /** Session absente mais utilisateur créé → en général confirmation e-mail requise. */
-    const pendingEmailVerification = Boolean(signData.user && !signData.session);
+    /** Compte créé mais e-mail pas encore confirmé (réglage projet Supabase « Confirm email »). */
+    const pendingEmailVerification = !signData.user?.email_confirmed_at;
 
     let criticalAlertSent = false;
     if (isPriorityEmergency) {
@@ -183,6 +181,7 @@ export async function registerMemberFormAction(
   _prev: MemberRegistrationFormState,
   formData: FormData,
 ): Promise<MemberRegistrationFormState> {
+  console.log("Clé détectée :", !!process.env.SUPABASE_SERVICE_ROLE_KEY);
   const result = await processMemberRegistration(formData);
   if (!result.ok) {
     return { status: "error", message: result.message };

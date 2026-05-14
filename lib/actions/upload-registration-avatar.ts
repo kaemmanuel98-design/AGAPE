@@ -3,7 +3,7 @@ import { randomUUID } from "node:crypto";
 
 import sharp from "sharp";
 
-import { createSupabaseServiceRoleClient } from "@/lib/supabase/service-role";
+import { createSupabaseAdminClient } from "@/lib/supabaseAdmin";
 
 const MAX_PHOTO_BYTES = 8 * 1024 * 1024;
 
@@ -60,14 +60,30 @@ export async function uploadPendingSignupAvatarJpeg(
   const blob = new Blob([new Uint8Array(prepared.buffer)], { type: "image/jpeg" });
 
   try {
-    const admin = createSupabaseServiceRoleClient();
-    const { error: upErr } = await admin.storage.from("avatars").upload(path, blob, {
+    const admin = createSupabaseAdminClient();
+    const { error: storageError } = await admin.storage.from("avatars").upload(path, blob, {
       contentType: "image/jpeg",
       upsert: false,
     });
 
-    if (upErr) {
-      console.error("[AGAPE Avatar inscription] Upload Storage (pré-inscription) refusé :", upErr.message);
+    if (storageError) {
+      console.error(
+        "[AGAPE Avatar inscription] Upload Storage (pré-inscription) — storageError :",
+        JSON.stringify(
+          {
+            message: storageError.message,
+            name: storageError.name,
+            ...(typeof storageError === "object" &&
+            storageError !== null &&
+            "statusCode" in storageError
+              ? { statusCode: (storageError as { statusCode?: string }).statusCode }
+              : {}),
+          },
+          null,
+          2,
+        ),
+        storageError,
+      );
       return { ok: false, message: "db_error" };
     }
 
@@ -88,7 +104,7 @@ export async function uploadPendingSignupAvatarJpeg(
 export async function deleteSignupPendingAvatarPath(storagePath: string | null): Promise<void> {
   if (!storagePath) return;
   try {
-    const admin = createSupabaseServiceRoleClient();
+    const admin = createSupabaseAdminClient();
     const { error } = await admin.storage.from("avatars").remove([storagePath]);
     if (error) {
       console.error("[AGAPE Avatar inscription] Nettoyage Storage échoué :", error.message);
