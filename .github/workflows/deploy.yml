@@ -1,0 +1,108 @@
+name: Déploiement AGAPE (tests, image GHCR, Kubernetes)
+
+on:
+  push:
+    branches: [main, master]
+  workflow_dispatch:
+
+concurrency:
+  group: deploy-${{ github.ref }}
+  cancel-in-progress: true
+
+jobs:
+  test:
+    runs-on: ubuntu-latest
+    steps:
+      - name: Checkout
+        uses: actions/checkout@v4
+
+      - name: Node.js 20
+        uses: actions/setup-node@v4
+        with:
+          node-version: "20"
+          cache: npm
+
+      - name: Installer les dépendances
+        run: npm ci
+
+      - name: Lint
+        run: npm run lint
+
+      - name: Build Next.js (validation avant image Docker)
+        run: npm run build
+
+  docker-push:
+    needs: test
+    runs-on: ubuntu-latest
+    permissions:
+      contents: read
+      packages: write
+    outputs:
+      image_ref: ${{ steps.image_ref.outputs.full }}
+    steps:
+      - name: Checkout
+        uses: actions/checkout@v4
+
+      - name: Référence d’image GHCR (minuscules)
+        id: image_ref
+        run: |
+          REPO_LC=$(echo '${{ github.repository }}' | tr '[:upper:]' '[:lower:]')
+          echo "full=ghcr.io/${REPO_LC}:${GITHUB_SHA}" >> "$GITHUB_OUTPUT"
+
+      - name: Docker Buildx
+        uses: docker/setup-buildx-action@v3
+
+      - name: Connexion GitHub Container Registry
+        uses: docker/login-action@v3
+        with:
+          registry: ghcr.io
+          username: ${{ github.actor }}
+          password: ${{ secrets.GITHUB_TOKEN }}
+
+      - name: Build et push l’image
+        uses: docker/build-push-action@v6
+        with:
+          context: .
+          push: true
+          tags: ${{ steps.image_ref.outputs.full }}
+          build-args: |
+            NEXT_PUBLIC_SUPABASE_URL=${{ secrets.NEXT_PUBLIC_SUPABASE_URL }}
+            NEXT_PUBLIC_SUPABASE_ANON_KEY=${{ secrets.NEXT_PUBLIC_SUPABASE_ANON_KEY }}
+            NEXT_PUBLIC_SITE_URL=${{ secrets.NEXT_PUBLIC_SITE_URL }}
+
+  deploy-k8s:
+    needs: docker-push
+    if: secrets.KUBE_CONFIG
+    runs-on: ubuntu-latest
+    steps:
+      - name: Checkout
+        uses: actions/checkout@v4
+
+      - name: Installer kubectl
+        uses: azure/setup-kubectl@v4
+
+      - name: Configurer le kubeconfig
+        env:
+          KUBE_CONFIG: ${{ secrets.KUBE_CONFIG }}
+        run: |
+          mkdir -p "$HOME/.kube"
+          echo "$KUBE_CONFIG" > "$HOME/.kube/config"
+
+      - name: Appliquer les manifests Kubernetes
+        env:
+          IMAGE: ${{ needs.docker-push.outputs.image_ref }}
+        run: |
+          set -e
+          sed "s|AGAPE_IMAGE_PLACEHOLDER|${IMAGE}|g" infrastructure/k8s/deployment.yaml > /tmp/deployment.rendered.yaml
+          kubectl apply -f infrastructure/k8s/namespace.yaml
+          kubectl apply -f infrastructure/k8s/configmap.yaml
+          kubectl apply -f infrastructure/k8s/secret.yaml
+          kubectl apply -f infrastructure/k8s/poddisruptionbudget.yaml
+          kubectl apply -f /tmp/deployment.rendered.yaml
+          kubectl apply -f infrastructure/k8s/service.yaml
+          kubectl apply -f infrastructure/k8s/hpa.yaml
+          kubectl apply -f infrastructure/k8s/ingress-academy.yaml
+          kubectl apply -f infrastructure/k8s/ingress-bible.yaml
+
+      - name: Attendre le rollout
+        run: kubectl rollout status deployment/agape-web -n agape --timeout=300s

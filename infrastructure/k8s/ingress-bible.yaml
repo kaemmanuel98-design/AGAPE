@@ -1,22 +1,26 @@
 apiVersion: networking.k8s.io/v1
 kind: Ingress
 metadata:
-  name: agape-ingress
+  name: agape-ingress-bible
   namespace: agape
   labels:
     app.kubernetes.io/name: agape
+    app.kubernetes.io/component: bible-ingress
   annotations:
-    # cert-manager : crée le certificat TLS (nécessite un ClusterIssuer `letsencrypt-prod`).
     cert-manager.io/cluster-issuer: "letsencrypt-prod"
     nginx.ingress.kubernetes.io/ssl-redirect: "true"
+    # Bible : timeouts un peu plus longs pour la lecture ; cache HTTP principal via Next.js (s-maxage élevé).
+    nginx.ingress.kubernetes.io/proxy-read-timeout: "120"
+    nginx.ingress.kubernetes.io/proxy-send-timeout: "120"
+    nginx.ingress.kubernetes.io/proxy-buffering: "on"
 spec:
   ingressClassName: nginx
   tls:
     - hosts:
-        - agape.example.com
+        - bible.agape.com
       secretName: agape-tls
   rules:
-    - host: agape.example.com
+    - host: bible.agape.com
       http:
         paths:
           - path: /

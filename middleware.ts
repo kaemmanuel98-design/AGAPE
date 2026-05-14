@@ -11,21 +11,44 @@ function isLocalelessPublicPath(pathname: string): boolean {
   return /^\/(academy|bible-strong|calendar|planning|rejoindre)(\/|$)/.test(pathname);
 }
 
-export async function middleware(request: NextRequest) {
-  const pathname = request.nextUrl.pathname;
+/**
+ * Réécriture interne : `bible.agape.com` → `/bible-strong`, `academy.agape.com` → `/academy`
+ * (même app Next ; activé en prod via `AGAPE_SUBDOMAIN_ROUTING=true` sur le cluster).
+ */
+function trySubdomainRewriteUrl(request: NextRequest): URL | null {
+  if (process.env.AGAPE_SUBDOMAIN_ROUTING !== "true") return null;
+  const host = request.headers.get("host")?.split(":")[0] ?? "";
+  const bibleHost = process.env.AGAPE_BIBLE_HOST ?? "bible.agape.com";
+  const academyHost = process.env.AGAPE_ACADEMY_HOST ?? "academy.agape.com";
+  const p = request.nextUrl.pathname;
+  let prefix: string | null = null;
+  if (host === bibleHost) prefix = "/bible-strong";
+  else if (host === academyHost) prefix = "/academy";
+  else return null;
+  const url = request.nextUrl.clone();
+  url.pathname = p === "/" || p === "" ? prefix : `${prefix}${p}`;
+  return url;
+}
 
-  // Ici on évite la redirection next-intl pour ces chemins : ils sont servis tels quels avec locale par défaut côté layout.
-  const response = isLocalelessPublicPath(pathname) ? NextResponse.next() : intlMiddleware(request);
+export async function middleware(request: NextRequest) {
+  const pathnameBefore = request.nextUrl.pathname;
+  const rewriteUrl = trySubdomainRewriteUrl(request);
+
+  const response = rewriteUrl
+    ? NextResponse.rewrite(rewriteUrl)
+    : isLocalelessPublicPath(pathnameBefore)
+      ? NextResponse.next()
+      : intlMiddleware(request);
 
   /**
    * Seules les routes admin « secrètes » exigent une session Supabase.
    * Les pages publiques (Academy, Calendrier, Planning, etc.) passent sans barrière d’authentification :
    * la donnée est lue avec la clé anon côté serveur selon les politiques RLS.
    */
-  const protectedSecretAdminMatch = pathname.match(
+  const protectedSecretAdminMatch = pathnameBefore.match(
     /^\/(fr|en|nl)\/(?:admin-secret-dashboard|management-agape-secret)(?:\/|$)/,
   );
-  const legacyPortalMatch = pathname.match(/^\/(fr|en|nl)\/admin-portal-agape(?:\/|$)/);
+  const legacyPortalMatch = pathnameBefore.match(/^\/(fr|en|nl)\/admin-portal-agape(?:\/|$)/);
 
   const url = process.env.NEXT_PUBLIC_SUPABASE_URL;
   const anon = process.env.NEXT_PUBLIC_SUPABASE_ANON_KEY;

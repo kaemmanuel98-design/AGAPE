@@ -1,0 +1,15 @@
+# Certificat TLS unique (SAN) pour academy.agape.com + bible.agape.com — nécessite cert-manager.
+# Ne pas appliquer si le CRD cert-manager.io n’est pas installé sur le cluster.
+apiVersion: cert-manager.io/v1
+kind: Certificate
+metadata:
+  name: agape-tls
+  namespace: agape
+spec:
+  secretName: agape-tls
+  issuerRef:
+    name: letsencrypt-prod
+    kind: ClusterIssuer
+  dnsNames:
+    - academy.agape.com
+    - bible.agape.com

@@ -1,9 +1,7 @@
-# AGAPE — stack locale : application Next.js + agrégation des logs Docker vers un volume.
-# 1) Copier `.env.docker.example` vers `.env.docker` et renseigner Supabase.
+# Simulation locale proche de la production (Next.js + variables Supabase).
+# 1) Copier `.env.docker.example` vers `.env.docker` et renseigner les clés.
 # 2) `docker compose up --build`
-# 3) (Optionnel) Agrégateur de logs Vector : `docker compose --profile logs up -d`
-#    → écrit les logs du conteneur `agape-web` en NDJSON dans le volume `agape_log_archive`.
-#    En production, un agent Better Stack / Datadog remplace souvent ce service.
+# 3) (Optionnel) Agrégation des logs : `docker compose --profile logs up -d`
 
 services:
   web:
@@ -22,10 +20,13 @@ services:
       - .env.docker
     environment:
       NODE_ENV: production
-      # Doublon runtime (serveur / readiness) — les clés publiques sont aussi passées au build.
       NEXT_PUBLIC_SUPABASE_URL: ${NEXT_PUBLIC_SUPABASE_URL:-}
       NEXT_PUBLIC_SUPABASE_ANON_KEY: ${NEXT_PUBLIC_SUPABASE_ANON_KEY:-}
       NEXT_PUBLIC_SITE_URL: ${NEXT_PUBLIC_SITE_URL:-}
+      # Sous-domaines (comme en prod K8s) : tester avec des entrées /etc/hosts locales.
+      AGAPE_SUBDOMAIN_ROUTING: ${AGAPE_SUBDOMAIN_ROUTING:-false}
+      AGAPE_BIBLE_HOST: ${AGAPE_BIBLE_HOST:-bible.agape.com}
+      AGAPE_ACADEMY_HOST: ${AGAPE_ACADEMY_HOST:-academy.agape.com}
     logging:
       driver: json-file
       options:

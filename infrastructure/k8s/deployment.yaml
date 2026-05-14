@@ -26,8 +26,8 @@ spec:
         fsGroup: 1001
       containers:
         - name: web
-          # Remplace l’image par celle publiée par le workflow GitHub Actions (GHCR).
-          image: ghcr.io/CHANGE_ME_OWNER/agape:latest
+          # Remplacé par le workflow GitHub Actions (sed sur AGAPE_IMAGE_PLACEHOLDER).
+          image: AGAPE_IMAGE_PLACEHOLDER
           imagePullPolicy: Always
           ports:
             - name: http
@@ -41,7 +41,7 @@ spec:
             httpGet:
               path: /api/health
               port: http
-            initialDelaySeconds: 20
+            initialDelaySeconds: 25
             periodSeconds: 30
             timeoutSeconds: 5
             failureThreshold: 3
@@ -49,14 +49,14 @@ spec:
             httpGet:
               path: /api/ready
               port: http
-            initialDelaySeconds: 10
+            initialDelaySeconds: 15
             periodSeconds: 15
             timeoutSeconds: 5
             failureThreshold: 3
           resources:
             requests:
-              cpu: 100m
-              memory: 256Mi
+              cpu: 150m
+              memory: 384Mi
             limits:
-              cpu: "1"
-              memory: 1Gi
+              cpu: "1500m"
+              memory: 1536Mi

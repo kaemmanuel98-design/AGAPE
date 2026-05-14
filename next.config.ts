@@ -13,6 +13,51 @@ const withPWA = withPWAInit({
 const nextConfig: NextConfig = {
   /** Image Docker optimisée : trace les dépendances serveur dans `.next/standalone`. */
   output: "standalone",
+  /**
+   * Séparation cache / dynamique (complément des Ingress) :
+   * — Bible : cache public long côté CDN / navigateur (contenu majoritairement statique).
+   * — Academy : pas de cache de document HTML (données catalogue dynamiques Supabase).
+   */
+  async headers() {
+    return [
+      {
+        source: "/bible-strong",
+        headers: [
+          {
+            key: "Cache-Control",
+            value: "public, s-maxage=86400, stale-while-revalidate=604800",
+          },
+        ],
+      },
+      {
+        source: "/bible-strong/:path*",
+        headers: [
+          {
+            key: "Cache-Control",
+            value: "public, s-maxage=86400, stale-while-revalidate=604800",
+          },
+        ],
+      },
+      {
+        source: "/academy",
+        headers: [
+          {
+            key: "Cache-Control",
+            value: "private, no-cache, no-store, must-revalidate",
+          },
+        ],
+      },
+      {
+        source: "/academy/:path*",
+        headers: [
+          {
+            key: "Cache-Control",
+            value: "private, no-cache, no-store, must-revalidate",
+          },
+        ],
+      },
+    ];
+  },
   experimental: {
     serverActions: {
       bodySizeLimit: "15mb",

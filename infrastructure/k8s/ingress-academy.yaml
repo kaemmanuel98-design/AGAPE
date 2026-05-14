@@ -1,0 +1,30 @@
+apiVersion: networking.k8s.io/v1
+kind: Ingress
+metadata:
+  name: agape-ingress-academy
+  namespace: agape
+  labels:
+    app.kubernetes.io/name: agape
+    app.kubernetes.io/component: academy-ingress
+  annotations:
+    cert-manager.io/cluster-issuer: "letsencrypt-prod"
+    nginx.ingress.kubernetes.io/ssl-redirect: "true"
+    # Academy : trafic traité comme dynamique côté origine (en-têtes Cache-Control renforcés par Next.js).
+    nginx.ingress.kubernetes.io/proxy-buffering: "on"
+spec:
+  ingressClassName: nginx
+  tls:
+    - hosts:
+        - academy.agape.com
+      secretName: agape-tls
+  rules:
+    - host: academy.agape.com
+      http:
+        paths:
+          - path: /
+            pathType: Prefix
+            backend:
+              service:
+                name: agape-web
+                port:
+                  number: 80
