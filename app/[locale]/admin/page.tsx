@@ -8,7 +8,7 @@ export const dynamic = "force-dynamic";
 
 export default async function AdminPage() {
   const contents = await listAllContents();
-  const lessons = await listAllLessons();
+  const { lessons } = await listAllLessons();
   const planning = await listPlanning();
   const exhortations = await listRecentExhortations();
 

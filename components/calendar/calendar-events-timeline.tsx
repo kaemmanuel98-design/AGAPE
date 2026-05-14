@@ -2,6 +2,7 @@ import { CalendarClock, ExternalLink, UserPlus } from "lucide-react";
 import { getLocale, getTranslations } from "next-intl/server";
 
 import { Button } from "@/components/ui/button";
+import { FraternalCalendarComingSoon } from "@/components/calendar/fraternal-calendar-coming-soon";
 import { listFraternalEventsTimeline } from "@/lib/calendar/event-queries";
 import { cn } from "@/lib/utils";
 
@@ -36,7 +37,11 @@ function formatEventTime(iso: string, locale: string) {
 export async function CalendarEventsTimeline() {
   const t = await getTranslations("calendar");
   const locale = await getLocale();
-  const events = await listFraternalEventsTimeline();
+  const { events, readFailed } = await listFraternalEventsTimeline();
+
+  if (readFailed) {
+    return <FraternalCalendarComingSoon />;
+  }
 
   if (events.length === 0) {
     return (

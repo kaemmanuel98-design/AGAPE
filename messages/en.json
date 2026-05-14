@@ -20,8 +20,14 @@
     "noResults": "No courses match your search.",
     "viewCourse": "View course",
     "introTitle": "AGAPE Academy",
+    "pageTagline": "Training, books, and resources for the community.",
+    "loadCoursesError": "Something went wrong while loading the courses.",
+    "contentArrivingSoon": "Academy content is on the way.",
     "introBody": "Journeys by level and module. Use search to filter courses; each card opens the lesson (read, audio, or video).",
     "empty": "No courses are published yet. Add the first lesson from the admin area.",
+    "comingSoon": "The Academy is filling up soon…",
+    "fetchError": "Sorry, a technical error occurred.",
+    "preparingFirstGems": "The Academy is preparing its first gems… Check back soon!",
     "catData": "Data",
     "catTheory": "Theory",
     "catListen": "Listen",
@@ -313,7 +319,16 @@
     "timelineEmpty": "No events are scheduled yet. Meetings and services will appear here once they are published.",
     "registerEvent": "Register",
     "meetingLink": "Meeting link",
-    "eventDetailsSoon": "Details coming soon"
+    "eventDetailsSoon": "Details coming soon",
+    "fraternalComingSoonBadge": "Coming soon",
+    "fraternalComingSoonTitle": "The fraternal calendar is syncing",
+    "fraternalComingSoonBody": "Community events are not available from the server yet, or the table is still being deployed. Please check back shortly.",
+    "fraternalComingSoonHint": "Stay tuned — once data is live, the timeline will appear here automatically."
+  },
+  "planning": {
+    "slotOpen": "Open slot — contact the team to sign up.",
+    "empty": "No services are scheduled yet, or the database is temporarily unavailable. Please try again later.",
+    "intro": "Upcoming services and roles that are filled or still open."
   },
   "admin": {
     "dashboard": {

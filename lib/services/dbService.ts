@@ -27,6 +27,7 @@ export interface Lesson {
   cover_image: string | null;
   download_url: string | null;
   external_link: string | null;
+  is_featured?: boolean | null;
   sort_order: number;
   created_at: string;
 }
@@ -43,7 +44,7 @@ export interface Exhortation {
 const PLANNING_SELECT =
   "id,service_date,service_name,regie,protocole,accueil,louange,predication,created_at";
 const LESSON_SELECT =
-  "id,level,module_title,title,content_kind,text_content,video_url,audio_url,author,cover_image,download_url,external_link,sort_order,created_at";
+  "id,level,module_title,title,content_kind,text_content,video_url,audio_url,author,cover_image,download_url,external_link,is_featured,sort_order,created_at";
 const EXHORTATION_SELECT =
   "id,exhortation_date,title,message,audio_url,created_at";
 
@@ -119,7 +120,7 @@ export async function getLessonsByLevel(level: string): Promise<Lesson[]> {
 
     const supabase = getSupabaseClient();
     const { data, error } = await supabase
-      .from("lessons")
+      .from("academy_courses")
       .select(LESSON_SELECT)
       .eq("level", normalizedLevel)
       .order("module_title", { ascending: true })

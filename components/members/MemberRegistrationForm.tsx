@@ -6,7 +6,7 @@ import { useMemo, useState, useTransition } from "react";
 import { useLocale, useTranslations } from "next-intl";
 
 import { Button } from "@/components/ui/button";
-import { createMemberRegistration } from "@/lib/actions/member-registration";
+import { registerMember } from "@/lib/actions/member-registration";
 import { cn } from "@/lib/utils";
 
 const TALENT_KEYS = ["musique_piano", "academie", "technique_it", "organisation", "ecoute_benevole"] as const;
@@ -124,7 +124,7 @@ export function MemberRegistrationForm() {
     }
 
     startTransition(async () => {
-      const result = await createMemberRegistration(buildFormData());
+      const result = await registerMember(buildFormData());
       if (!result.ok) {
         setStatus({
           tone: "error",

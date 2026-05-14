@@ -33,7 +33,7 @@ export function NavAccountButton({ variantKids, className }: Props) {
 
   return (
     <Button asChild size="sm" className={tone}>
-      <Link href="/#member-registration" prefetch={false}>
+      <Link href="/rejoindre" prefetch={false}>
         <UserPlus className="size-4 shrink-0" aria-hidden />
         {t("joinCommunity")}
       </Link>

@@ -10,6 +10,11 @@ export async function middleware(request: NextRequest) {
   let response = intlMiddleware(request);
 
   const pathname = request.nextUrl.pathname;
+  /**
+   * Seules les routes admin « secrètes » exigent une session Supabase.
+   * Les pages publiques (Academy, Calendrier, Planning, etc.) passent sans barrière d’authentification :
+   * la donnée est lue avec la clé anon côté serveur selon les politiques RLS.
+   */
   const protectedSecretAdminMatch = pathname.match(
     /^\/(fr|en|nl)\/(?:admin-secret-dashboard|management-agape-secret)(?:\/|$)/,
   );

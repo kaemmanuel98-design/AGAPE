@@ -443,6 +443,12 @@ export function AdminDashboard({
                 </Field>
               </div>
 
+              {/* Case à cocher : colonne `is_featured` dans `academy_courses` — affichage carte « À la une ». */}
+              <label className="flex cursor-pointer items-center gap-3 rounded-2xl border border-slate-200 bg-white px-4 py-3 text-slate-900 shadow-sm dark:border-slate-700 dark:bg-slate-900 dark:text-slate-100">
+                <input id="lesson-featured" name="is_featured" type="checkbox" className="size-4 rounded border-slate-300" />
+                <span className="text-sm font-medium">Mettre ce cours à la une (Academy)</span>
+              </label>
+
               <div className="rounded-2xl border border-dashed border-amber-300/60 bg-amber-50/80 p-4 dark:border-amber-500/30 dark:bg-amber-950/20">
                 <p className="mb-3 text-xs font-semibold uppercase tracking-wide text-amber-900 dark:text-amber-200">
                   Champs livre (si type = Livre)

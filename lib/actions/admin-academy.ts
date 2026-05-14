@@ -24,6 +24,7 @@ export async function createLesson(formData: FormData) {
   const downloadUrl = normalizeText(formData.get("download_url")) || null;
   const externalLink = normalizeText(formData.get("external_link")) || null;
   const sortOrder = Number.parseInt(normalizeText(formData.get("sort_order")) || "0", 10) || 0;
+  const isFeatured = formData.get("is_featured") === "on";
   const audioFile = formData.get("audio_file");
 
   if (!level || !moduleTitle || !title) {
@@ -85,7 +86,8 @@ export async function createLesson(formData: FormData) {
   const bookPdf = contentKind === "livre" && downloadUrl ? downloadUrl : null;
   const bookWeb = contentKind === "livre" && externalLink ? externalLink : null;
 
-  const { error } = await auth.supabase.from("lessons").insert({
+  /* Écriture Supabase : insertion dans `academy_courses` (catalogue public Academy). */
+  const { error } = await auth.supabase.from("academy_courses").insert({
     level,
     module_title: moduleTitle,
     title,
@@ -97,6 +99,7 @@ export async function createLesson(formData: FormData) {
     cover_image: bookCover,
     download_url: bookPdf,
     external_link: bookWeb,
+    is_featured: isFeatured,
     sort_order: sortOrder,
   });
 
@@ -122,7 +125,7 @@ export async function deleteLesson(formData: FormData) {
     return { ok: false as const, message: auth.code };
   }
 
-  const { error } = await auth.supabase.from("lessons").delete().eq("id", id);
+  const { error } = await auth.supabase.from("academy_courses").delete().eq("id", id);
   if (error) {
     return { ok: false as const, message: error.message };
   }

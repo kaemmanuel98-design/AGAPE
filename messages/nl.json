@@ -20,8 +20,14 @@
     "noResults": "Geen cursussen komen overeen met je zoekopdracht.",
     "viewCourse": "Cursus bekijken",
     "introTitle": "AGAPE Academy",
+    "pageTagline": "Trainingen, boeken en bronnen voor de gemeenschap.",
+    "loadCoursesError": "Er is iets misgegaan bij het laden van de cursussen.",
+    "contentArrivingSoon": "De inhoud van de Academy komt eraan.",
     "introBody": "Trajecten per niveau en module. Gebruik de zoekbalk om te filteren; elke kaart opent de les (tekst, audio of video).",
     "empty": "Er zijn nog geen cursussen gepubliceerd. Voeg de eerste les toe via het beheer.",
+    "comingSoon": "De Academy vult zich binnenkort…",
+    "fetchError": "Sorry, er is een technische fout opgetreden.",
+    "preparingFirstGems": "De Academy bereidt zijn eerste parels voor… Kom snel terug!",
     "catData": "Data",
     "catTheory": "Theorie",
     "catListen": "Luisteren",
@@ -313,7 +319,16 @@
     "timelineEmpty": "Nog geen evenementen gepland. Vergaderingen en diensten verschijnen hier zodra ze zijn gepubliceerd.",
     "registerEvent": "Inschrijven",
     "meetingLink": "Vergaderlink",
-    "eventDetailsSoon": "Details volgen"
+    "eventDetailsSoon": "Details volgen",
+    "fraternalComingSoonBadge": "Binnenkort",
+    "fraternalComingSoonTitle": "De broederlijke kalender synchroniseert",
+    "fraternalComingSoonBody": "Gemeenschapsevenementen zijn nog niet beschikbaar vanaf de server, of de tabel wordt nog uitgerold. Probeer het later opnieuw.",
+    "fraternalComingSoonHint": "Blijf verbonden: zodra de gegevens online zijn, verschijnt de tijdlijn automatisch hier."
+  },
+  "planning": {
+    "slotOpen": "Vrij slot — neem contact op met het team om je in te schrijven.",
+    "empty": "Nog geen erediensten gepland, of de database is tijdelijk niet beschikbaar. Probeer het later opnieuw.",
+    "intro": "Komende diensten en rollen die ingevuld zijn of nog vrij zijn."
   },
   "admin": {
     "dashboard": {

@@ -17,7 +17,11 @@ function clean(value: FormDataEntryValue | null) {
   return String(value ?? "").trim();
 }
 
-export async function createMemberRegistration(formData: FormData) {
+/**
+ * Inscription membre : validation, puis insertion dans `members_registration`.
+ * Les talents sont envoyés en **tableau** (colonne JSONB côté Supabase).
+ */
+export async function registerMember(formData: FormData) {
   const lastName = clean(formData.get("last_name"));
   const firstName = clean(formData.get("first_name"));
   const phone = clean(formData.get("phone"));
@@ -64,6 +68,7 @@ export async function createMemberRegistration(formData: FormData) {
 
   try {
     const supabase = await createSupabaseServerClient();
+    /* Écriture Supabase : une ligne dans `members_registration` (talents = tableau JSON). */
     const { error } = await supabase.from("members_registration").insert({
       first_name: firstName,
       last_name: lastName,
@@ -106,3 +111,6 @@ export async function createMemberRegistration(formData: FormData) {
     return { ok: false as const, message: "unexpected_error" as const };
   }
 }
+
+/** @deprecated Utiliser `registerMember` — alias conservé pour compatibilité. */
+export const createMemberRegistration = registerMember;

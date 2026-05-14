@@ -1,4 +1,4 @@
-import { createSupabaseServerClient } from "@/lib/supabase/server";
+import { createClient } from "@/utils/supabase/server";
 
 import type { PublicMemberBirthdayRow } from "./types";
 
@@ -32,8 +32,14 @@ export function formatBirthdayMemberName(member: {
   return fullName || "Membre Agape";
 }
 
+/**
+ * Anniversaires membres (RPC agrégée côté base).
+ *
+ * --- Appel SQL ---
+ * `SELECT * FROM public.list_public_member_birthdays()` (fonction SQL exposée comme `.rpc()`).
+ */
 export async function listPublicMemberBirthdays() {
-  const supabase = await createSupabaseServerClient();
+  const supabase = await createClient();
   const { data, error } = await supabase.rpc("list_public_member_birthdays");
 
   if (error) {
