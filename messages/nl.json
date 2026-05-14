@@ -27,6 +27,7 @@
     "empty": "Er zijn nog geen cursussen gepubliceerd. Voeg de eerste les toe via het beheer.",
     "comingSoon": "De Academy vult zich binnenkort…",
     "fetchError": "Sorry, er is een technische fout opgetreden.",
+    "errorGeneric": "De server is tijdelijk niet bereikbaar. Probeer het later opnieuw.",
     "preparingFirstGems": "De Academy bereidt zijn eerste parels voor… Kom snel terug!",
     "catData": "Data",
     "catTheory": "Theorie",
@@ -169,6 +170,7 @@
     "errorGeneric": "Verzenden lukt nu even niet. Probeer het later opnieuw.",
     "successRegistered": "Bedankt voor je inschrijving! Je plek in de gemeenschap AGAPE is geregistreerd. We kijken ernaar uit je te zien.",
     "successThankYou": "Dank je voor je vertrouwen.",
+    "successJoinedAgape": "Bedankt dat je bij AGAPE bent gekomen",
     "exploreAcademy": "Ontdek de Academy",
     "backToHome": "Terug naar de startpagina"
   },
@@ -322,7 +324,9 @@
     "fraternalComingSoonTitle": "De broederlijke kalender synchroniseert",
     "fraternalComingSoonBody": "Gemeenschapsevenementen zijn nog niet beschikbaar vanaf de server, of de tabel wordt nog uitgerold. Probeer het later opnieuw.",
     "fraternalComingSoonHint": "Blijf verbonden: zodra de gegevens online zijn, verschijnt de tijdlijn automatisch hier.",
-    "communityAppointmentsSoon": "De volgende afspraken van de AGAPE-gemeenschap verschijnen hier zeer binnenkort."
+    "communityAppointmentsSoon": "De volgende afspraken van de AGAPE-gemeenschap verschijnen hier zeer binnenkort.",
+    "loadErrorTitle": "We kunnen de server nu niet bereiken.",
+    "loadErrorHint": "De inhoud komt eraan… Probeer het zo meteen opnieuw."
   },
   "planning": {
     "slotOpen": "Vrij slot — neem contact op met het team om je in te schrijven.",

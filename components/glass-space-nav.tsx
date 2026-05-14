@@ -1,5 +1,6 @@
 "use client";
 
+import NextLink from "next/link";
 import { LayoutGroup, motion } from "framer-motion";
 import { Calendar, Sparkles, Users } from "lucide-react";
 import { useTranslations } from "next-intl";
@@ -200,7 +201,7 @@ export function GlassSpaceNav() {
         <div className="relative z-10 flex w-full shrink-0 flex-col gap-2 sm:w-auto sm:flex-row sm:flex-wrap sm:items-center sm:justify-end sm:gap-2">
           <NavAccountButton variantKids={isKids} className="justify-center" />
           <div className="flex items-center justify-end gap-2 sm:justify-start">
-            <Link
+            <NextLink
               href="/calendar"
               prefetch
               className={cn(
@@ -214,7 +215,7 @@ export function GlassSpaceNav() {
               title={t("calendar")}
             >
               <Calendar className="size-5" aria-hidden />
-            </Link>
+            </NextLink>
             <LocaleSwitcher />
           </div>
         </div>

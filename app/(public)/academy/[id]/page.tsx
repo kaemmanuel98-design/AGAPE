@@ -10,29 +10,33 @@ import { createClient } from "@/utils/supabase/server";
 export const dynamic = "force-dynamic";
 
 /**
- * Lecture directe d’une ligne `academy_courses` (même logique que `.eq('id').single()`).
- * Les logs en français aident à diagnostiquer RLS, UUID invalide ou clé anon absente.
+ * Ici on charge une ligne précise `academy_courses` pour afficher le détail d’un cours ou livre.
  */
 async function loadAcademyCourseById(id: string): Promise<LessonRow | null> {
-  const supabase = await createClient();
-  const { data, error } = await supabase.from("academy_courses").select().eq("id", id).single();
+  try {
+    const supabase = await createClient();
+    const { data, error } = await supabase.from("academy_courses").select().eq("id", id).single();
 
-  if (error) {
-    console.error(
-      "[AGAPE Academy] Échec requête Supabase sur `academy_courses` (select + eq id + single) :",
-      error.message,
-      "| id =",
-      id,
-    );
+    if (error) {
+      console.error(
+        "[AGAPE Academy] Échec requête Supabase sur `academy_courses` (détail) :",
+        error.message,
+        "| id =",
+        id,
+      );
+      return null;
+    }
+
+    if (!data) {
+      console.log("[AGAPE Academy] Aucune ligne retournée pour l’identifiant :", id);
+      return null;
+    }
+
+    return data as LessonRow;
+  } catch (e) {
+    console.error("[AGAPE Academy] Exception lors du chargement du cours :", e);
     return null;
   }
-
-  if (!data) {
-    console.log("[AGAPE Academy] Aucune ligne retournée pour l’identifiant :", id);
-    return null;
-  }
-
-  return data as LessonRow;
 }
 
 export async function generateMetadata({
@@ -46,11 +50,7 @@ export async function generateMetadata({
   return { title: `${lesson.title} · Academy AGAPE` };
 }
 
-/**
- * Page dynamique `/academy/[id]` : contenu issu de Supabase (`academy_courses`).
- * — Requête : `from('academy_courses').select().eq('id', id).single()`.
- * — Rendu : `AcademyLessonDocument` (livres = fiche de lecture standard, comme les autres cours).
- */
+/** Détail d’un cours — route `/academy/[id]`. */
 export default async function AcademyLessonByIdPage({ params }: { params: Promise<{ id: string }> }) {
   const { id } = await params;
 

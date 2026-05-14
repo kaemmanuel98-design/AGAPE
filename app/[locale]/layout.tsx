@@ -1,6 +1,5 @@
 import type { Metadata, Viewport } from "next";
 import type { ReactNode } from "react";
-import { Inter } from "next/font/google";
 import { notFound } from "next/navigation";
 import { NextIntlClientProvider } from "next-intl";
 import { getMessages, getTranslations, setRequestLocale } from "next-intl/server";
@@ -9,12 +8,6 @@ import { BackgroundByRoute } from "@/components/background-by-route";
 import { GlassSpaceNav } from "@/components/glass-space-nav";
 import { SpaceTransition } from "@/components/space-transition";
 import { routing } from "@/i18n/routing";
-
-const inter = Inter({
-  subsets: ["latin"],
-  variable: "--font-inter",
-  display: "swap",
-});
 
 export const viewport: Viewport = {
   themeColor: "#1D4ED8",
@@ -66,6 +59,9 @@ export async function generateMetadata({
   };
 }
 
+/**
+ * Ici on charge les messages i18n pour la locale de l’URL (`fr`, `en`, `nl`) et on affiche la coque nav + contenu.
+ */
 export default async function LocaleLayout({
   children,
   params,
@@ -83,16 +79,12 @@ export default async function LocaleLayout({
   const messages = await getMessages();
 
   return (
-    <html lang={locale} className={inter.variable} suppressHydrationWarning>
-      <body className="min-h-screen bg-transparent font-sans antialiased">
-        <NextIntlClientProvider messages={messages}>
-          <BackgroundByRoute />
-          <GlassSpaceNav />
-          <main className="mx-auto max-w-4xl px-4 pb-16 pt-28 md:pt-32">
-            <SpaceTransition>{children}</SpaceTransition>
-          </main>
-        </NextIntlClientProvider>
-      </body>
-    </html>
+    <NextIntlClientProvider locale={locale} messages={messages}>
+      <BackgroundByRoute />
+      <GlassSpaceNav />
+      <main className="mx-auto max-w-4xl px-4 pb-16 pt-28 md:pt-32">
+        <SpaceTransition>{children}</SpaceTransition>
+      </main>
+    </NextIntlClientProvider>
   );
 }

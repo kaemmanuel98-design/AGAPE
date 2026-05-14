@@ -2,7 +2,7 @@ import { AcademyCoursesPage } from "@/components/academy/AcademyCoursesPage";
 
 export const dynamic = "force-dynamic";
 
-/** Ici on délègue au composant partagé (même rendu que sur `/academy` sans préfixe de langue). */
-export default function AcademyPage() {
+/** Liste des cours Academy — route courte `/academy` (locale par défaut dans le layout `(public)`). */
+export default function AcademyListPage() {
   return <AcademyCoursesPage />;
 }

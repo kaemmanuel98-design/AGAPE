@@ -27,6 +27,7 @@
     "empty": "Aucun cours n'est encore publié. Ajoute la première leçon depuis l'administration.",
     "comingSoon": "L'Academy se remplit bientôt…",
     "fetchError": "Désolé, une erreur technique est survenue.",
+    "errorGeneric": "Impossible de joindre le serveur pour le moment. Réessaie plus tard.",
     "preparingFirstGems": "L'Academy prépare ses premières pépites… Revenez bientôt !",
     "catData": "Données",
     "catTheory": "Théorie",
@@ -169,6 +170,7 @@
     "errorGeneric": "Envoi impossible pour le moment. Réessaie plus tard.",
     "successRegistered": "Merci pour votre inscription ! Votre place au sein de la communauté AGAPE est enregistrée. Nous avons hâte de vous retrouver.",
     "successThankYou": "Merci pour votre confiance.",
+    "successJoinedAgape": "Merci d'avoir rejoint AGAPE",
     "exploreAcademy": "Explorer l'Academy",
     "backToHome": "Retour à l'accueil"
   },
@@ -322,7 +324,9 @@
     "fraternalComingSoonTitle": "Le calendrier fraternel se synchronise",
     "fraternalComingSoonBody": "Les événements communautaires ne sont pas encore disponibles depuis le serveur, ou la table est en cours de déploiement. Merci de réessayer un peu plus tard.",
     "fraternalComingSoonHint": "Reste connecté : dès que les données seront en ligne, la timeline s’affichera automatiquement ici.",
-    "communityAppointmentsSoon": "Les prochains rendez-vous de la communauté AGAPE seront affichés ici très bientôt."
+    "communityAppointmentsSoon": "Les prochains rendez-vous de la communauté AGAPE seront affichés ici très bientôt.",
+    "loadErrorTitle": "Connexion au serveur impossible pour le moment.",
+    "loadErrorHint": "Le contenu arrive bientôt… Réessaie dans quelques instants."
   },
   "planning": {
     "slotOpen": "Créneau libre — contacte l'équipe pour t'inscrire.",

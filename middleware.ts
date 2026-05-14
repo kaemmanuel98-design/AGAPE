@@ -6,10 +6,17 @@ import { routing } from "./i18n/routing";
 
 const intlMiddleware = createMiddleware(routing);
 
-export async function middleware(request: NextRequest) {
-  let response = intlMiddleware(request);
+/** Routes publiques sans préfixe de langue dans l’URL (pages dans `app/(public)/…`). */
+function isLocalelessPublicPath(pathname: string): boolean {
+  return /^\/(academy|calendar|planning|rejoindre)(\/|$)/.test(pathname);
+}
 
+export async function middleware(request: NextRequest) {
   const pathname = request.nextUrl.pathname;
+
+  // Ici on évite la redirection next-intl pour ces chemins : ils sont servis tels quels avec locale par défaut côté layout.
+  const response = isLocalelessPublicPath(pathname) ? NextResponse.next() : intlMiddleware(request);
+
   /**
    * Seules les routes admin « secrètes » exigent une session Supabase.
    * Les pages publiques (Academy, Calendrier, Planning, etc.) passent sans barrière d’authentification :

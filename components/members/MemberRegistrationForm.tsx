@@ -1,5 +1,6 @@
 "use client";
 
+import NextLink from "next/link";
 import type { FormEvent } from "react";
 import { useActionState, useMemo, useState } from "react";
 import {
@@ -21,7 +22,7 @@ import {
   registerMemberFormAction,
   type MemberRegistrationFormState,
 } from "@/lib/actions/member-registration";
-import { Link } from "@/i18n/navigation";
+import { routing } from "@/i18n/routing";
 import { cn } from "@/lib/utils";
 
 const TALENT_KEYS = ["musique_piano", "academie", "technique_it", "organisation", "ecoute_benevole"] as const;
@@ -170,9 +171,10 @@ export function MemberRegistrationForm() {
           </div>
 
           <p className="mx-auto mt-8 max-w-lg text-2xl font-semibold tracking-tight text-emerald-900 sm:text-3xl">
-            {t("successThankYou")}
+            {t("successJoinedAgape")}
           </p>
-          <p className="mx-auto mt-4 max-w-lg text-base font-medium leading-relaxed text-sky-950 sm:text-lg">{t("successRegistered")}</p>
+          <p className="mx-auto mt-3 max-w-lg text-base font-medium text-emerald-800/90 sm:text-lg">{t("successThankYou")}</p>
+          <p className="mx-auto mt-4 max-w-lg text-sm leading-relaxed text-sky-900/90 sm:text-base">{t("successRegistered")}</p>
 
           {state.severity === "critical" ? (
             <p className="mx-auto mt-4 max-w-lg text-sm leading-relaxed text-rose-800/90">{t("successUrgentAddon")}</p>
@@ -180,13 +182,13 @@ export function MemberRegistrationForm() {
 
           <div className="mt-10 flex flex-col flex-wrap items-stretch justify-center gap-3 sm:flex-row sm:items-center">
             <Button asChild size="lg" variant="outline" className="h-12 rounded-2xl border-sky-200 bg-white px-8 text-sky-900 hover:bg-sky-50">
-              <Link href="/">{t("backToHome")}</Link>
+              <NextLink href={`/${routing.defaultLocale}`}>{t("backToHome")}</NextLink>
             </Button>
             <Button asChild size="lg" className="h-12 rounded-2xl bg-sky-700 px-8 text-white hover:bg-sky-800">
-              <Link href="/academy" className="inline-flex items-center justify-center gap-2">
+              <NextLink href="/academy" className="inline-flex items-center justify-center gap-2">
                 <GraduationCap className="size-5 shrink-0" aria-hidden />
                 {t("exploreAcademy")}
-              </Link>
+              </NextLink>
             </Button>
           </div>
         </motion.div>

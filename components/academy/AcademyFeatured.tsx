@@ -1,8 +1,8 @@
+import NextLink from "next/link";
 import { ArrowRight, Sparkles } from "lucide-react";
 import { getTranslations } from "next-intl/server";
 
 import { Button } from "@/components/ui/button";
-import { Link } from "@/i18n/navigation";
 import type { LessonRow } from "@/lib/academy/types";
 
 type Props = {
@@ -69,10 +69,10 @@ export async function AcademyFeatured({ lesson }: Props) {
               size="lg"
               className="rounded-full border-0 bg-gradient-to-r from-amber-500 to-amber-600 px-10 text-base font-semibold text-slate-950 shadow-lg shadow-amber-900/25 hover:from-amber-400 hover:to-amber-500"
             >
-              <Link href={`/academy/${lesson.id}`} className="inline-flex items-center gap-2">
+              <NextLink href={`/academy/${lesson.id}`} className="inline-flex items-center gap-2">
                 {t("featuredCta")}
                 <ArrowRight className="size-5 shrink-0" aria-hidden />
-              </Link>
+              </NextLink>
             </Button>
           </div>
         </div>

@@ -27,6 +27,7 @@
     "empty": "No courses are published yet. Add the first lesson from the admin area.",
     "comingSoon": "The Academy is filling up soon…",
     "fetchError": "Sorry, a technical error occurred.",
+    "errorGeneric": "We could not reach the server right now. Please try again later.",
     "preparingFirstGems": "The Academy is preparing its first gems… Check back soon!",
     "catData": "Data",
     "catTheory": "Theory",
@@ -169,6 +170,7 @@
     "errorGeneric": "We could not send right now. Please try again later.",
     "successRegistered": "Thank you for signing up! Your place in the AGAPE community is saved. We look forward to seeing you soon.",
     "successThankYou": "Thank you for your trust.",
+    "successJoinedAgape": "Thank you for joining AGAPE",
     "exploreAcademy": "Explore the Academy",
     "backToHome": "Back to home"
   },
@@ -322,7 +324,9 @@
     "fraternalComingSoonTitle": "The fraternal calendar is syncing",
     "fraternalComingSoonBody": "Community events are not available from the server yet, or the table is still being deployed. Please check back shortly.",
     "fraternalComingSoonHint": "Stay tuned — once data is live, the timeline will appear here automatically.",
-    "communityAppointmentsSoon": "The next AGAPE community gatherings will appear here very soon."
+    "communityAppointmentsSoon": "The next AGAPE community gatherings will appear here very soon.",
+    "loadErrorTitle": "We could not reach the server right now.",
+    "loadErrorHint": "Content is on the way… Please try again in a moment."
   },
   "planning": {
     "slotOpen": "Open slot — contact the team to sign up.",

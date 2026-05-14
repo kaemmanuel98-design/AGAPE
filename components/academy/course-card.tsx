@@ -1,10 +1,10 @@
 "use client";
 
+import NextLink from "next/link";
 import { BookMarked, BookOpenText, Headphones, PlayCircle } from "lucide-react";
 import { useTranslations } from "next-intl";
 
 import { Button } from "@/components/ui/button";
-import { Link } from "@/i18n/navigation";
 import type { LessonKind, LessonRow } from "@/lib/academy/types";
 import { cn } from "@/lib/utils";
 
@@ -67,10 +67,10 @@ export function CourseCard({ course }: Props) {
         </div>
         <div className="mt-5">
           <Button asChild className="w-full rounded-xl bg-amber-600/90 hover:bg-amber-600">
-            <Link href={`/academy/${course.id}`} className="inline-flex items-center justify-center gap-2">
+            <NextLink href={`/academy/${course.id}`} className="inline-flex items-center justify-center gap-2">
               <CourseTypeIcon kind="livre" />
               {t("viewBook")}
-            </Link>
+            </NextLink>
           </Button>
         </div>
       </article>
@@ -92,10 +92,10 @@ export function CourseCard({ course }: Props) {
       <p className="mt-1 text-xs font-medium uppercase tracking-wide text-slate-500">{course.module_title}</p>
       <div className="mt-auto pt-6">
         <Button asChild className="w-full rounded-xl sm:w-auto">
-          <Link href={`/academy/${course.id}`} className="inline-flex items-center justify-center gap-2">
+          <NextLink href={`/academy/${course.id}`} className="inline-flex items-center justify-center gap-2">
             <CourseTypeIcon kind={course.content_kind} />
             {t("viewCourse")}
-          </Link>
+          </NextLink>
         </Button>
       </div>
     </article>
