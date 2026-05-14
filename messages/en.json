@@ -202,6 +202,7 @@
     "profilePhotoHint": "Optional — JPEG, PNG or WebP, max 8 MB. Cropped and compressed to WebP on the server before upload to Supabase.",
     "profilePhotoChoose": "Choose image",
     "redirectingToProfile": "Opening your member space…",
+    "sendingJoin": "Sending…",
     "errorPhoto": "Please choose a valid image (JPEG, PNG or WebP, reasonable size).",
     "errorServerConfig": "Uploading the photo requires server configuration (Supabase service key). Try again without a photo or contact the team."
   },
@@ -218,7 +219,22 @@
     "openAcademy": "Go to the Academy",
     "editTitle": "Edit profile",
     "editStubBody": "Self-service editing is coming soon. For urgent changes, contact the AGAPE team.",
-    "backToProfile": "Back to profile"
+    "backToProfile": "Back to profile",
+    "editSave": "Save",
+    "editTalentsHeading": "Talents",
+    "editSuccess": "Changes saved.",
+    "editErrorFields": "Please fill in first and last name.",
+    "editErrorTalents": "Select at least one talent.",
+    "editErrorForbidden": "You cannot edit this profile.",
+    "editErrorUnauthorized": "You must be signed in to edit your profile.",
+    "editErrorGeneric": "Could not save right now.",
+    "editPhotoOwnerHint": "Only the account holder can change the photo (Storage policies).",
+    "avatarChangePhoto": "Change photo",
+    "avatarOwnerOnly": "This action is reserved for the account holder.",
+    "avatarErrorGeneric": "Image processing or upload failed.",
+    "needBadge": "Need: {need}",
+    "editPhotoButton": "Change my photo",
+    "openBibleStrong": "Open Bible Strong"
   },
   "discover": {
     "heading": "Discover",

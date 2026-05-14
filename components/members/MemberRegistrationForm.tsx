@@ -172,14 +172,25 @@ export function MemberRegistrationForm() {
     );
   }
 
-  const errorBanner = step === 2 ? stepError ?? serverActionError : stepError;
+  const errorBanner =
+    step === 2 ? (isPending ? stepError : stepError ?? serverActionError) : stepError;
 
   return (
     <section
       id="member-registration"
       className="scroll-mt-28 overflow-hidden rounded-[28px] border border-sky-100/80 bg-gradient-to-br from-sky-50 via-white to-sky-100/30 p-1 shadow-[0_20px_50px_rgba(30,64,175,0.08)] sm:p-1.5"
     >
-      <div className="rounded-[24px] bg-white/70 px-4 py-6 backdrop-blur-sm sm:px-8 sm:py-8">
+      <div className="relative rounded-[24px] bg-white/70 px-4 py-6 backdrop-blur-sm sm:px-8 sm:py-8">
+        {isPending && step === 2 ? (
+          <div
+            className="absolute inset-0 z-20 flex flex-col items-center justify-center gap-4 rounded-[24px] bg-white/90 backdrop-blur-sm"
+            aria-busy="true"
+            aria-live="polite"
+          >
+            <Loader2 className="size-12 animate-spin text-sky-600" aria-hidden />
+            <p className="text-base font-semibold text-sky-950">{t("sendingJoin")}</p>
+          </div>
+        ) : null}
         <div className="text-center">
           <p className="text-xl font-bold tracking-[0.22em] text-sky-950 sm:text-2xl">{t("brandTitle")}</p>
 

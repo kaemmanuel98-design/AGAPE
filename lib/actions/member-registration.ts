@@ -1,9 +1,8 @@
 "use server";
 
-import { randomUUID } from "node:crypto";
+import { randomBytes, randomUUID } from "node:crypto";
 
-import sharp from "sharp";
-
+import { uploadRegistrationAvatarJpeg } from "@/lib/actions/upload-registration-avatar";
 import { sendCriticalAssistanceAlertEmail } from "@/lib/notifications/critical-assistance";
 import { createSupabaseServerClient } from "@/lib/supabase/server";
 import { createSupabaseServiceRoleClient } from "@/lib/supabase/service-role";
@@ -17,8 +16,6 @@ const ALLOWED_TALENTS = new Set([
   "ecoute_benevole",
 ]);
 const ALLOWED_ACCOMPANIMENT = new Set(["soutien_moral", "deuil", "maladie", "urgence"]);
-
-const MAX_PHOTO_BYTES = 8 * 1024 * 1024;
 
 function clean(value: FormDataEntryValue | null) {
   return String(value ?? "").trim();
@@ -38,73 +35,9 @@ type ProcessOk = {
 };
 type ProcessErr = { ok: false; message: string };
 
-async function processProfilePhoto(
-  file: File | null,
-  memberId: string,
-): Promise<{ ok: true; avatarUrl: string | null } | { ok: false; message: string }> {
-  if (!file || file.size === 0) {
-    return { ok: true, avatarUrl: null };
-  }
-
-  if (file.size > MAX_PHOTO_BYTES) {
-    return { ok: false, message: "invalid_photo" };
-  }
-
-  const mime = file.type.toLowerCase();
-  if (!["image/jpeg", "image/png", "image/webp", "image/jpg"].includes(mime)) {
-    return { ok: false, message: "invalid_photo" };
-  }
-
-  let input: Buffer;
-  try {
-    input = Buffer.from(await file.arrayBuffer());
-  } catch {
-    return { ok: false, message: "invalid_photo" };
-  }
-
-  let webp: Buffer;
-  try {
-    webp = await sharp(input)
-      .rotate()
-      .resize(512, 512, { fit: "cover", position: "attention" })
-      .webp({ quality: 82 })
-      .toBuffer();
-  } catch (e) {
-    console.error("[AGAPE Inscription membre] Traitement image :", e);
-    return { ok: false, message: "invalid_photo" };
-  }
-
-  try {
-    const admin = createSupabaseServiceRoleClient();
-    const path = `${memberId}/avatar.webp`;
-    const { error: upErr } = await admin.storage.from("avatars").upload(path, webp, {
-      contentType: "image/webp",
-      upsert: true,
-    });
-    if (upErr) {
-      console.error("[AGAPE Inscription membre] Upload Storage :", upErr.message);
-      return { ok: false, message: "db_error" };
-    }
-
-    /**
-     * URL publique du fichier dans le bucket `avatars` : schéma Supabase
-     * `{NEXT_PUBLIC_SUPABASE_URL}/storage/v1/object/public/avatars/{chemin}`.
-     * On la persiste en `members_registration.avatar_url` pour l’affichage direct (`<img>` / `next/image`).
-     */
-    const {
-      data: { publicUrl },
-    } = admin.storage.from("avatars").getPublicUrl(path);
-
-    return { ok: true, avatarUrl: publicUrl };
-  } catch (e) {
-    console.error("[AGAPE Inscription membre] Service role / Storage indisponible :", e);
-    return { ok: false, message: "server_config" };
-  }
-}
-
 /**
- * Inscription membre : validation, upload photo optionnel (Storage `avatars`), insertion dans `members_registration`.
- * Les talents sont envoyés en **tableau** (colonne JSONB côté Supabase).
+ * Inscription : crée un utilisateur Auth (donc une ligne `profiles` via trigger), ouvre la session,
+ * upload éventuel de l’avatar, puis enregistre `members_registration` + met à jour `profiles`.
  */
 async function processMemberRegistration(formData: FormData): Promise<ProcessOk | ProcessErr> {
   const lastName = clean(formData.get("last_name"));
@@ -147,44 +80,80 @@ async function processMemberRegistration(formData: FormData): Promise<ProcessOk 
     return { ok: false, message: "invalid_fields" };
   }
 
-  const memberId = randomUUID();
   const rawPhoto = formData.get("profile_photo");
   const photoFile = rawPhoto instanceof File && rawPhoto.size > 0 ? rawPhoto : null;
 
-  const photoResult = await processProfilePhoto(photoFile, memberId);
-  if (!photoResult.ok) {
-    return { ok: false, message: photoResult.message };
-  }
-
   const fullName = `${firstName} ${lastName}`.trim();
-  const situation = `Talents: ${talents.join(", ")}`;
   const isPriorityEmergency = accompanimentNeed === "urgence";
 
+  let userId: string | null = null;
+  const admin = createSupabaseServiceRoleClient();
+
   try {
-    const supabase = await createSupabaseServerClient();
-    const { error } = await supabase.from("members_registration").insert({
-      id: memberId,
-      first_name: firstName,
-      last_name: lastName,
-      full_name: fullName,
-      phone,
-      city,
-      preferred_language: preferredLanguage,
-      talents,
-      accompaniment_need: accompanimentNeed,
-      category: accompanimentNeed,
-      situation,
-      support_message: supportMessage,
-      needs_urgent_help: isPriorityEmergency,
-      is_priority: isPriorityEmergency,
-      is_priority_emergency: isPriorityEmergency,
-      avatar_url: photoResult.avatarUrl,
+    const email = `m-${randomUUID()}@members.agape`;
+    const password = `${randomBytes(28).toString("base64url")}Aa1!`;
+
+    const { data: created, error: cErr } = await admin.auth.admin.createUser({
+      email,
+      password,
+      email_confirm: true,
+      app_metadata: { agape_rejoindre: true },
     });
 
-    if (error) {
-      console.error("[AGAPE Inscription membre] Échec insertion Supabase :", error.message, error);
+    if (cErr || !created.user) {
+      console.error("[AGAPE Inscription] Création du compte Auth refusée :", cErr?.message ?? "utilisateur absent");
       return { ok: false, message: "db_error" };
     }
+
+    userId = created.user.id;
+    console.log("[AGAPE Inscription] Compte Auth créé, identifiant profil :", userId);
+
+    const supabase = await createSupabaseServerClient();
+    const { error: sErr } = await supabase.auth.signInWithPassword({ email, password });
+    if (sErr) {
+      console.error("[AGAPE Inscription] Connexion automatique échouée :", sErr.message);
+      await admin.auth.admin.deleteUser(userId);
+      userId = null;
+      return { ok: false, message: "db_error" };
+    }
+    console.log("[AGAPE Inscription] Session ouverte pour le nouveau membre.");
+
+    const photoResult = await uploadRegistrationAvatarJpeg(supabase, userId, photoFile);
+    if (!photoResult.ok) {
+      await admin.auth.admin.deleteUser(userId);
+      userId = null;
+      return photoResult;
+    }
+
+    /**
+     * Données membre : tout est persisté dans `public.profiles` (URL photo = bucket `avatars` public).
+     * La table `members_registration` est optionnelle selon les déploiements ; on ne dépend plus d’elle pour l’inscription.
+     */
+    const { error: upErr } = await supabase
+      .from("profiles")
+      .update({
+        first_names: firstName,
+        last_name: lastName,
+        full_name: fullName,
+        phone,
+        avatar_url: photoResult.avatarUrl,
+        talents,
+        member_talents: talents,
+        current_need: accompanimentNeed,
+        message: supportMessage,
+        city,
+        preferred_language: preferredLanguage,
+      })
+      .eq("id", userId);
+
+    if (upErr) {
+      console.error("[AGAPE Inscription] Échec mise à jour du profil :", upErr.message);
+      await admin.auth.admin.deleteUser(userId);
+      userId = null;
+      return { ok: false, message: "db_error" };
+    }
+
+    console.log("[AGAPE Inscription] Profil enregistré dans `profiles` (photo, besoin, talents).");
 
     let criticalAlertSent = false;
     if (isPriorityEmergency) {
@@ -204,17 +173,24 @@ async function processMemberRegistration(formData: FormData): Promise<ProcessOk 
       ok: true,
       severity: isPriorityEmergency ? "critical" : "standard",
       criticalAlertSent,
-      memberId,
+      memberId: userId,
     };
   } catch (e) {
-    console.error("[AGAPE Inscription membre] Erreur inattendue :", e);
+    console.error("[AGAPE Inscription] Erreur inattendue :", e);
+    if (userId) {
+      try {
+        await admin.auth.admin.deleteUser(userId);
+        console.warn("[AGAPE Inscription] Compte Auth supprimé après erreur (rollback).");
+      } catch (delErr) {
+        console.error("[AGAPE Inscription] Échec rollback Auth :", delErr);
+      }
+    }
     return { ok: false, message: "unexpected_error" };
   }
 }
 
 /**
- * Action serveur pour `useActionState` : pas de navigation vers une réponse JSON brute —
- * Next renvoie le nouvel état à la même page ; le client redirige vers `/profile/[id]`.
+ * Action serveur pour `useActionState` : le client redirige vers `/profile/[id]` (`id` = `auth.users` / `profiles`).
  */
 export async function registerMemberFormAction(
   _prev: MemberRegistrationFormState,
@@ -227,10 +203,8 @@ export async function registerMemberFormAction(
   return { status: "success", severity: result.severity, memberId: result.memberId };
 }
 
-/** Appel programmatique (tests, scripts) — même logique que le formulaire. */
 export async function registerMember(formData: FormData) {
   return processMemberRegistration(formData);
 }
 
-/** @deprecated Utiliser `registerMember` — alias conservé pour compatibilité. */
 export const createMemberRegistration = registerMember;

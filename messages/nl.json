@@ -202,6 +202,7 @@
     "profilePhotoHint": "Optioneel — JPEG, PNG of WebP, max. 8 MB. Op de server bijgesneden en gecomprimeerd naar WebP vóór upload naar Supabase.",
     "profilePhotoChoose": "Kies een afbeelding",
     "redirectingToProfile": "Je ledenruimte openen…",
+    "sendingJoin": "Bezig met verzenden…",
     "errorPhoto": "Kies een geldige afbeelding (JPEG, PNG of WebP, redelijke grootte).",
     "errorServerConfig": "Het versturen van de foto vereist serverconfiguratie (Supabase service key). Probeer opnieuw zonder foto of neem contact op met het team."
   },
@@ -218,7 +219,22 @@
     "openAcademy": "Naar de Academy",
     "editTitle": "Profiel bewerken",
     "editStubBody": "Zelf bewerken komt binnenkort. Voor dringende wijzigingen: neem contact op met het AGAPE-team.",
-    "backToProfile": "Terug naar profiel"
+    "backToProfile": "Terug naar profiel",
+    "editSave": "Opslaan",
+    "editTalentsHeading": "Talenten",
+    "editSuccess": "Wijzigingen opgeslagen.",
+    "editErrorFields": "Vul voornaam en achternaam in.",
+    "editErrorTalents": "Kies minstens één talent.",
+    "editErrorForbidden": "Je kunt dit profiel niet bewerken.",
+    "editErrorUnauthorized": "Je moet ingelogd zijn om je profiel te bewerken.",
+    "editErrorGeneric": "Opslaan lukt nu even niet.",
+    "editPhotoOwnerHint": "Alleen de rekeninghouder kan de foto wijzigen (Storage-beleid).",
+    "avatarChangePhoto": "Foto wijzigen",
+    "avatarOwnerOnly": "Deze actie is alleen voor de rekeninghouder.",
+    "avatarErrorGeneric": "Afbeelding verwerken of uploaden mislukt.",
+    "needBadge": "Situatie: {need}",
+    "editPhotoButton": "Mijn foto wijzigen",
+    "openBibleStrong": "Naar Bible Strong"
   },
   "discover": {
     "heading": "Ontdekken",

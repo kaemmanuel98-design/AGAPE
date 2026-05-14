@@ -19,6 +19,7 @@ services:
     env_file:
       - .env.docker
     environment:
+      # Client Supabase (Auth + API + Storage SDK) : même URL / clé anon que le dashboard Supabase.
       NODE_ENV: production
       NEXT_PUBLIC_SUPABASE_URL: ${NEXT_PUBLIC_SUPABASE_URL:-}
       NEXT_PUBLIC_SUPABASE_ANON_KEY: ${NEXT_PUBLIC_SUPABASE_ANON_KEY:-}
