@@ -1,6 +1,7 @@
 import { ArrowLeft, BookMarked, Download, ExternalLink } from "lucide-react";
 import { getTranslations } from "next-intl/server";
 
+import { MarkdownLessonBody } from "@/components/academy/markdown-lesson-body";
 import { Button } from "@/components/ui/button";
 import { Link } from "@/i18n/navigation";
 import type { LessonRow } from "@/lib/academy/types";
@@ -80,7 +81,7 @@ export async function AcademyBookReadingSheet({ lesson }: Props) {
             {summary ? (
               <div className="space-y-3 rounded-2xl border border-border bg-background/60 p-5">
                 <h2 className="text-sm font-semibold uppercase tracking-wide text-foreground">{t("bookSummaryHeading")}</h2>
-                <div className="whitespace-pre-wrap text-sm leading-relaxed text-muted-foreground sm:text-base">{summary}</div>
+                <MarkdownLessonBody markdown={summary} variant="muted" className="text-sm sm:text-base" />
               </div>
             ) : null}
 
