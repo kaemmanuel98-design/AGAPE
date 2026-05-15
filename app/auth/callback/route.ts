@@ -2,6 +2,8 @@ import { createServerClient } from "@supabase/ssr";
 import { cookies } from "next/headers";
 import { type NextRequest, NextResponse } from "next/server";
 
+import { isLocalelessPublicPath } from "@/lib/navigation/localeless-public-path";
+
 const LOCALES = ["fr", "en", "nl"] as const;
 
 function extractLocale(path: string): string {
@@ -11,13 +13,13 @@ function extractLocale(path: string): string {
 
 function sanitizeDestination(rawNext: string): string {
   let path = rawNext.startsWith("/") ? rawNext : `/${rawNext}`;
+  if (path.includes("/login")) {
+    return `/${extractLocale(path)}`;
+  }
   const localeFromPath = extractLocale(path);
   const hasLocale = LOCALES.some((l) => path === `/${l}` || path.startsWith(`/${l}/`));
-  if (!hasLocale) {
+  if (!hasLocale && !isLocalelessPublicPath(path)) {
     path = `/${localeFromPath}${path === "/" ? "" : path}`;
-  }
-  if (path.includes("/login")) {
-    path = `/${extractLocale(path)}`;
   }
   return path;
 }
@@ -62,7 +64,8 @@ export async function GET(request: NextRequest) {
   const { error } = await supabase.auth.exchangeCodeForSession(code);
 
   if (error) {
-    return NextResponse.redirect(new URL(`/fr`, url.origin));
+    const loc = extractLocale(destination);
+    return NextResponse.redirect(new URL(`/${loc}`, url.origin));
   }
 
   const {

@@ -2,14 +2,11 @@ import { type NextRequest, NextResponse } from "next/server";
 import createMiddleware from "next-intl/middleware";
 import { createServerClient } from "@supabase/ssr";
 
+import { isLocalelessPublicPath } from "@/lib/navigation/localeless-public-path";
+
 import { routing } from "./i18n/routing";
 
 const intlMiddleware = createMiddleware(routing);
-
-/** Routes publiques sans préfixe de langue dans l’URL (pages dans `app/(public)/…`). */
-function isLocalelessPublicPath(pathname: string): boolean {
-  return /^\/(academy|bible-strong|calendar|planning|rejoindre|profile)(\/|$)/.test(pathname);
-}
 
 /**
  * Réécriture interne : `bible.agape.com` → `/bible-strong`, `academy.agape.com` → `/academy`
