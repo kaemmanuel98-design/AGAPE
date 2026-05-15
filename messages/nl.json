@@ -206,7 +206,9 @@
     "verifyEmailHint": "Open de link in de e-mail om je account te activeren; daarna kun je inloggen.",
     "sendingJoin": "Bezig met verzenden…",
     "errorPhoto": "Kies een geldige afbeelding (JPEG, PNG of WebP, redelijke grootte).",
-    "errorServerConfig": "Het versturen van de foto vereist serverconfiguratie (Supabase service key). Probeer opnieuw zonder foto of neem contact op met het team."
+    "errorServerConfig": "De Supabase-serverconfiguratie is onvolledig (service key ontbreekt). Neem contact op met het team.",
+    "errorStorageUpload": "De foto kon niet naar Supabase Storage worden geüpload. Probeer opnieuw zonder foto of neem contact op met het team.",
+    "errorCreateUser": "Het account kon niet worden aangemaakt in Supabase Auth. De gedetailleerde fout staat in de terminal."
   },
   "memberProfile": {
     "metaNotFoundTitle": "Profiel · AGAPE",

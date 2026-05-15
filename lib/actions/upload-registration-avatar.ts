@@ -84,7 +84,7 @@ export async function uploadPendingSignupAvatarJpeg(
         ),
         storageError,
       );
-      return { ok: false, message: "db_error" };
+      return { ok: false, message: "storage_upload_error" };
     }
 
     const {

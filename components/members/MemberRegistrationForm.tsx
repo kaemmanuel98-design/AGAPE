@@ -37,6 +37,8 @@ function messageForRegisterError(
   if (message === "invalid_fields") return t("errorFields");
   if (message === "invalid_photo") return t("errorPhoto");
   if (message === "server_config") return t("errorServerConfig");
+  if (message === "storage_upload_error") return t("errorStorageUpload");
+  if (message === "create_user_error") return t("errorCreateUser");
   if (message === "db_error" || message === "unexpected_error") return t("errorGeneric");
   return t("errorGeneric");
 }

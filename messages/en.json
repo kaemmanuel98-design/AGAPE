@@ -206,7 +206,9 @@
     "verifyEmailHint": "Open the link in the email to activate your account, then you can sign in.",
     "sendingJoin": "Sending…",
     "errorPhoto": "Please choose a valid image (JPEG, PNG or WebP, reasonable size).",
-    "errorServerConfig": "Uploading the photo requires server configuration (Supabase service key). Try again without a photo or contact the team."
+    "errorServerConfig": "The Supabase server configuration is incomplete (missing service key). Contact the team.",
+    "errorStorageUpload": "The photo could not be uploaded to Supabase Storage. Try again without a photo or contact the team.",
+    "errorCreateUser": "The account could not be created in Supabase Auth. The detailed error is shown in the terminal."
   },
   "memberProfile": {
     "metaNotFoundTitle": "Profile · AGAPE",

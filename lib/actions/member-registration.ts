@@ -52,6 +52,8 @@ type ProcessErr = { ok: false; message: string };
  * 3) Aucune écriture manuelle dans `public.profiles` : le trigger remplit la ligne.
  */
 async function processMemberRegistration(formData: FormData): Promise<ProcessOk | ProcessErr> {
+  console.log("[AGAPE Inscription] Début Server Action — service role présente :", !!process.env.SUPABASE_SERVICE_ROLE_KEY);
+
   const lastName = clean(formData.get("last_name"));
   const firstName = clean(formData.get("first_name"));
   const phone = clean(formData.get("phone"));
@@ -110,6 +112,7 @@ async function processMemberRegistration(formData: FormData): Promise<ProcessOk 
     const password = `${randomBytes(28).toString("base64url")}Aa1!`;
 
     const admin = createSupabaseAdminClient();
+    console.log("[AGAPE Inscription] Création du compte via service role…");
     const { data: signData, error: signErr } = await admin.auth.admin.createUser({
       email,
       password,
@@ -125,7 +128,7 @@ async function processMemberRegistration(formData: FormData): Promise<ProcessOk 
       console.error("[AGAPE Inscription] createUser refusé :", signErr.message, signErr);
       await deleteSignupPendingAvatarPath(pendingStoragePath);
       pendingStoragePath = null;
-      return { ok: false, message: "db_error" };
+      return { ok: false, message: "create_user_error" };
     }
 
     const userId = signData.user?.id;
@@ -133,7 +136,7 @@ async function processMemberRegistration(formData: FormData): Promise<ProcessOk 
       console.error("[AGAPE Inscription] createUser sans identifiant utilisateur.");
       await deleteSignupPendingAvatarPath(pendingStoragePath);
       pendingStoragePath = null;
-      return { ok: false, message: "db_error" };
+      return { ok: false, message: "create_user_error" };
     }
 
     console.log(
@@ -170,6 +173,9 @@ async function processMemberRegistration(formData: FormData): Promise<ProcessOk 
   } catch (e) {
     console.error("[AGAPE Inscription] Erreur inattendue :", e);
     await deleteSignupPendingAvatarPath(pendingStoragePath);
+    if (e instanceof Error && e.message.includes("SUPABASE_SERVICE_ROLE_KEY")) {
+      return { ok: false, message: "server_config" };
+    }
     return { ok: false, message: "unexpected_error" };
   }
 }

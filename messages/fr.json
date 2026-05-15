@@ -206,7 +206,9 @@
     "verifyEmailHint": "Ouvre le lien reçu par e-mail pour activer ton compte, puis tu pourras te connecter.",
     "sendingJoin": "Envoi en cours…",
     "errorPhoto": "Merci de choisir une image valide (JPEG, PNG ou WebP, taille raisonnable).",
-    "errorServerConfig": "L’envoi de la photo nécessite la configuration serveur (clé service Supabase). Réessaie sans photo ou contacte l’équipe."
+    "errorServerConfig": "La configuration serveur Supabase est incomplète (clé service manquante). Contacte l’équipe.",
+    "errorStorageUpload": "La photo n’a pas pu être envoyée vers Supabase Storage. Réessaie sans photo ou contacte l’équipe.",
+    "errorCreateUser": "Le compte n’a pas pu être créé dans Supabase Auth. L’erreur détaillée est affichée dans le terminal."
   },
   "memberProfile": {
     "metaNotFoundTitle": "Profil · AGAPE",
