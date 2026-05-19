@@ -1,4 +1,6 @@
 -- Vues pour naviguer livre → chapitre sans charger tous les versets côté client.
+-- PRÉREQUIS : exécuter d'abord 024_bible_study.sql (tables bible_versions / bible_verses).
+-- En cas d'erreur « relation bible_verses does not exist », utilisez plutôt 032_bible_strong_bootstrap.sql.
 
 create or replace view public.bible_books_by_version as
 select
