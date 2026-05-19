@@ -3,6 +3,7 @@ import { cookies } from "next/headers";
 import { type NextRequest, NextResponse } from "next/server";
 
 import { isLocalelessPublicPath } from "@/lib/navigation/localeless-public-path";
+import { ensureSupabaseEnvLoaded, getSupabasePublicEnv } from "@/lib/supabase/env.server";
 
 const LOCALES = ["fr", "en", "nl"] as const;
 
@@ -41,8 +42,8 @@ export async function GET(request: NextRequest) {
 
   const response = NextResponse.redirect(new URL(destination, url.origin));
 
-  const supabaseUrl = process.env.NEXT_PUBLIC_SUPABASE_URL;
-  const supabaseAnonKey = process.env.NEXT_PUBLIC_SUPABASE_ANON_KEY;
+  ensureSupabaseEnvLoaded();
+  const { url: supabaseUrl, anonKey: supabaseAnonKey } = getSupabasePublicEnv();
 
   if (!supabaseUrl || !supabaseAnonKey) {
     return NextResponse.redirect(new URL(`/${locale}`, url.origin));

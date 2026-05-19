@@ -8,6 +8,7 @@ import {
 } from "@/lib/actions/upload-registration-avatar";
 import { sendCriticalAssistanceAlertEmail } from "@/lib/notifications/critical-assistance";
 import { createSupabaseAdminClient } from "@/lib/supabaseAdmin";
+import { ensureSupabaseEnvLoaded, isSupabaseAdminConfigured } from "@/lib/supabase/env.server";
 
 const ALLOWED_LANGUAGES = new Set(["fr", "en", "nl", "autre"]);
 const ALLOWED_TALENTS = new Set([
@@ -52,7 +53,12 @@ type ProcessErr = { ok: false; message: string };
  * 3) Aucune écriture manuelle dans `public.profiles` : le trigger remplit la ligne.
  */
 async function processMemberRegistration(formData: FormData): Promise<ProcessOk | ProcessErr> {
-  console.log("[AGAPE Inscription] Début Server Action — service role présente :", !!process.env.SUPABASE_SERVICE_ROLE_KEY);
+  ensureSupabaseEnvLoaded();
+
+  if (!isSupabaseAdminConfigured()) {
+    console.error("[AGAPE Inscription] Configuration admin Supabase incomplète (voir .env.local).");
+    return { ok: false, message: "server_config" };
+  }
 
   const lastName = clean(formData.get("last_name"));
   const firstName = clean(formData.get("first_name"));
@@ -173,7 +179,10 @@ async function processMemberRegistration(formData: FormData): Promise<ProcessOk 
   } catch (e) {
     console.error("[AGAPE Inscription] Erreur inattendue :", e);
     await deleteSignupPendingAvatarPath(pendingStoragePath);
-    if (e instanceof Error && e.message.includes("SUPABASE_SERVICE_ROLE_KEY")) {
+    if (
+      e instanceof Error &&
+      (e.message.includes("SUPABASE_SERVICE_ROLE_KEY") || e.message.includes("NEXT_PUBLIC_SUPABASE_URL"))
+    ) {
       return { ok: false, message: "server_config" };
     }
     return { ok: false, message: "unexpected_error" };
@@ -187,7 +196,6 @@ export async function registerMemberFormAction(
   _prev: MemberRegistrationFormState,
   formData: FormData,
 ): Promise<MemberRegistrationFormState> {
-  console.log("Clé détectée :", !!process.env.SUPABASE_SERVICE_ROLE_KEY);
   const result = await processMemberRegistration(formData);
   if (!result.ok) {
     return { status: "error", message: result.message };

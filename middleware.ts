@@ -3,6 +3,7 @@ import createMiddleware from "next-intl/middleware";
 import { createServerClient } from "@supabase/ssr";
 
 import { isLocalelessPublicPath } from "@/lib/navigation/localeless-public-path";
+import { getSupabasePublicEnv } from "@/lib/supabase/env";
 
 import { routing } from "./i18n/routing";
 
@@ -47,8 +48,7 @@ export async function middleware(request: NextRequest) {
   );
   const legacyPortalMatch = pathnameBefore.match(/^\/(fr|en|nl)\/admin-portal-agape(?:\/|$)/);
 
-  const url = process.env.NEXT_PUBLIC_SUPABASE_URL;
-  const anon = process.env.NEXT_PUBLIC_SUPABASE_ANON_KEY;
+  const { url, anonKey: anon } = getSupabasePublicEnv();
 
   if (!url || !anon) {
     return response;

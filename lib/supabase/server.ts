@@ -1,13 +1,15 @@
 import { createServerClient } from "@supabase/ssr";
 import { cookies } from "next/headers";
 
+import { ensureSupabaseEnvLoaded, getSupabasePublicEnv } from "@/lib/supabase/env.server";
+
 /**
  * Client Supabase pour Server Components, Server Actions et routes (`cookies()` Next).
  * Les logs en français ci-dessous facilitent le diagnostic dans le terminal (Vercel / `next dev`).
  */
 export async function createSupabaseServerClient() {
-  const url = process.env.NEXT_PUBLIC_SUPABASE_URL;
-  const anon = process.env.NEXT_PUBLIC_SUPABASE_ANON_KEY;
+  ensureSupabaseEnvLoaded();
+  const { url, anonKey: anon } = getSupabasePublicEnv();
 
   if (!url || !anon) {
     console.error(
