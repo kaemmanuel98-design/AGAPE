@@ -10,6 +10,12 @@ const ENV_KEYS = [
   "NEXT_PUBLIC_SITE_URL",
 ] as const;
 
+type EnvKey = (typeof ENV_KEYS)[number];
+
+export function findProjectRootForDebug(): string {
+  return findProjectRoot();
+}
+
 function findProjectRoot(): string {
   let dir = process.cwd();
   for (let i = 0; i < 12; i++) {
@@ -23,10 +29,9 @@ function findProjectRoot(): string {
   return process.cwd();
 }
 
-/** Parse minimal `.env.local` / `.env` si `loadEnvConfig` n’a pas tout injecté (workers Turbopack). */
-function loadEnvFileManually(root: string, filename: string): void {
-  const filePath = path.join(root, filename);
-  if (!fs.existsSync(filePath)) return;
+function parseEnvFile(filePath: string): Map<string, string> {
+  const map = new Map<string, string>();
+  if (!fs.existsSync(filePath)) return map;
 
   const content = fs.readFileSync(filePath, "utf8");
   for (const rawLine of content.split(/\r?\n/)) {
@@ -37,8 +42,6 @@ function loadEnvFileManually(root: string, filename: string): void {
     if (eq <= 0) continue;
 
     const key = line.slice(0, eq).trim();
-    if (!ENV_KEYS.includes(key as (typeof ENV_KEYS)[number])) continue;
-
     let value = line.slice(eq + 1).trim();
     if (
       (value.startsWith('"') && value.endsWith('"')) ||
@@ -46,60 +49,76 @@ function loadEnvFileManually(root: string, filename: string): void {
     ) {
       value = value.slice(1, -1);
     }
-
-    if (!process.env[key]) {
-      process.env[key] = value;
-    }
+    map.set(key, value);
   }
+  return map;
 }
 
-/** Charge `.env.local` à la racine du projet (idempotent, réessaie si la clé service manque encore). */
-export function ensureSupabaseEnvLoaded(): void {
+/** Lit une variable depuis `.env.local` / `.env` (prioritaire sur `process.env` pour les Server Actions). */
+export function readProjectEnv(name: EnvKey): string | undefined {
   const roots = [...new Set([findProjectRoot(), process.cwd()])];
 
   for (const root of roots) {
-    loadEnvConfig(root);
-    loadEnvFileManually(root, ".env.local");
-    loadEnvFileManually(root, ".env");
+    for (const filename of [".env.local", ".env"] as const) {
+      const fromFile = parseEnvFile(path.join(root, filename)).get(name)?.trim();
+      if (fromFile) {
+        process.env[name] = fromFile;
+        return fromFile;
+      }
+    }
   }
 
-  if (!process.env.SUPABASE_SERVICE_ROLE_KEY?.trim()) {
-    console.error("[AGAPE Supabase] SUPABASE_SERVICE_ROLE_KEY toujours absente après chargement env.", {
-      cwd: process.cwd(),
-      roots,
-      hasEnvLocal: roots.some((r) => fs.existsSync(path.join(r, ".env.local"))),
-    });
+  // Notation bracket : évite l’inlining webpack/Turbopack `process.env.SUPABASE_*` → undefined
+  const fromProcess = process.env[name]?.trim();
+  return fromProcess || undefined;
+}
+
+export function ensureSupabaseEnvLoaded(): void {
+  const roots = [...new Set([findProjectRoot(), process.cwd()])];
+  for (const root of roots) {
+    loadEnvConfig(root);
+  }
+  for (const key of ENV_KEYS) {
+    readProjectEnv(key);
   }
 }
 
 export function getSupabasePublicEnv(): { url: string | null; anonKey: string | null } {
   ensureSupabaseEnvLoaded();
   return {
-    url: process.env.NEXT_PUBLIC_SUPABASE_URL?.trim() || null,
-    anonKey: process.env.NEXT_PUBLIC_SUPABASE_ANON_KEY?.trim() || null,
+    url: readProjectEnv("NEXT_PUBLIC_SUPABASE_URL") ?? null,
+    anonKey: readProjectEnv("NEXT_PUBLIC_SUPABASE_ANON_KEY") ?? null,
   };
 }
 
 export function getSupabaseServiceRoleKey(): string | null {
   ensureSupabaseEnvLoaded();
-  return process.env.SUPABASE_SERVICE_ROLE_KEY?.trim() || null;
+  return readProjectEnv("SUPABASE_SERVICE_ROLE_KEY") ?? null;
 }
 
 export function isSupabaseAdminConfigured(): boolean {
-  ensureSupabaseEnvLoaded();
-  const url = process.env.NEXT_PUBLIC_SUPABASE_URL?.trim();
-  const serviceKey = process.env.SUPABASE_SERVICE_ROLE_KEY?.trim();
+  const url = readProjectEnv("NEXT_PUBLIC_SUPABASE_URL");
+  const serviceKey = readProjectEnv("SUPABASE_SERVICE_ROLE_KEY");
   return Boolean(url && serviceKey);
 }
 
 export function requireSupabaseAdminEnv(): { url: string; serviceKey: string } {
   ensureSupabaseEnvLoaded();
-  const url = process.env.NEXT_PUBLIC_SUPABASE_URL?.trim();
-  const serviceKey = process.env.SUPABASE_SERVICE_ROLE_KEY?.trim();
+
+  const url = readProjectEnv("NEXT_PUBLIC_SUPABASE_URL");
+  const serviceKey = readProjectEnv("SUPABASE_SERVICE_ROLE_KEY");
 
   if (!url || !serviceKey) {
+    console.error("[AGAPE Supabase] requireSupabaseAdminEnv échoué :", {
+      cwd: process.cwd(),
+      projectRoot: findProjectRoot(),
+      hasEnvLocal: fs.existsSync(path.join(findProjectRoot(), ".env.local")),
+      hasUrl: Boolean(url),
+      hasServiceKey: Boolean(serviceKey),
+      serviceKeyLength: serviceKey?.length ?? 0,
+    });
     throw new Error(
-      "[AGAPE Supabase] SUPABASE_SERVICE_ROLE_KEY ou NEXT_PUBLIC_SUPABASE_URL manquant — vérifiez .env.local à la racine du projet puis redémarrez `npm run dev`.",
+      "[AGAPE Supabase] SUPABASE_SERVICE_ROLE_KEY ou NEXT_PUBLIC_SUPABASE_URL manquant — vérifiez .env.local puis redémarrez `npm run dev`.",
     );
   }
 

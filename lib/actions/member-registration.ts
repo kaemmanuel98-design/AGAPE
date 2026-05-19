@@ -8,7 +8,7 @@ import {
 } from "@/lib/actions/upload-registration-avatar";
 import { sendCriticalAssistanceAlertEmail } from "@/lib/notifications/critical-assistance";
 import { createSupabaseAdminClient } from "@/lib/supabaseAdmin";
-import { ensureSupabaseEnvLoaded, isSupabaseAdminConfigured } from "@/lib/supabase/env.server";
+import { ensureSupabaseEnvLoaded } from "@/lib/supabase/env.server";
 
 const ALLOWED_LANGUAGES = new Set(["fr", "en", "nl", "autre"]);
 const ALLOWED_TALENTS = new Set([
@@ -54,11 +54,6 @@ type ProcessErr = { ok: false; message: string };
  */
 async function processMemberRegistration(formData: FormData): Promise<ProcessOk | ProcessErr> {
   ensureSupabaseEnvLoaded();
-
-  if (!isSupabaseAdminConfigured()) {
-    console.error("[AGAPE Inscription] Configuration admin Supabase incomplète (voir .env.local).");
-    return { ok: false, message: "server_config" };
-  }
 
   const lastName = clean(formData.get("last_name"));
   const firstName = clean(formData.get("first_name"));
@@ -122,6 +117,7 @@ async function processMemberRegistration(formData: FormData): Promise<ProcessOk 
     const { data: signData, error: signErr } = await admin.auth.admin.createUser({
       email,
       password,
+      email_confirm: true,
       user_metadata: {
         full_name: fullName,
         avatar_url: pendingUpload.avatarUrl ?? "",
@@ -131,7 +127,15 @@ async function processMemberRegistration(formData: FormData): Promise<ProcessOk 
     });
 
     if (signErr) {
-      console.error("[AGAPE Inscription] createUser refusé :", signErr.message, signErr);
+      console.error(
+        "[AGAPE Inscription] createUser refusé :",
+        signErr.message,
+        "code =",
+        signErr.code,
+        "status =",
+        signErr.status,
+        signErr,
+      );
       await deleteSignupPendingAvatarPath(pendingStoragePath);
       pendingStoragePath = null;
       return { ok: false, message: "create_user_error" };
@@ -145,10 +149,31 @@ async function processMemberRegistration(formData: FormData): Promise<ProcessOk 
       return { ok: false, message: "create_user_error" };
     }
 
-    console.log(
-      "[AGAPE Inscription] Compte créé (service role) ; profil par trigger (metadata). id =",
-      userId,
+    const { error: profileErr } = await admin.from("profiles").upsert(
+      {
+        id: userId,
+        email,
+        role: "member",
+        full_name: fullName,
+        first_names: firstName,
+        last_name: lastName,
+        phone,
+        city,
+        preferred_language: preferredLanguage,
+        avatar_url: pendingUpload.avatarUrl || null,
+        current_need: accompanimentNeed,
+        message: supportMessage,
+        talents,
+        member_talents: talents,
+      },
+      { onConflict: "id" },
     );
+
+    if (profileErr) {
+      console.error("[AGAPE Inscription] Mise à jour profiles après createUser :", profileErr.message, profileErr);
+    }
+
+    console.log("[AGAPE Inscription] Compte créé ; profil synchronisé. id =", userId);
 
     pendingStoragePath = null;
 
@@ -198,6 +223,9 @@ export async function registerMemberFormAction(
 ): Promise<MemberRegistrationFormState> {
   const result = await processMemberRegistration(formData);
   if (!result.ok) {
+    if (process.env.NODE_ENV === "development") {
+      console.error("[AGAPE Inscription] Échec formulaire, code erreur :", result.message);
+    }
     return { status: "error", message: result.message };
   }
   return {

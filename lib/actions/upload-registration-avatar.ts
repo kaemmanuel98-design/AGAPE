@@ -96,7 +96,13 @@ export async function uploadPendingSignupAvatarJpeg(
     return { ok: true, storagePath: path, avatarUrl: publicUrl };
   } catch (e) {
     console.error("[AGAPE Avatar inscription] Service role / Storage indisponible :", e);
-    return { ok: false, message: "server_config" };
+    if (
+      e instanceof Error &&
+      (e.message.includes("SUPABASE_SERVICE_ROLE_KEY") || e.message.includes("NEXT_PUBLIC_SUPABASE_URL"))
+    ) {
+      return { ok: false, message: "server_config" };
+    }
+    return { ok: false, message: "storage_upload_error" };
   }
 }
 

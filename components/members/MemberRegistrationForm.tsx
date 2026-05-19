@@ -251,7 +251,6 @@ export function MemberRegistrationForm() {
         <form
           className="mt-8 space-y-6"
           action={formAction}
-          encType="multipart/form-data"
           onSubmit={(e: FormEvent<HTMLFormElement>) => {
             if (step < 2) {
               e.preventDefault();
