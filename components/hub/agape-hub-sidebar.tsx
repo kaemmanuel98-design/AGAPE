@@ -50,10 +50,10 @@ const items: NavItem[] = [
     match: (p) => p === "/planning" || p.startsWith("/planning/"),
   },
   {
-    href: "/rejoindre",
+    href: "/join",
     labelKey: "navJoin",
     icon: UserPlus,
-    match: (p) => p === "/rejoindre" || p.startsWith("/rejoindre/"),
+    match: (p) => p === "/join" || p.startsWith("/join/") || p.includes("rejoindre"),
   },
 ];
 

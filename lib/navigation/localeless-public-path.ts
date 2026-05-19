@@ -3,5 +3,5 @@
  * Ne pas leur ajouter `/fr|en|nl` lors des redirections (ex. callback OAuth).
  */
 export function isLocalelessPublicPath(pathname: string): boolean {
-  return /^\/(academy|bible-strong|calendar|planning|rejoindre|profile)(\/|$)/.test(pathname);
+  return /^\/(academy|bible-strong|calendar|planning|rejoindre|join|profile)(\/|$)/.test(pathname);
 }

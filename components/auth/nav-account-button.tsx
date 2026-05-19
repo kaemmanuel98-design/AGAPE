@@ -2,7 +2,7 @@
 
 import NextLink from "next/link";
 import { UserPlus } from "lucide-react";
-import { useTranslations } from "next-intl";
+import { useLocale, useTranslations } from "next-intl";
 
 import { Button } from "@/components/ui/button";
 import { usePathname } from "@/i18n/navigation";
@@ -16,6 +16,7 @@ type Props = {
 
 export function NavAccountButton({ variantKids, className }: Props) {
   const t = useTranslations("nav");
+  const locale = useLocale();
   const pathname = usePathname();
 
   if (
@@ -34,7 +35,7 @@ export function NavAccountButton({ variantKids, className }: Props) {
 
   return (
     <Button asChild size="sm" className={tone}>
-      <NextLink href="/rejoindre" prefetch={false} className="inline-flex items-center gap-2">
+      <NextLink href="/join" prefetch={false} className="inline-flex items-center gap-2">
         <UserPlus className="size-4 shrink-0" aria-hidden />
         {t("joinCommunity")}
       </NextLink>

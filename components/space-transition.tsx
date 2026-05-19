@@ -3,7 +3,7 @@
 import type { ReactNode } from "react";
 import { AnimatePresence, motion } from "framer-motion";
 
-import { usePathname } from "@/i18n/navigation";
+import { usePathname } from "next/navigation";
 
 function segmentKey(pathname: string) {
   if (pathname.startsWith("/admin")) return "admin";

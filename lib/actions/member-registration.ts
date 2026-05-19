@@ -149,22 +149,17 @@ async function processMemberRegistration(formData: FormData): Promise<ProcessOk 
       return { ok: false, message: "create_user_error" };
     }
 
+  /** Champs présents sur le projet Supabase actuel (voir scripts/check-profiles-schema.mjs). */
     const { error: profileErr } = await admin.from("profiles").upsert(
       {
         id: userId,
         email,
         role: "member",
         full_name: fullName,
-        first_names: firstName,
-        last_name: lastName,
         phone,
         city,
-        preferred_language: preferredLanguage,
         avatar_url: pendingUpload.avatarUrl || null,
         current_need: accompanimentNeed,
-        message: supportMessage,
-        talents,
-        member_talents: talents,
       },
       { onConflict: "id" },
     );

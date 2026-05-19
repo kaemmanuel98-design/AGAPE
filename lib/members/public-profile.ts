@@ -14,36 +14,6 @@ export type MemberPublicProfile = {
 
 const UUID_RE = /^[\da-f]{8}-[\da-f]{4}-[\da-f]{4}-[\da-f]{4}-[\da-f]{12}$/i;
 
-type ProfilePublicRow = {
-  id: string;
-  full_name: string | null;
-  first_names: string | null;
-  last_name: string | null;
-  talents: string[] | null;
-  member_talents: unknown;
-  avatar_url: string | null;
-  current_need: string | null;
-  message: string | null;
-};
-
-function talentsFromRow(row: ProfilePublicRow): unknown {
-  if (Array.isArray(row.talents) && row.talents.length > 0) return row.talents;
-  return row.member_talents;
-}
-
-function mapProfileRow(row: ProfilePublicRow): MemberPublicProfile {
-  return {
-    id: row.id,
-    full_name: row.full_name,
-    first_name: row.first_names,
-    last_name: row.last_name,
-    talents: talentsFromRow(row),
-    avatar_url: row.avatar_url,
-    current_need: row.current_need,
-    message: row.message,
-  };
-}
-
 /**
  * Charge l’espace membre public : d’abord `profiles`,
  * sinon ancienne fiche `members_registration` (identifiant historique sans Auth).
@@ -56,7 +26,7 @@ export async function getMemberPublicProfileById(id: string): Promise<MemberPubl
 
     const { data: profile, error: pErr } = await supabase
       .from("profiles")
-      .select("id,full_name,first_names,last_name,talents,member_talents,avatar_url,current_need,message")
+      .select("id,full_name,avatar_url,current_need,phone,city")
       .eq("id", id)
       .maybeSingle();
 
@@ -64,7 +34,20 @@ export async function getMemberPublicProfileById(id: string): Promise<MemberPubl
       console.error("[AGAPE Profil public] Lecture profiles :", pErr.message);
     }
     if (profile) {
-      return mapProfileRow(profile as ProfilePublicRow);
+      const full = (profile.full_name as string | null)?.trim() ?? "";
+      const parts = full.split(/\s+/).filter(Boolean);
+      const firstFromFull = parts.length > 1 ? parts.slice(0, -1).join(" ") : parts[0] ?? null;
+      const lastFromFull = parts.length > 1 ? (parts[parts.length - 1] ?? null) : null;
+      return {
+        id: profile.id as string,
+        full_name: profile.full_name as string | null,
+        first_name: firstFromFull,
+        last_name: lastFromFull,
+        talents: [],
+        avatar_url: profile.avatar_url as string | null,
+        current_need: profile.current_need as string | null,
+        message: null,
+      };
     }
 
     const { data: reg, error: rErr } = await supabase

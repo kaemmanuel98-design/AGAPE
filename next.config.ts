@@ -7,7 +7,8 @@ const withNextIntl = createNextIntlPlugin("./i18n/request.ts");
 const withPWA = withPWAInit({
   dest: "public",
   disable: process.env.NODE_ENV === "development",
-  register: true,
+  /** En dev : pas de service worker (évite une vieille 404 mise en cache). */
+  register: process.env.NODE_ENV === "production",
 });
 
 const nextConfig: NextConfig = {
@@ -32,6 +33,17 @@ const nextConfig: NextConfig = {
    * — Bible : cache public long côté CDN / navigateur (contenu majoritairement statique).
    * — Academy : pas de cache de document HTML (données catalogue dynamiques Supabase).
    */
+  async redirects() {
+    return [
+      { source: "/rejoindre", destination: "/join", permanent: false },
+      { source: "/fr/rejoindre", destination: "/join", permanent: false },
+      { source: "/en/rejoindre", destination: "/join", permanent: false },
+      { source: "/nl/rejoindre", destination: "/join", permanent: false },
+      { source: "/fr/join", destination: "/join", permanent: false },
+      { source: "/en/join", destination: "/join", permanent: false },
+      { source: "/nl/join", destination: "/join", permanent: false },
+    ];
+  },
   async headers() {
     return [
       {

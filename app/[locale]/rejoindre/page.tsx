@@ -1,8 +1,6 @@
 import { redirect } from "next/navigation";
 
-/**
- * Redirection vers la route unique `/rejoindre` (formulaire et messages sur une seule URL).
- */
-export default function RejoindreLocaleAliasPage() {
-  redirect("/rejoindre");
+/** Ancienne URL localisée → page autonome `/join` (évite 404 client dans le layout `[locale]`). */
+export default function RejoindreLocaleRedirectPage() {
+  redirect("/join");
 }
