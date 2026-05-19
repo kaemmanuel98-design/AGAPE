@@ -24,3 +24,21 @@ export type BibleVerseRow = {
 export type BibleVerseWithVersion = BibleVerseRow & {
   bible_versions: BibleVersionRow | null;
 };
+
+/** Agrégat `bible_books_by_version`. */
+export type BibleBookSummary = {
+  version_id: string;
+  book_code: string;
+  book_title: string;
+  book_sort: number;
+  max_chapter: number;
+  verse_count: number;
+};
+
+/** Agrégat `bible_chapters_by_version`. */
+export type BibleChapterSummary = {
+  version_id: string;
+  book_code: string;
+  chapter: number;
+  verse_count: number;
+};

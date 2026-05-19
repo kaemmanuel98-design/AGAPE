@@ -3,6 +3,7 @@ import { getTranslations } from "next-intl/server";
 
 import { BibleVerseBody } from "@/components/bible-strong/bible-verse-body";
 import { SourcePendingNotice } from "@/components/academy/source-pending-notice";
+import { bibleChapterPath, bibleVersionPath } from "@/lib/bible/paths";
 import { fetchBibleVerseById } from "@/lib/bible/queries";
 
 const UUID_RE = /^[0-9a-f]{8}-[0-9a-f]{4}-[0-9a-f]{4}-[0-9a-f]{4}-[0-9a-f]{12}$/i;
@@ -26,7 +27,12 @@ export async function BibleVerseStudyView({ verseId }: Props) {
     return <SourcePendingNotice namespace="bibleStrong" />;
   }
 
-  const versionTitle = row.bible_versions?.title ?? "—";
+  const version = row.bible_versions;
+  const versionTitle = version?.title ?? "—";
+  const chapterHref =
+    version?.slug != null
+      ? bibleChapterPath(version.slug, row.book_code, row.chapter)
+      : "/bible-strong";
 
   return (
     <article
@@ -34,12 +40,21 @@ export async function BibleVerseStudyView({ verseId }: Props) {
     >
       <div className="flex flex-wrap items-center justify-between gap-4 border-b border-amber-900/10 pb-6">
         <NextLink
-          href="/bible-strong"
+          href={chapterHref}
           className="text-sm font-medium text-sky-800 underline-offset-2 hover:underline"
         >
-          ← {t("backToIndex")}
+          ← {t("backToChapter")}
         </NextLink>
-        <p className="text-xs font-semibold uppercase tracking-wide text-amber-800/80">{versionTitle}</p>
+        {version?.slug ? (
+          <NextLink
+            href={bibleVersionPath(version.slug)}
+            className="text-xs font-semibold uppercase tracking-wide text-amber-800/80 hover:underline"
+          >
+            {versionTitle}
+          </NextLink>
+        ) : (
+          <p className="text-xs font-semibold uppercase tracking-wide text-amber-800/80">{versionTitle}</p>
+        )}
       </div>
 
       <header className="space-y-2">

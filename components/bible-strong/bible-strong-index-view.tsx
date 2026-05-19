@@ -1,17 +1,12 @@
 import NextLink from "next/link";
 import { getTranslations } from "next-intl/server";
 
-import { fetchBibleVersions, fetchVerseSummariesForVersion } from "@/lib/bible/queries";
+import { BibleStrongHeader } from "@/components/bible-strong/bible-strong-header";
+import { BibleVersionPicker } from "@/components/bible-strong/bible-version-picker";
+import { bibleVersionPath } from "@/lib/bible/paths";
+import { fetchBibleVersions } from "@/lib/bible/queries";
 
-type Props = {
-  /** Identifiant de version sélectionné (query `?version=`). */
-  selectedVersionId?: string | null;
-};
-
-/**
- * Page d’accueil Bible Strong : liste des versions puis des versets (liens vers `/bible-strong/[id]`).
- */
-export async function BibleStrongIndexView({ selectedVersionId }: Props) {
+export async function BibleStrongIndexView() {
   const t = await getTranslations("bibleStrong");
   const versions = await fetchBibleVersions();
 
@@ -24,69 +19,28 @@ export async function BibleStrongIndexView({ selectedVersionId }: Props) {
     );
   }
 
-  const active =
-    (selectedVersionId ? versions.find((v) => v.id === selectedVersionId) : null) ?? versions[0]!;
-  const summaries = await fetchVerseSummariesForVersion(active.id);
-
   return (
     <div className="mx-auto max-w-3xl space-y-10 pb-8">
-      <header className="space-y-2 border-b border-amber-900/10 pb-8">
-        <p className="text-xs font-semibold uppercase tracking-[0.22em] text-amber-800/80">AGAPE</p>
-        <h1 className="font-[family-name:var(--font-bible-study-serif),ui-serif,Georgia,serif] text-3xl font-bold tracking-tight text-slate-900 md:text-4xl">
-          {t("readerTitle")}
-        </h1>
-        <p className="text-base leading-relaxed text-slate-600">{t("readerSubtitle")}</p>
-      </header>
+      <BibleStrongHeader />
+      <BibleVersionPicker versions={versions} activeSlug={null} />
 
-      <section aria-labelledby="bible-versions-heading" className="space-y-3">
-        <h2 id="bible-versions-heading" className="text-sm font-semibold uppercase tracking-wide text-slate-500">
-          {t("versionsHeading")}
-        </h2>
-        <div className="flex flex-wrap gap-2">
-          {versions.map((v) => {
-            const isActive = v.id === active.id;
-            return (
+      <section className="space-y-4">
+        <h2 className="text-sm font-semibold uppercase tracking-wide text-slate-500">{t("chooseTranslation")}</h2>
+        <ul className="grid gap-3 sm:grid-cols-2">
+          {versions.map((v) => (
+            <li key={v.id}>
               <NextLink
-                key={v.id}
-                href={`/bible-strong?version=${v.id}`}
-                className={
-                  isActive
-                    ? "rounded-full bg-slate-900 px-4 py-2 text-sm font-medium text-white shadow-sm"
-                    : "rounded-full border border-slate-200 bg-white px-4 py-2 text-sm font-medium text-slate-700 hover:border-slate-300"
-                }
+                href={bibleVersionPath(v.slug)}
+                className="block rounded-2xl border border-slate-200/90 bg-white/90 px-5 py-4 shadow-sm transition hover:border-amber-300/80 hover:shadow-md"
               >
-                {v.title}
+                <p className="font-semibold text-slate-900">{v.title}</p>
+                <p className="mt-1 text-xs uppercase tracking-wide text-slate-500">{v.language}</p>
+                {v.notes ? <p className="mt-2 text-sm text-slate-600 line-clamp-2">{v.notes}</p> : null}
+                <p className="mt-3 text-sm font-medium text-sky-800">{t("openBible")} →</p>
               </NextLink>
-            );
-          })}
-        </div>
-      </section>
-
-      <section aria-labelledby="bible-verses-heading" className="space-y-4">
-        <h2 id="bible-verses-heading" className="text-sm font-semibold uppercase tracking-wide text-slate-500">
-          {t("versesHeading")}
-        </h2>
-        {summaries.length === 0 ? (
-          <p className="rounded-xl border border-dashed border-slate-200 bg-white/80 px-4 py-10 text-center text-sm text-slate-600">
-            {t("noVersesInVersion")}
-          </p>
-        ) : (
-          <ul className="max-h-[min(70vh,36rem)] space-y-1 overflow-y-auto rounded-xl border border-slate-200/80 bg-white/80 p-2 shadow-inner">
-            {summaries.map((s) => (
-              <li key={s.id}>
-                <NextLink
-                  href={`/bible-strong/${s.id}`}
-                  className="block rounded-lg px-3 py-2 text-sm text-slate-800 hover:bg-amber-100/60 hover:text-slate-950"
-                >
-                  <span className="font-medium">{s.book_title}</span>{" "}
-                  <span className="text-slate-500">
-                    {s.chapter}:{s.verse}
-                  </span>
-                </NextLink>
-              </li>
-            ))}
-          </ul>
-        )}
+            </li>
+          ))}
+        </ul>
       </section>
     </div>
   );
