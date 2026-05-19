@@ -11,6 +11,11 @@ const withPWA = withPWAInit({
 });
 
 const nextConfig: NextConfig = {
+  experimental: {
+    serverActions: {
+      bodySizeLimit: "15mb",
+    },
+  },
   /** Image Docker optimisée : trace les dépendances serveur dans `.next/standalone`. */
   output: "standalone",
   images: {
@@ -66,11 +71,6 @@ const nextConfig: NextConfig = {
         ],
       },
     ];
-  },
-  experimental: {
-    serverActions: {
-      bodySizeLimit: "15mb",
-    },
   },
 };
 
