@@ -17,11 +17,14 @@ export function GET() {
   }
 
   if (!admin) {
+    const isProd = process.env.VERCEL === "1" || process.env.NODE_ENV === "production";
     return NextResponse.json(
       {
         status: "degraded",
         reason: "missing_supabase_service_role",
-        hint: "Ajoutez SUPABASE_SERVICE_ROLE_KEY dans .env.local puis redémarrez npm run dev",
+        hint: isProd
+          ? "Vercel → Project → Settings → Environment Variables : ajoutez SUPABASE_SERVICE_ROLE_KEY (Production), puis Redeploy."
+          : "Ajoutez SUPABASE_SERVICE_ROLE_KEY dans .env.local puis redémarrez npm run dev",
       },
       { status: 503 },
     );
