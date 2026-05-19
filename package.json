@@ -5,6 +5,9 @@
   "scripts": {
     "icons": "node scripts/generate-icons.mjs",
     "deploy:check": "node scripts/deploy-check.mjs",
+    "bible:import": "node scripts/import-bible-full.mjs --preset all",
+    "bible:import:lsg": "node scripts/import-bible-full.mjs --preset lsg",
+    "bible:import:kjv": "node scripts/import-bible-full.mjs --preset kjv",
     "dev": "next dev --turbopack",
     "build": "next build",
     "start": "next start",

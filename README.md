@@ -8,8 +8,9 @@ Application Next.js + Supabase + PWA pour l'ecosysteme Agape.
 2. Dans votre fork, gardez `master` comme branche de production.
 3. Sur Vercel, cliquez sur `Add New Project` puis importez votre fork GitHub.
 4. Ajoutez les variables d'environnement de `.env.example` dans Vercel.
-5. Lancez les migrations SQL Supabase du dossier `supabase/migrations/`.
-6. Deployez.
+5. Lancez les migrations SQL Supabase : `supabase/migrations/032_bible_strong_bootstrap.sql`.
+6. Importez la Bible complète : `npm run bible:import` (Louis Segond + KJV, ~2–5 min).
+7. Deployez.
 
 ## Variables d'environnement
 
