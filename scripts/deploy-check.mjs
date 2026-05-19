@@ -50,7 +50,8 @@ if (!logoFound) {
 console.log("\nRequired environment variables for Vercel:");
 console.log("- NEXT_PUBLIC_SUPABASE_URL");
 console.log("- NEXT_PUBLIC_SUPABASE_ANON_KEY");
-console.log("- NEXT_PUBLIC_SITE_URL (recommended in production)");
+console.log("- SUPABASE_SERVICE_ROLE_KEY");
+console.log("- NEXT_PUBLIC_SITE_URL (your production URL, e.g. https://xxx.vercel.app)");
 
 console.log("\nRecommended deployment flow:");
 console.log("1. Fork the repository on GitHub");

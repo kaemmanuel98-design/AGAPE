@@ -15,11 +15,16 @@ Application Next.js + Supabase + PWA pour l'ecosysteme Agape.
 
 Copiez `.env.example` vers `.env.local` en local.
 
-Variables minimales :
+Variables minimales (Vercel → Settings → Environment Variables) :
 
 - `NEXT_PUBLIC_SUPABASE_URL`
 - `NEXT_PUBLIC_SUPABASE_ANON_KEY`
-- `NEXT_PUBLIC_SITE_URL` (recommande en production)
+- `SUPABASE_SERVICE_ROLE_KEY` (serveur uniquement — inscription `/join`, profils publics)
+- `NEXT_PUBLIC_SITE_URL` (URL Vercel en prod, ex. `https://votre-projet.vercel.app`)
+
+Supabase → Authentication → Redirect URLs : ajoutez `https://votre-projet.vercel.app/auth/callback`.
+
+Après le premier déploiement, testez `https://votre-projet.vercel.app/join` (inscription).
 
 ## Avant de deployer
 
