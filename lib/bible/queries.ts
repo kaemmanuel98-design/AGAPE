@@ -1,5 +1,7 @@
 import "server-only";
 
+import { normalizeStrongCode } from "@/lib/bible/strong-code";
+import { isPublicBibleVersion } from "@/lib/bible/version-policy";
 import type {
   BibleBookSummary,
   BibleChapterSummary,
@@ -8,6 +10,22 @@ import type {
   BibleVersionRow,
 } from "@/lib/bible/types";
 import { createClient } from "@/utils/supabase/server";
+
+export type StrongVerseContext = {
+  id: string;
+  version_slug: string;
+  version_title: string;
+  book_code: string;
+  book_title: string;
+  chapter: number;
+  verse: number;
+  snippet: string;
+  matched_word: string | null;
+};
+
+function filterPublicVersions(rows: BibleVersionRow[]): BibleVersionRow[] {
+  return rows.filter((v) => isPublicBibleVersion(v.slug));
+}
 
 export async function fetchBibleVersions(): Promise<BibleVersionRow[]> {
   const supabase = await createClient();
@@ -20,7 +38,7 @@ export async function fetchBibleVersions(): Promise<BibleVersionRow[]> {
     console.error("[AGAPE Bible] Liste versions :", error.message);
     return [];
   }
-  return (data ?? []) as BibleVersionRow[];
+  return filterPublicVersions((data ?? []) as BibleVersionRow[]);
 }
 
 export async function fetchBibleVersionBySlug(slug: string): Promise<BibleVersionRow | null> {
@@ -144,4 +162,96 @@ export async function fetchVerseSummariesForVersion(versionId: string): Promise<
     return [];
   }
   return (data ?? []) as Pick<BibleVerseWithVersion, "id" | "book_title" | "chapter" | "verse" | "book_sort">[];
+}
+
+function snippetAroundStrong(body: string, code: string): { snippet: string; matched_word: string | null } {
+  const re = new RegExp(`(\\S*?)\\[${code}\\]`);
+  const m = body.match(re);
+  if (!m || m.index === undefined) {
+    return { snippet: body.slice(0, 120), matched_word: null };
+  }
+  const start = Math.max(0, m.index - 40);
+  const end = Math.min(body.length, m.index + m[0].length + 60);
+  let snippet = body.slice(start, end);
+  if (start > 0) snippet = `…${snippet}`;
+  if (end < body.length) snippet = `${snippet}…`;
+  return { snippet: snippet.replace(/\[[GH]0*\d+\]/g, ""), matched_word: m[1] || null };
+}
+
+/** Occurrences du numéro Strong dans les versions publiques (contextes bibliques). */
+export async function fetchStrongVerseContexts(
+  rawCode: string,
+  options?: { versionSlug?: string; limit?: number },
+): Promise<StrongVerseContext[]> {
+  const code = normalizeStrongCode(rawCode);
+  if (!code) return [];
+
+  const supabase = await createClient();
+  let versionId: string | null = null;
+
+  if (options?.versionSlug) {
+    const version = await fetchBibleVersionBySlug(options.versionSlug);
+    versionId = version?.id ?? null;
+  }
+
+  let query = supabase
+    .from("bible_verses")
+    .select(
+      "id, book_code, book_title, chapter, verse, body_text, bible_versions!inner ( slug, title )",
+    )
+    .ilike("body_text", `%[${code}]%`)
+    .in("bible_versions.slug", ["lsg", "kjv"])
+    .order("book_sort", { ascending: true })
+    .order("chapter", { ascending: true })
+    .order("verse", { ascending: true })
+    .limit(options?.limit ?? 40);
+
+  if (versionId) {
+    query = query.eq("version_id", versionId);
+  }
+
+  const { data, error } = await query;
+  if (error) {
+    console.error("[AGAPE Bible] Contextes Strong :", error.message, code);
+    return [];
+  }
+
+  const out: StrongVerseContext[] = [];
+  for (const row of data ?? []) {
+    const rawVersion = row.bible_versions as { slug: string; title: string } | { slug: string; title: string }[] | null;
+    const v = Array.isArray(rawVersion) ? rawVersion[0] : rawVersion;
+    if (!v || !isPublicBibleVersion(v.slug)) continue;
+    const { snippet, matched_word } = snippetAroundStrong(row.body_text as string, code);
+    out.push({
+      id: row.id as string,
+      version_slug: v.slug,
+      version_title: v.title,
+      book_code: row.book_code as string,
+      book_title: row.book_title as string,
+      chapter: row.chapter as number,
+      verse: row.verse as number,
+      snippet,
+      matched_word,
+    });
+  }
+  return out;
+}
+
+/** Mots français (ou autre langue) utilisés pour ce Strong dans une version donnée. */
+export async function fetchStrongTranslationGlosses(
+  rawCode: string,
+  versionSlug: string,
+  limit = 24,
+): Promise<string[]> {
+  const code = normalizeStrongCode(rawCode);
+  if (!code) return [];
+
+  const contexts = await fetchStrongVerseContexts(code, { versionSlug, limit: 200 });
+  const words = new Set<string>();
+  for (const ctx of contexts) {
+    const w = ctx.matched_word?.trim();
+    if (w && w.length < 48) words.add(w);
+    if (words.size >= limit) break;
+  }
+  return [...words];
 }

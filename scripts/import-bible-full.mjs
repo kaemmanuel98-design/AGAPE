@@ -10,6 +10,7 @@
  *   node scripts/import-bible-full.mjs --preset all
  */
 
+import { spawnSync } from "node:child_process";
 import { readFileSync } from "node:fs";
 import path from "node:path";
 import { fileURLToPath } from "node:url";
@@ -144,7 +145,7 @@ const PRESETS = {
     slug: "kjv",
     title: "King James Version",
     language: "en",
-    notes: "Domaine public — scrollmapper (texte avec notes Strong)",
+    notes: "Domaine public — scrollmapper",
     load: async () => {
       console.log("Téléchargement KJV…");
       const json = await fetch(KJV_JSON_URL).then((r) => {
@@ -327,4 +328,10 @@ for (const p of presets) {
   await importPreset(admin, p);
 }
 
-console.log("\nImport terminé. Testez : /bible-strong/v/lsg");
+console.log("\nImport terminé. Testez : /bible-strong/v/lsg/jhn/3");
+
+const cleanup = spawnSync(process.execPath, ["scripts/bible-cleanup-versions.mjs"], {
+  cwd: ROOT,
+  stdio: "inherit",
+});
+if (cleanup.status !== 0) process.exit(cleanup.status ?? 1);

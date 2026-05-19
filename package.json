@@ -8,6 +8,8 @@
     "bible:import": "node scripts/import-bible-full.mjs --preset all",
     "bible:import:lsg": "node scripts/import-bible-full.mjs --preset lsg",
     "bible:import:kjv": "node scripts/import-bible-full.mjs --preset kjv",
+    "bible:cleanup": "node scripts/bible-cleanup-versions.mjs",
+    "bible:setup-voice": "node scripts/setup-narrator-voice.mjs",
     "dev": "next dev --turbopack",
     "build": "next build",
     "start": "next start",

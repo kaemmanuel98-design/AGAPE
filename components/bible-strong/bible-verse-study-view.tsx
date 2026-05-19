@@ -1,10 +1,11 @@
 import NextLink from "next/link";
 import { getTranslations } from "next-intl/server";
 
-import { BibleVerseBody } from "@/components/bible-strong/bible-verse-body";
+import { BibleVerseStudyClient } from "@/components/bible-strong/bible-verse-study-client";
 import { SourcePendingNotice } from "@/components/academy/source-pending-notice";
 import { bibleChapterPath, bibleVersionPath } from "@/lib/bible/paths";
 import { fetchBibleVerseById } from "@/lib/bible/queries";
+import { stripStrongFromBodyText } from "@/lib/bible/strip-strong-text";
 
 const UUID_RE = /^[0-9a-f]{8}-[0-9a-f]{4}-[0-9a-f]{4}-[0-9a-f]{4}-[0-9a-f]{12}$/i;
 
@@ -12,9 +13,6 @@ type Props = {
   verseId: string;
 };
 
-/**
- * Lecture d’un verset : typographie confort (serif) + numéros Strong cliquables.
- */
 export async function BibleVerseStudyView({ verseId }: Props) {
   const t = await getTranslations("bibleStrong");
 
@@ -33,11 +31,10 @@ export async function BibleVerseStudyView({ verseId }: Props) {
     version?.slug != null
       ? bibleChapterPath(version.slug, row.book_code, row.chapter)
       : "/bible-strong";
+  const plainText = stripStrongFromBodyText(row.body_text);
 
   return (
-    <article
-      className="mx-auto max-w-3xl space-y-10 pb-16 font-[family-name:var(--font-bible-study-serif),ui-serif,Georgia,serif]"
-    >
+    <article className="mx-auto max-w-3xl space-y-10 pb-16 font-[family-name:var(--font-bible-study-serif),ui-serif,Georgia,serif]">
       <div className="flex flex-wrap items-center justify-between gap-4 border-b border-amber-900/10 pb-6">
         <NextLink
           href={chapterHref}
@@ -61,15 +58,17 @@ export async function BibleVerseStudyView({ verseId }: Props) {
         <h1 className="text-2xl font-bold tracking-tight text-slate-900 md:text-3xl">
           {row.book_title} {row.chapter}:{row.verse}
         </h1>
-        <p className="text-sm text-slate-500">{t("strongHint")}</p>
       </header>
 
-      <div className="rounded-2xl border border-slate-200/80 bg-white/70 px-5 py-8 shadow-sm md:px-8 md:py-10">
-        <BibleVerseBody
-          text={row.body_text}
-          className="text-[1.15rem] leading-[1.85] text-slate-900 md:text-[1.25rem] md:leading-[1.9]"
-        />
-      </div>
+      <BibleVerseStudyClient
+        plainText={plainText}
+        verse={row.verse}
+        language={version?.language ?? "fr"}
+        versionSlug={version?.slug ?? "lsg"}
+        bookCode={row.book_code}
+        bookTitle={row.book_title}
+        chapter={row.chapter}
+      />
     </article>
   );
 }

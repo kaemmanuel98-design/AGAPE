@@ -14,3 +14,11 @@ export function bibleChapterPath(versionSlug: string, bookCode: string, chapter:
 export function bibleVersePath(verseId: string) {
   return `/bible-strong/${verseId}`;
 }
+
+export function bibleLexiconPath(code: string, params?: { version?: string; from?: string }) {
+  const q = new URLSearchParams();
+  if (params?.version) q.set("v", params.version);
+  if (params?.from) q.set("from", params.from);
+  const qs = q.toString();
+  return `/bible-strong/lexicon/${encodeURIComponent(code)}${qs ? `?${qs}` : ""}`;
+}
