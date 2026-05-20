@@ -1,12 +1,13 @@
 "use server";
 
-import { randomBytes, randomUUID } from "node:crypto";
+import { createHash } from "node:crypto";
 
 import {
   deleteSignupPendingAvatarPath,
   uploadPendingSignupAvatarJpeg,
 } from "@/lib/actions/upload-registration-avatar";
 import { sendCriticalAssistanceAlertEmail } from "@/lib/notifications/critical-assistance";
+import { createSupabaseServerClient } from "@/lib/supabase/server";
 import { createSupabaseAdminClient } from "@/lib/supabaseAdmin";
 import { ensureSupabaseEnvLoaded } from "@/lib/supabase/env.server";
 
@@ -22,6 +23,32 @@ const ALLOWED_ACCOMPANIMENT = new Set(["soutien_moral", "deuil", "maladie", "urg
 
 function clean(value: FormDataEntryValue | null) {
   return String(value ?? "").trim();
+}
+
+function normalizedPhoneIdentity(phone: string) {
+  return phone.replace(/[^\d+]/g, "").replace(/^\+/, "").trim();
+}
+
+function memberEmailFromPhone(phoneIdentity: string) {
+  return `m-${phoneIdentity}@members.agape`;
+}
+
+function memberPasswordFromPhone(phoneIdentity: string) {
+  const salt = process.env.MEMBER_AUTH_SALT?.trim() || "agape-member-auth";
+  const digest = createHash("sha256").update(`${salt}:${phoneIdentity}`).digest("hex");
+  return `Agape!${digest.slice(0, 24)}aA1`;
+}
+
+async function signInMemberSession(email: string, password: string) {
+  try {
+    const server = await createSupabaseServerClient();
+    const { error } = await server.auth.signInWithPassword({ email, password });
+    if (error) {
+      console.warn("[AGAPE Inscription] Session non établie :", error.message);
+    }
+  } catch (e) {
+    console.warn("[AGAPE Inscription] Impossible de créer la session utilisateur :", e);
+  }
 }
 
 /** État initial et retours de `registerMemberFormAction` (avec `useActionState`). */
@@ -63,6 +90,7 @@ async function processMemberRegistration(formData: FormData): Promise<ProcessOk 
   const accompanimentNeed = clean(formData.get("accompaniment_need"));
   const supportMessage = clean(formData.get("support_message")) || null;
   const locale = clean(formData.get("locale")) || "fr";
+  const phoneIdentity = normalizedPhoneIdentity(phone);
 
   const talentEntries = formData.getAll("talents").map(String).map((t) => t.trim());
   const talents = [...new Set(talentEntries)].filter((t) => ALLOWED_TALENTS.has(t));
@@ -76,6 +104,9 @@ async function processMemberRegistration(formData: FormData): Promise<ProcessOk 
   }
 
   if (!phone || phone.length < 5 || phone.length > 160) {
+    return { ok: false, message: "invalid_phone" };
+  }
+  if (!phoneIdentity) {
     return { ok: false, message: "invalid_phone" };
   }
 
@@ -109,10 +140,65 @@ async function processMemberRegistration(formData: FormData): Promise<ProcessOk 
   let pendingStoragePath = pendingUpload.storagePath;
 
   try {
-    const email = `m-${randomUUID()}@members.agape`;
-    const password = `${randomBytes(28).toString("base64url")}Aa1!`;
+    const email = memberEmailFromPhone(phoneIdentity);
+    const password = memberPasswordFromPhone(phoneIdentity);
 
     const admin = createSupabaseAdminClient();
+    const { data: existingByPhone } = await admin
+      .from("profiles")
+      .select("id")
+      .eq("phone", phone)
+      .eq("role", "member")
+      .maybeSingle();
+
+    if (existingByPhone?.id) {
+      await admin.auth.admin.updateUserById(existingByPhone.id, {
+        email,
+        password,
+        email_confirm: true,
+        user_metadata: {
+          full_name: fullName,
+          avatar_url: pendingUpload.avatarUrl ?? "",
+          current_need: accompanimentNeed,
+          city,
+        },
+      });
+
+      const { error: updateExistingErr } = await admin
+        .from("profiles")
+        .update({
+          email,
+          full_name: fullName,
+          first_names: firstName,
+          last_name: lastName,
+          phone,
+          city,
+          preferred_language: preferredLanguage,
+          current_need: accompanimentNeed,
+          avatar_url: pendingUpload.avatarUrl || null,
+          talents,
+          member_talents: talents,
+          message: supportMessage,
+          updated_at: new Date().toISOString(),
+        })
+        .eq("id", existingByPhone.id);
+
+      if (updateExistingErr) {
+        console.warn("[AGAPE Inscription] Profil existant non mis à jour :", updateExistingErr.message);
+      }
+
+      pendingStoragePath = null;
+      await signInMemberSession(email, password);
+
+      return {
+        ok: true,
+        severity: isPriorityEmergency ? "critical" : "standard",
+        criticalAlertSent: false,
+        memberId: existingByPhone.id,
+        pendingEmailVerification: false,
+      };
+    }
+
     console.log("[AGAPE Inscription] Création du compte via service role…");
     const { data: signData, error: signErr } = await admin.auth.admin.createUser({
       email,

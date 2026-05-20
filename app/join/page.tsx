@@ -1,12 +1,13 @@
 import type { Metadata } from "next";
 import NextLink from "next/link";
-import { cookies } from "next/headers";
+import { redirect } from "next/navigation";
 import { NextIntlClientProvider } from "next-intl";
 import { getMessages, getTranslations, setRequestLocale } from "next-intl/server";
 
 import { MemberRegistrationForm } from "@/components/members/MemberRegistrationForm";
 import { type AppLocale } from "@/i18n/routing";
 import { resolvePublicHubLocale } from "@/lib/navigation/resolve-public-hub-locale";
+import { createSupabaseServerClient } from "@/lib/supabase/server";
 
 async function resolveJoinLocale(): Promise<AppLocale> {
   return resolvePublicHubLocale();
@@ -24,6 +25,14 @@ export async function generateMetadata(): Promise<Metadata> {
 /** Inscription autonome — hors layout `[locale]` (évite 404 client). URL : `/join` */
 export default async function JoinPage() {
   const locale = await resolveJoinLocale();
+  const supabase = await createSupabaseServerClient();
+  const {
+    data: { user },
+  } = await supabase.auth.getUser();
+  if (user) {
+    redirect(`/${locale}/profile`);
+  }
+
   setRequestLocale(locale);
   const messages = await getMessages();
 
