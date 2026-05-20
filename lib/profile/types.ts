@@ -5,6 +5,7 @@ export type MemberProfileRow = {
   last_name: string | null;
   full_name?: string | null;
   birth_date: string | null;
+  notify_birthdays?: boolean;
   phone: string | null;
   address: string | null;
   avatar_url: string | null;

@@ -1,5 +1,7 @@
 "use server";
 
+import { revalidatePath } from "next/cache";
+
 import { createSupabaseServerClient } from "@/lib/supabase/server";
 
 const ALLOWED_TALENTS = new Set([
@@ -46,6 +48,9 @@ export async function updateMemberProfileAction(
 
   const lastName = clean(formData.get("last_name"));
   const firstName = clean(formData.get("first_name"));
+  const birthDateRaw = clean(formData.get("birth_date"));
+  const birthDate = birthDateRaw || null;
+  const notifyBirthdays = formData.get("notify_birthdays") === "on";
   const talentEntries = formData.getAll("talents").map(String).map((t) => t.trim());
   const talents = [...new Set(talentEntries)].filter((t) => ALLOWED_TALENTS.has(t));
 
@@ -64,6 +69,8 @@ export async function updateMemberProfileAction(
       first_names: firstName,
       last_name: lastName,
       full_name: fullName,
+      birth_date: birthDate,
+      notify_birthdays: notifyBirthdays,
       talents,
       member_talents: talents,
     })
@@ -75,6 +82,9 @@ export async function updateMemberProfileAction(
   }
 
   console.log("[AGAPE Profil édition] Enregistrement réussi pour le profil", targetId);
+
+  revalidatePath("/calendar");
+  revalidatePath(`/profile/${targetId}`);
 
   return { status: "success" };
 }

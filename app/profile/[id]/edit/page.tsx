@@ -37,7 +37,7 @@ export default async function MemberProfileEditPage({ params }: Props) {
 
   const { data: row, error } = await supabase
     .from("profiles")
-    .select("id,first_names,last_name,full_name,talents,member_talents,avatar_url")
+    .select("id,first_names,last_name,full_name,birth_date,notify_birthdays,talents,member_talents,avatar_url")
     .eq("id", id)
     .maybeSingle();
 
@@ -55,6 +55,8 @@ export default async function MemberProfileEditPage({ params }: Props) {
       profileId={id}
       initialFirst={row.first_names ?? ""}
       initialLast={row.last_name ?? ""}
+      initialBirthDate={row.birth_date ?? ""}
+      initialNotifyBirthdays={row.notify_birthdays ?? true}
       initialTalents={initialTalents}
       initialAvatarUrl={row.avatar_url}
       canManageStorage={user.id === id}

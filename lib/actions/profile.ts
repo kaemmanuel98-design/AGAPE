@@ -27,6 +27,7 @@ export async function updateMemberProfile(formData: FormData) {
   const firstNames = normalizeText(formData.get("first_names"));
   const lastName = normalizeText(formData.get("last_name"));
   const birthDate = normalizeText(formData.get("birth_date")) || null;
+  const notifyBirthdays = formData.get("notify_birthdays") === "on";
   const phone = normalizeText(formData.get("phone")) || null;
   const address = normalizeText(formData.get("address")) || null;
   const avatarUrlInput = normalizeText(formData.get("avatar_url")) || null;
@@ -56,6 +57,7 @@ export async function updateMemberProfile(formData: FormData) {
       first_names: firstNames,
       last_name: lastName,
       birth_date: birthDate,
+      notify_birthdays: notifyBirthdays,
       phone,
       address,
       avatar_url: avatarUrl,
@@ -69,6 +71,7 @@ export async function updateMemberProfile(formData: FormData) {
   revalidatePath(`/${locale}/profile`, "layout");
   revalidatePath(`/${locale}`, "layout");
   revalidatePath(`/${locale}/calendar`, "layout");
+  revalidatePath("/calendar", "layout");
   return { ok: true as const };
 }
 

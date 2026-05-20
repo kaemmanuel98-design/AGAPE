@@ -266,7 +266,8 @@
     "avatarErrorGeneric": "Échec du traitement ou de l’envoi de l’image.",
     "needBadge": "Besoin : {need}",
     "editPhotoButton": "Modifier ma photo",
-    "openBibleStrong": "Accéder à la Bible Strong"
+    "openBibleStrong": "Accéder à la Bible Strong",
+    "notifyBirthdaysLabel": "Recevoir les rappels d'anniversaires des autres membres"
   },
   "discover": {
     "heading": "Découvrir",
@@ -324,6 +325,7 @@
     "firstNames": "Prénoms",
     "lastName": "Nom",
     "birthDate": "Date d'anniversaire",
+    "notifyBirthdaysLabel": "M'alerter lors des anniversaires des autres membres (notification sur le site et par e-mail si disponible)",
     "phone": "Numéro de téléphone",
     "address": "Adresse",
     "avatarUrl": "URL de la photo (optionnel)",
@@ -420,7 +422,16 @@
     "fraternalComingSoonHint": "Reste connecté : dès que les données seront en ligne, la timeline s’affichera automatiquement ici.",
     "communityAppointmentsSoon": "Les prochains rendez-vous de la communauté AGAPE seront affichés ici très bientôt.",
     "loadErrorTitle": "Connexion au serveur impossible pour le moment.",
-    "loadErrorHint": "Le contenu arrive bientôt… Réessaie dans quelques instants."
+    "loadErrorHint": "Le contenu arrive bientôt… Réessaie dans quelques instants.",
+    "setBirthdayTitle": "Ajoutez votre date d'anniversaire",
+    "setBirthdayBody": "Elle permet aux autres membres d'être alertés le jour J et de vous envoyer un message sur le calendrier fraternel.",
+    "setBirthdayCta": "Renseigner mon profil"
+  },
+  "notifications": {
+    "birthdayHeading": "Anniversaires aujourd'hui",
+    "openCalendar": "Voir le calendrier",
+    "dismiss": "Masquer",
+    "dismissAll": "Tout masquer"
   },
   "planning": {
     "slotOpen": "Créneau libre — contacte l'équipe pour t'inscrire.",

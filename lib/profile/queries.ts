@@ -3,7 +3,7 @@ import { createSupabaseServerClient } from "@/lib/supabase/server";
 import type { ChildProfileRow, MemberProfileRow } from "./types";
 
 const PROFILE_SELECT =
-  "id,role,first_names,last_name,full_name,birth_date,phone,address,avatar_url,member_talents,talents,current_need,message,city,preferred_language,updated_at";
+  "id,role,first_names,last_name,full_name,birth_date,notify_birthdays,phone,address,avatar_url,member_talents,talents,current_need,message,city,preferred_language,updated_at";
 
 export async function getCurrentProfile(): Promise<{
   userId: string | null;

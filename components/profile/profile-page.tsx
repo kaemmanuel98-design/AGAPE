@@ -301,6 +301,16 @@ export function ProfilePage({
             <input id="member-avatar-file" name="avatar_file" type="file" accept="image/*" className={fileInputClass()} />
           </FormField>
 
+          <label className="flex cursor-pointer items-start gap-3 rounded-2xl border border-slate-200/80 bg-slate-50/80 px-4 py-3 dark:border-white/10 dark:bg-white/5">
+            <input
+              type="checkbox"
+              name="notify_birthdays"
+              defaultChecked={initialProfile?.notify_birthdays !== false}
+              className="mt-1 size-4 rounded border-slate-300"
+            />
+            <span className="text-sm text-slate-700 dark:text-slate-300">{t("notifyBirthdaysLabel")}</span>
+          </label>
+
           <Status message={memberMessage} />
 
           <Button type="submit" disabled={memberPending} className="h-12 rounded-2xl">

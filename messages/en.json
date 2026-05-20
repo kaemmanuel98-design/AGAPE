@@ -266,7 +266,8 @@
     "avatarErrorGeneric": "Image processing or upload failed.",
     "needBadge": "Need: {need}",
     "editPhotoButton": "Change my photo",
-    "openBibleStrong": "Open Bible Strong"
+    "openBibleStrong": "Open Bible Strong",
+    "notifyBirthdaysLabel": "Receive birthday reminders for other members"
   },
   "discover": {
     "heading": "Discover",
@@ -324,6 +325,7 @@
     "firstNames": "First names",
     "lastName": "Last name",
     "birthDate": "Birthday date",
+    "notifyBirthdaysLabel": "Notify me when other members have a birthday (in-app and email when available)",
     "phone": "Phone number",
     "address": "Address",
     "avatarUrl": "Photo URL (optional)",
@@ -420,7 +422,16 @@
     "fraternalComingSoonHint": "Stay tuned — once data is live, the timeline will appear here automatically.",
     "communityAppointmentsSoon": "The next AGAPE community gatherings will appear here very soon.",
     "loadErrorTitle": "We could not reach the server right now.",
-    "loadErrorHint": "Content is on the way… Please try again in a moment."
+    "loadErrorHint": "Content is on the way… Please try again in a moment.",
+    "setBirthdayTitle": "Add your birthday",
+    "setBirthdayBody": "Other members will be notified on the day and can send you a message on the fraternal calendar.",
+    "setBirthdayCta": "Update my profile"
+  },
+  "notifications": {
+    "birthdayHeading": "Birthdays today",
+    "openCalendar": "Open calendar",
+    "dismiss": "Dismiss",
+    "dismissAll": "Dismiss all"
   },
   "planning": {
     "slotOpen": "Open slot — contact the team to sign up.",

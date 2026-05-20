@@ -3,6 +3,7 @@ import { getLocale, getTranslations } from "next-intl/server";
 
 import { SimpleFraternalEventsList } from "@/components/calendar/simple-fraternal-events-list";
 import { CongratulateMemberButton } from "@/components/calendar/congratulate-member-button";
+import { SetBirthdayPrompt } from "@/components/calendar/set-birthday-prompt";
 import { formatBirthdayMemberName, listCurrentMonthBirthdays } from "@/lib/calendar/queries";
 
 function formatBirthdayDate(isoDate: string, locale: string) {
@@ -39,6 +40,8 @@ export async function MonthCalendar() {
           </div>
         </div>
       </section>
+
+      <SetBirthdayPrompt />
 
       {/* Section événements : timeline chronologique (meilleure ergonomie mobile qu’un calendrier grille) */}
       <section className="agape-brand-surface rounded-[32px] p-6 sm:p-8">

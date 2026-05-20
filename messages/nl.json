@@ -266,7 +266,8 @@
     "avatarErrorGeneric": "Afbeelding verwerken of uploaden mislukt.",
     "needBadge": "Situatie: {need}",
     "editPhotoButton": "Mijn foto wijzigen",
-    "openBibleStrong": "Naar Bible Strong"
+    "openBibleStrong": "Naar Bible Strong",
+    "notifyBirthdaysLabel": "Herinneringen ontvangen bij verjaardagen van andere leden"
   },
   "discover": {
     "heading": "Ontdekken",
@@ -324,6 +325,7 @@
     "firstNames": "Voornamen",
     "lastName": "Naam",
     "birthDate": "Verjaardagsdatum",
+    "notifyBirthdaysLabel": "Waarschuw mij bij verjaardagen van andere leden (in de app en per e-mail indien beschikbaar)",
     "phone": "Telefoonnummer",
     "address": "Adres",
     "avatarUrl": "Foto-URL (optioneel)",
@@ -420,7 +422,16 @@
     "fraternalComingSoonHint": "Blijf verbonden: zodra de gegevens online zijn, verschijnt de tijdlijn automatisch hier.",
     "communityAppointmentsSoon": "De volgende afspraken van de AGAPE-gemeenschap verschijnen hier zeer binnenkort.",
     "loadErrorTitle": "We kunnen de server nu niet bereiken.",
-    "loadErrorHint": "De inhoud komt eraan… Probeer het zo meteen opnieuw."
+    "loadErrorHint": "De inhoud komt eraan… Probeer het zo meteen opnieuw.",
+    "setBirthdayTitle": "Voeg je verjaardag toe",
+    "setBirthdayBody": "Andere leden worden op de dag zelf gewaarschuwd en kunnen je een bericht sturen via de broederlijke kalender.",
+    "setBirthdayCta": "Profiel invullen"
+  },
+  "notifications": {
+    "birthdayHeading": "Verjaardagen vandaag",
+    "openCalendar": "Kalender openen",
+    "dismiss": "Verbergen",
+    "dismissAll": "Alles verbergen"
   },
   "planning": {
     "slotOpen": "Vrij slot — neem contact op met het team om je in te schrijven.",

@@ -37,6 +37,8 @@ type Props = {
   profileId: string;
   initialFirst: string;
   initialLast: string;
+  initialBirthDate: string;
+  initialNotifyBirthdays: boolean;
   initialTalents: string[];
   initialAvatarUrl: string | null;
   canManageStorage: boolean;
@@ -46,11 +48,14 @@ export function MemberProfileEditForm({
   profileId,
   initialFirst,
   initialLast,
+  initialBirthDate,
+  initialNotifyBirthdays,
   initialTalents,
   initialAvatarUrl,
   canManageStorage,
 }: Props) {
   const t = useTranslations("memberProfile");
+  const tProfile = useTranslations("profile");
   const tReg = useTranslations("memberRegistration");
   const router = useRouter();
   const [firstName, setFirstName] = useState(initialFirst);
@@ -160,6 +165,26 @@ export function MemberProfileEditForm({
                 />
               </label>
             </div>
+
+            <label className="grid gap-2">
+              <span className="text-sm font-medium text-neutral-700">{tProfile("birthDate")}</span>
+              <input
+                name="birth_date"
+                type="date"
+                defaultValue={initialBirthDate}
+                className="h-11 rounded-2xl border border-neutral-200 bg-neutral-50/80 px-3 text-neutral-900 outline-none ring-neutral-300 focus:ring-2"
+              />
+            </label>
+
+            <label className="flex cursor-pointer items-start gap-3 rounded-2xl border border-neutral-200 bg-neutral-50/50 px-3 py-3">
+              <input
+                type="checkbox"
+                name="notify_birthdays"
+                defaultChecked={initialNotifyBirthdays}
+                className="mt-1 size-4 rounded border-neutral-300"
+              />
+              <span className="text-sm text-neutral-700">{t("notifyBirthdaysLabel")}</span>
+            </label>
 
             <div>
               <p className="text-sm font-medium text-neutral-700">{t("editTalentsHeading")}</p>
