@@ -5,6 +5,7 @@ import { useLocale } from "next-intl";
 
 import { Button } from "@/components/ui/button";
 import { isLocalelessPublicPath } from "@/lib/navigation/localeless-public-path";
+import { isLocalelessHubPath } from "@/lib/navigation/localeless-hub-path";
 import { routing } from "@/i18n/routing";
 import { usePathname as useIntlPathname, useRouter } from "@/i18n/navigation";
 import { usePathname as useNextPathname } from "next/navigation";
@@ -33,8 +34,9 @@ export function LocaleSwitcher() {
           onClick={() =>
             startTransition(() => {
               if (isLocalelessPublicPath(nextPathname)) {
-                // /join et /profile/* : pas de préfixe /fr/… (sinon 404). On garde l’URL et on change la locale via cookie.
+                // Hub, /join, /profile : pas de préfixe /fr|en|nl — locale via cookie puis rechargement.
                 if (
+                  isLocalelessHubPath(nextPathname) ||
                   nextPathname === "/join" ||
                   nextPathname.startsWith("/join/") ||
                   nextPathname.startsWith("/profile")

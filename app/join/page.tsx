@@ -5,14 +5,11 @@ import { NextIntlClientProvider } from "next-intl";
 import { getMessages, getTranslations, setRequestLocale } from "next-intl/server";
 
 import { MemberRegistrationForm } from "@/components/members/MemberRegistrationForm";
-import { routing, type AppLocale } from "@/i18n/routing";
+import { type AppLocale } from "@/i18n/routing";
+import { resolvePublicHubLocale } from "@/lib/navigation/resolve-public-hub-locale";
 
 async function resolveJoinLocale(): Promise<AppLocale> {
-  const requested = (await cookies()).get("NEXT_LOCALE")?.value;
-  if (requested && (routing.locales as readonly string[]).includes(requested)) {
-    return requested as AppLocale;
-  }
-  return routing.defaultLocale;
+  return resolvePublicHubLocale();
 }
 
 export async function generateMetadata(): Promise<Metadata> {

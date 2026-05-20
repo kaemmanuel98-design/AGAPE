@@ -4,7 +4,7 @@ import { getMessages, setRequestLocale } from "next-intl/server";
 
 import { AgapeHubSidebar } from "@/components/hub/agape-hub-sidebar";
 import { SpaceTransition } from "@/components/space-transition";
-import { routing } from "@/i18n/routing";
+import { resolvePublicHubLocale } from "@/lib/navigation/resolve-public-hub-locale";
 import { cn } from "@/lib/utils";
 
 type Props = {
@@ -17,13 +17,15 @@ type Props = {
 
 /**
  * Coque partagée des routes « hub » sans préfixe de langue : provider i18n + barre latérale + contenu.
+ * La langue suit le cookie `NEXT_LOCALE` (sélecteur FR / EN / NL dans la barre latérale).
  */
 export async function AgapeHubShell({ children, outerClassName, mainClassName }: Props) {
-  setRequestLocale(routing.defaultLocale);
+  const locale = await resolvePublicHubLocale();
+  setRequestLocale(locale);
   const messages = await getMessages();
 
   return (
-    <NextIntlClientProvider locale={routing.defaultLocale} messages={messages}>
+    <NextIntlClientProvider locale={locale} messages={messages}>
       <div className={cn("flex min-h-screen flex-col md:flex-row", outerClassName)}>
         <AgapeHubSidebar />
         <main className={cn("flex-1 min-w-0 px-4 pb-14 pt-4 md:px-10 md:pb-16 md:pt-10", mainClassName)}>

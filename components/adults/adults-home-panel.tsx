@@ -3,7 +3,7 @@
 import NextLink from "next/link";
 import { motion } from "framer-motion";
 import { BookOpen, BookOpenText, CalendarDays, ChevronDown, Newspaper } from "lucide-react";
-import { useTranslations } from "next-intl";
+import { useLocale, useTranslations } from "next-intl";
 
 import { Button } from "@/components/ui/button";
 import { Logo } from "@/components/ui/Logo";
@@ -11,6 +11,7 @@ import { Logo } from "@/components/ui/Logo";
 type NewsItem = { title: string; date: string; body: string };
 
 export function AdultsHomeHero() {
+  const locale = useLocale();
   const t = useTranslations("home.adults");
 
   return (
@@ -62,7 +63,7 @@ export function AdultsHomeHero() {
         </Button>
 
         <Button variant="outline" size="lg" type="button" asChild className="rounded-[var(--radius)] border-white/14 bg-white/5 text-slate-100 hover:bg-white/10">
-          <NextLink href="/bible-strong">
+          <NextLink href={`/${locale}/bible-strong`}>
             <BookOpen className="size-5" aria-hidden />
             {t("strongCtaShort")}
           </NextLink>
@@ -73,6 +74,7 @@ export function AdultsHomeHero() {
 }
 
 export function AdultsNewsSection() {
+  const locale = useLocale();
   const t = useTranslations("home.adults");
   const newsItems = t.raw("newsItems") as NewsItem[];
 
@@ -106,7 +108,7 @@ export function AdultsNewsSection() {
 
       <div className="pt-2">
         <Button size="lg" type="button" variant="brand" asChild className="gap-2 rounded-[var(--radius)]">
-          <NextLink href="/bible-strong">
+          <NextLink href={`/${locale}/bible-strong`}>
             <BookOpen className="size-5" aria-hidden />
             {t("strongCta")}
           </NextLink>
